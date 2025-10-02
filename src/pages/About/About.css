@@ -1,0 +1,125 @@
+.about {
+  display: grid;
+  gap: 3.8rem;
+  padding-bottom: 4rem;
+}
+
+.about-header {
+  display: grid;
+  gap: 1rem;
+  max-width: 760px;
+}
+
+.about-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(123, 92, 255, 0.18);
+  background: rgba(16, 20, 46, 0.65);
+  font-size: 0.75rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(201, 193, 255, 0.72);
+  width: fit-content;
+}
+
+.about-header h1 {
+  font-size: clamp(2.1rem, 4.5vw, 3rem);
+  line-height: 1.16;
+}
+
+.about-header p {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1.75;
+  max-width: 680px;
+}
+
+.about-grid {
+  display: grid;
+  gap: 1.8rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.about-card {
+  padding: 2rem 1.8rem;
+  border-radius: 28px;
+  border: 1px solid rgba(123, 92, 255, 0.18);
+  background: linear-gradient(160deg, rgba(18, 21, 52, 0.9), rgba(12, 14, 34, 0.75));
+  box-shadow: var(--shadow-md);
+  display: grid;
+  gap: 1rem;
+}
+
+.about-card h2 {
+  font-size: 1.35rem;
+}
+
+.about-card p {
+  color: var(--text-muted);
+  line-height: 1.7;
+  font-size: 0.98rem;
+}
+
+.about-card ul {
+  display: grid;
+  gap: 0.65rem;
+  padding-left: 1.2rem;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.about-stack {
+  display: grid;
+  gap: 1.6rem;
+}
+
+.about-stack h2 {
+  font-size: 1.45rem;
+}
+
+.stack-grid {
+  display: grid;
+  gap: 1.2rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.stack-column {
+  padding: 1.4rem 1.2rem;
+  border-radius: 22px;
+  border: 1px solid rgba(123, 92, 255, 0.16);
+  background: rgba(16, 20, 46, 0.7);
+  display: grid;
+  gap: 0.6rem;
+}
+
+.stack-column span {
+  font-size: 0.85rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(201, 193, 255, 0.72);
+}
+
+.stack-column ul {
+  display: grid;
+  gap: 0.5rem;
+  list-style: none;
+  font-size: 0.98rem;
+  color: var(--text-primary);
+}
+
+.stack-column li {
+  padding: 0.5rem 0.7rem;
+  border-radius: 14px;
+  background: rgba(18, 21, 52, 0.75);
+  border: 1px solid rgba(123, 92, 255, 0.16);
+}
+
+@media (max-width: 720px) {
+  .about-card {
+    padding: 1.6rem 1.4rem;
+  }
+}
+

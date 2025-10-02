@@ -1,0 +1,28 @@
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+  isolation: isolate;
+}
+
+main {
+  flex: 1 0 auto;
+  padding-top: 108px;
+}
+
+.section-wrapper {
+  width: min(var(--max-content-width), 100vw - 48px);
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  main {
+    padding-top: 88px;
+  }
+
+  .section-wrapper {
+    width: min(var(--max-content-width), 100vw - 32px);
+  }
+}
+

@@ -1,0 +1,127 @@
+.footer {
+  position: relative;
+  padding: 4rem 0 1.8rem;
+  margin-top: 4rem;
+  background: rgba(6, 8, 20, 0.88);
+  border-top: 1px solid rgba(123, 92, 255, 0.15);
+  overflow: hidden;
+}
+
+.footer-gradient {
+  position: absolute;
+  inset: -120px 0 auto;
+  height: 240px;
+  background: radial-gradient(circle, rgba(123, 92, 255, 0.3), transparent 60%);
+  filter: blur(38px);
+  opacity: 0.85;
+  z-index: 0;
+}
+
+.footer-content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+  justify-content: space-between;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer-marker {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  background: rgba(123, 92, 255, 0.18);
+  border: 1px solid rgba(123, 92, 255, 0.3);
+  box-shadow: 0 16px 35px rgba(14, 12, 42, 0.55);
+}
+
+.footer-eyebrow {
+  font-size: 0.82rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: rgba(201, 193, 255, 0.7);
+}
+
+.footer-brand h3 {
+  font-size: 1.5rem;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+}
+
+.footer-links a {
+  color: rgba(218, 225, 255, 0.8);
+  text-decoration: none;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+
+.footer-links a:hover,
+.footer-links a:focus {
+  color: var(--text-primary);
+}
+
+.footer-socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.footer-socials a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.65rem 0.9rem;
+  border-radius: 14px;
+  background: rgba(16, 20, 46, 0.65);
+  border: 1px solid rgba(123, 92, 255, 0.22);
+  color: rgba(218, 225, 255, 0.9);
+  text-decoration: none;
+  font-size: 0.92rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.footer-socials a:hover,
+.footer-socials a:focus {
+  transform: translateY(-2px);
+  border-color: rgba(123, 92, 255, 0.5);
+  box-shadow: 0 22px 45px rgba(14, 13, 40, 0.55);
+}
+
+.footer-meta {
+  margin-top: 2.2rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(123, 92, 255, 0.12);
+  color: rgba(196, 204, 240, 0.6);
+  font-size: 0.85rem;
+}
+
+.footer-meta-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    grid-template-columns: 1fr;
+    justify-items: flex-start;
+  }
+
+  .footer-links,
+  .footer-socials {
+    gap: 0.75rem;
+  }
+}
+

@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "title": "Random Password Generator",
+    "description": "This web-based application is designed to generate random passwords combining lowercase and uppercase letters, numbers, and symbols. The application provides a high level of usability and security with support for a password length of 8-16 characters. Each password generated is unique, so ensuring a high  security.",
+    "link": "https://pritamrauniyar.github.io/random-password-generator/",
+    "image": "/pw-generator.jpg"
+  },
+  {
+    "id": 2,
+    "title": "DAiLY TO dO ApP",
+    "description": "This is an easy-to-use, user-friendly Todo app designed to boost productivity by helping manage tasks effectively. With features like effortless task management, task status at a glance, instant task removal, and persistent storage, this web-based app provides a clean, minimal design ensuring a seamless experience for tracking your tasks across any platform.",
+    "link": "https://pritamrauniyar.github.io/daily-todo-app/",
+    "image": "/todo-list.jpg"
+  },
+  {
+    "id": 3,
+    "title": "countdown-and-stopwatch-timer",
+    "description": "This project includes a simple user interface that provides both countdown and stopwatch timer functionality. It allows users to measure the time and set countdowns as per their requirements.",
+    "link": "https://pritamrauniyar.github.io/countdown-and-stopwatch-timer/",
+    "image": "/timer.jpg"
+  },
+  {
+    "id": 4,
+    "title": "simple calculator",
+    "description": "This project is a simple calculator that provides basic arithmetic calculations including addition, subtraction, multiplication, and a clear function. It helps users in performing quick calculations with a user-friendly interface.",
+    "link": "https://pritamrauniyar.github.io/simple-calculator/",
+    "image": "/calculator.jpg"
+  },
+  {
+    "id": 5,
+    "title": "Evergreen-Impex",
+    "description": "This website provides information about the services offered by the Evergreen-Impex company. The site provides a comprehensive overview of the company and its services, making it easier for customers to find the services they need.",
+    "link": "https://pritamrauniyar.github.io/EvergreenImpex/",
+    "image": "/web-dev.jpg"
+  },
+  {
+    "id": 6,
+    "title": "AnalogClock",
+    "description": "This project is an analog clock created using HTML, CSS, and JS. The clock provides an accurate display of the time in an aesthetically pleasing format.",
+    "link": "https://pritamrauniyar.github.io/AnalogClock/",
+    "image": "/analog-clock.jpg"
+  }
+]

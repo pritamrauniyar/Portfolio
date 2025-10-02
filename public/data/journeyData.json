@@ -1,0 +1,47 @@
+[
+  {
+    "id": "01",
+    "startDate": "June 2023",
+    "endDate": "Present",
+    "type": "Full Time Employee",
+    "imageSource": "/work.png",
+    "title": "Elevate K-12",
+    "desc": "I worked as a SDE 1 at this firm. I worked with tech stacks such as angular.js, Dynamic 365, HTML, and CSS. New Journey to become elevate and will do my best for the growth of company and myself."
+  },
+  {
+    "id": "02",
+    "startDate": "June 2022",
+    "endDate": "April 2023",
+    "type": "Full Time Employee",
+    "imageSource": "/work.png",
+    "title": "Ola Electric Technologies",
+    "desc": "I worked as a SDE 1 at this firm. I worked with tech stacks such as React.js, Node.js, Next.js, HTML, and CSS. My major projects included creating UI for debit/credit cards and the project called 'Promise Engine'."
+  },
+  {
+    "id": "03",
+    "startDate": "2018",
+    "endDate": "2022",
+    "type": "Graduation (Bachelors)",
+    "imageSource": "/school.png",
+    "title": "MNNIT, Allahabad",
+    "desc": "Here, I pursued a bachelor's degree, majoring in Electronics and Communication Engineering. The institute is located in Prayagraj, UP, India. This was a crucial period where I deepened my understanding of engineering concepts."
+  },
+  {
+    "id": "04",
+    "startDate": "2015",
+    "endDate": "2017",
+    "type": "Secondary Education",
+    "imageSource": "/secondary-school.png",
+    "title": "Model Secondary School",
+    "desc": "I completed my secondary schooling, such as 11th and 12th grades, at this school in my hometown, Janakpur. I chose Science as a major with Computer Science as an extra subject. It was here that I began to develop my interest in technology."
+  },
+  {
+    "id": "05",
+    "startDate": "",
+    "endDate": "2015",
+    "type": "Primary Education",
+    "imageSource": "/secondary-school.png",
+    "title": "Galaxy English Boarding School",
+    "desc": "I had done primary schooling in this school. It is placed in my hometown janakpur. The teachers were supportive and the environment was conducive to learning. This period laid the groundwork for my educational journey."
+  }
+]

@@ -1,0 +1,12 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5.5rem;
+}
+
+@media (max-width: 768px) {
+  .home-container {
+    gap: 4rem;
+  }
+}
+
