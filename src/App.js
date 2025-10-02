@@ -8,6 +8,7 @@ import Project from "./pages/Project/Project";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home/Home";
 import Certificates from "./pages/Certificates/Certificates";
+import Blogs from "./pages/Blogs/Blogs";
 import { MyContextProvider } from "./components/MyContext/MyContext";
 import ReactGA from "react-ga4";
 
@@ -28,6 +29,7 @@ function App() {
                 <Route path="/about" element={<About />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/certificates" element={<Certificates />} />
+                <Route path="/blogs" element={<Blogs />} />
               </Routes>
             </AnalyticsWrapper>
           </main>
@@ -51,3 +53,6 @@ function AnalyticsWrapper({ children }) {
 
   return <>{children}</>;
 }
+
+
+

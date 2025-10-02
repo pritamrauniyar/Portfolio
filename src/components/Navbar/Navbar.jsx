@@ -7,6 +7,7 @@ const links = [
   { label: "Home", to: "/" },
   { label: "Certificates", to: "/certificates" },
   { label: "Projects", to: "/project" },
+  { label: "Blogs", to: "/blogs" },
   { label: "About", to: "/about" },
   { label: "Contact", to: "/contact" }
 ];
@@ -88,4 +89,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
 
