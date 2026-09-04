@@ -94,37 +94,17 @@ const Contact = () => {
           <h2>Direct Reach-outs</h2>
           <div className="contact-items">
             <div className="contact-item-group">
-              <span className="contact-label">Primary Email</span>
+              <span className="contact-label">Email</span>
               <div className="contact-email-row">
                 <a href="mailto:pritamrauniyar.np@gmail.com">pritamrauniyar.np@gmail.com</a>
                 <button
                   type="button"
                   className="contact-copy-btn"
                   onClick={() => handleCopy("pritamrauniyar.np@gmail.com")}
-                  aria-label="Copy primary email"
+                  aria-label="Copy email"
                   title="Copy to clipboard"
                 >
                   {copiedEmail === "pritamrauniyar.np@gmail.com" ? (
-                    <span className="copied-tag"><FaCheck /> Copied</span>
-                  ) : (
-                    <FaCopy />
-                  )}
-                </button>
-              </div>
-            </div>
-
-            <div className="contact-item-group">
-              <span className="contact-label">Alternative Email</span>
-              <div className="contact-email-row">
-                <a href="mailto:contact@pritamrauniyar.com.np">contact@pritamrauniyar.com.np</a>
-                <button
-                  type="button"
-                  className="contact-copy-btn"
-                  onClick={() => handleCopy("contact@pritamrauniyar.com.np")}
-                  aria-label="Copy secondary email"
-                  title="Copy to clipboard"
-                >
-                  {copiedEmail === "contact@pritamrauniyar.com.np" ? (
                     <span className="copied-tag"><FaCheck /> Copied</span>
                   ) : (
                     <FaCopy />

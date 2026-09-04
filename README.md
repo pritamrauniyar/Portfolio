@@ -123,7 +123,7 @@ Make sure you have [Node.js](https://nodejs.org/) installed (v16 or higher recom
 ## 📬 Contact & Connect
 
 - **Website**: [pritamrauniyar.com.np](https://pritamrauniyar.com.np/)
-- **Email**: [pritamrauniyar.np@gmail.com](mailto:pritamrauniyar.np@gmail.com) | [contact@pritamrauniyar.com.np](mailto:contact@pritamrauniyar.com.np)
+- **Email**: [pritamrauniyar.np@gmail.com](mailto:pritamrauniyar.np@gmail.com)
 - **LinkedIn**: [linkedin.com/in/pritamrauniyar](https://www.linkedin.com/in/pritamrauniyar/)
 - **GitHub**: [github.com/pritamrauniyar](https://github.com/pritamrauniyar/)
 - **Facebook**: [facebook.com/pritamrauniyar.np](https://facebook.com/pritamrauniyar.np/)
