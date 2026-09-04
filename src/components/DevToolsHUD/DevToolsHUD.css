@@ -314,3 +314,54 @@
   background: var(--accent-500);
 }
 
+@media (max-width: 640px) {
+  .hud-panel {
+    bottom: 12px;
+    right: 12px;
+    left: 12px;
+    width: auto;
+    max-width: none;
+    border-radius: 14px;
+  }
+
+  .hud-header {
+    padding: 10px 14px;
+  }
+
+  .hud-body {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .hud-metric-row {
+    padding: 10px 12px;
+  }
+
+  .hud-sparkline {
+    width: 90px;
+    height: 32px;
+  }
+
+  .fps-number {
+    font-size: 1.35rem;
+  }
+
+  .hud-stat-box {
+    padding: 8px 10px;
+  }
+
+  .hud-stat-number {
+    font-size: 1rem;
+  }
+
+  .spring-preview-area {
+    height: 80px;
+  }
+
+  .spring-test-orb {
+    width: 60px;
+    height: 60px;
+    font-size: 0.65rem;
+  }
+}
+

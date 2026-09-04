@@ -423,3 +423,141 @@
   line-height: 1.5;
 }
 
+/* --- Responsive Architecture Modal --- */
+@media (max-width: 960px) {
+  .arch-modal-container {
+    padding: 24px 20px;
+    max-height: 85vh;
+  }
+
+  .arch-tab-btn {
+    min-width: 200px;
+    padding: 10px 14px;
+  }
+
+  .arch-sla-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .arch-modal-overlay {
+    padding: 10px;
+    align-items: flex-start;
+  }
+
+  .arch-modal-container {
+    padding: 16px 14px;
+    max-height: 90vh;
+    border-radius: 16px;
+    gap: 16px;
+    margin: auto 0;
+  }
+
+  .arch-header-pill {
+    font-size: 0.64rem;
+    padding: 3px 8px;
+  }
+
+  .arch-title {
+    font-size: 1.15rem;
+    line-height: 1.25;
+  }
+
+  .arch-summary {
+    font-size: 0.8rem;
+    line-height: 1.45;
+  }
+
+  .arch-close-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 0.85rem;
+  }
+
+  .arch-tabs {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .arch-tab-btn {
+    min-width: 0;
+    width: 100%;
+    padding: 10px 12px;
+  }
+
+  .arch-sla-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .arch-sla-card {
+    padding: 10px;
+  }
+
+  .arch-sla-label {
+    font-size: 0.62rem;
+  }
+
+  .arch-sla-value {
+    font-size: 1.05rem;
+  }
+
+  .arch-diagram-section {
+    padding: 14px 10px;
+    gap: 12px;
+  }
+
+  .arch-section-heading {
+    font-size: 0.84rem;
+  }
+
+  .arch-hint {
+    font-size: 0.7rem;
+  }
+
+  .arch-nodes-flow {
+    padding: 10px 4px 14px;
+    gap: 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .arch-node-card {
+    width: 130px;
+    padding: 10px 8px;
+  }
+
+  .arch-node-title {
+    font-size: 0.74rem;
+  }
+
+  .arch-node-sub {
+    font-size: 0.64rem;
+  }
+
+  .arch-pipe-line {
+    width: 16px;
+  }
+
+  .arch-tradeoffs-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .arch-tradeoff-card {
+    padding: 12px 10px;
+  }
+
+  .arch-tradeoff-title {
+    font-size: 0.84rem;
+  }
+
+  .arch-tradeoff-decision {
+    font-size: 0.76rem;
+  }
+
+  .arch-tradeoff-rationale {
+    font-size: 0.76rem;
+  }
+}
+

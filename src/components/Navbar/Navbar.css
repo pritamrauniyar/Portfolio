@@ -304,6 +304,10 @@
     display: none;
   }
 
+  .hud-launcher-btn {
+    display: none;
+  }
+
   .nav-toggle {
     display: inline-flex;
   }
@@ -315,6 +319,8 @@
     padding: 0 0 16px;
     gap: 0.4rem;
     list-style: none;
+    max-height: calc(100vh - 90px);
+    overflow-y: auto;
   }
 
   .nav-mobile li,
@@ -365,20 +371,48 @@
   }
 }
 
+@media (max-width: 768px) {
+  .nav-actions {
+    gap: 0.45rem;
+  }
+
+  .theme-btn {
+    display: none;
+  }
+
+  .nav-mobile-tools {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 6px 0 10px;
+  }
+
+  .nav-mobile-tool-btn {
+    min-width: 0;
+    font-size: 0.76rem;
+    padding: 10px 8px;
+  }
+}
+
 @media (max-width: 640px) {
   .brand-name {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
   }
 
   .nav-mobile a,
   .nav-links-mobile a {
-    padding: 1rem 1.1rem;
-    font-size: 0.95rem;
-    min-height: 48px;
+    padding: 0.9rem 1rem;
+    font-size: 0.92rem;
+    min-height: 44px;
+  }
+
+  .nav-toggle {
+    width: 40px;
+    height: 40px;
   }
 
   .nav-toggle span {
-    width: 22px;
+    width: 20px;
   }
 }
 

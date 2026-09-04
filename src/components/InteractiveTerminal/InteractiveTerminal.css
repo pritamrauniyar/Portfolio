@@ -327,3 +327,68 @@
   color: #ffffff;
 }
 
+/* --- Responsive Terminal Styles --- */
+@media (max-width: 768px) {
+  .terminal-container {
+    min-height: 320px;
+    font-size: 0.8rem;
+    border-radius: 14px;
+  }
+
+  .terminal-titlebar {
+    padding: 8px 12px;
+  }
+
+  .terminal-title {
+    font-size: 0.72rem;
+  }
+
+  .terminal-body {
+    padding: 12px;
+    max-height: 320px;
+  }
+
+  .terminal-chips {
+    padding: 8px 12px;
+    gap: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .terminal-container {
+    min-height: 280px;
+    font-size: 0.76rem;
+  }
+
+  .terminal-status-indicator {
+    display: none;
+  }
+
+  .terminal-title {
+    font-size: 0.68rem;
+    max-width: 190px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .terminal-body {
+    padding: 10px 8px;
+    max-height: 250px;
+  }
+
+  .chips-label {
+    display: none;
+  }
+
+  .terminal-chip {
+    font-size: 0.68rem;
+    padding: 2px 6px;
+  }
+
+  .terminal-code-block {
+    font-size: 0.7rem;
+    padding: 8px;
+  }
+}
+
