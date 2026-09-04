@@ -143,7 +143,7 @@ export default function InteractiveTerminal({ isEmbedded = false, onOpenArch, on
                   {
                     name: "Pritam Rauniyar",
                     role: "Software Engineer II @ Uber",
-                    email: "pritamrauniyar2912@gmail.com",
+                    email: "pritamrauniyar.np@gmail.com",
                     github: "https://github.com/pritamrauniyar",
                     linkedin: "https://www.linkedin.com/in/pritam-rauniyar/",
                     location: "Bangalore, India",
@@ -199,11 +199,11 @@ export default function InteractiveTerminal({ isEmbedded = false, onOpenArch, on
             newEntries.push(
               { type: "highlight", text: "🌟 [AUTHENTICATED: ROOT PRIVILEGES GRANTED]" },
               { type: "system", text: "Redirecting to high-priority candidate pipeline..." },
-              { type: "accent", text: "Email: pritamrauniyar2912@gmail.com" },
+              { type: "accent", text: "Email: pritamrauniyar.np@gmail.com" },
               { type: "output", text: "Direct calendar/intro link: let's build groundbreaking products together." }
             );
             setTimeout(() => {
-              window.location.href = "mailto:pritamrauniyar2912@gmail.com?subject=Senior%20Engineering%20Opportunity%20-%20Pritam%20Rauniyar";
+              window.location.href = "mailto:pritamrauniyar.np@gmail.com?subject=Senior%20Engineering%20Opportunity%20-%20Pritam%20Rauniyar";
             }, 1200);
           } else {
             newEntries.push({ type: "error", text: `User 'guest' is not in sudoers file. Incident reported. Try 'sudo hire'.` });

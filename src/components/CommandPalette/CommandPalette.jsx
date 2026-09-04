@@ -50,7 +50,7 @@ const BASE_COMMANDS = [
 
   // Quick Actions
   { id: "act-resume", title: "Download Resume (PDF)", section: "Quick Actions", icon: FaDownload, action: "resume" },
-  { id: "act-copy-email", title: "Copy Email: pritamrauniyar2912@gmail.com", section: "Quick Actions", icon: FaCopy, action: "copy-email" },
+  { id: "act-copy-email", title: "Copy Email: pritamrauniyar.np@gmail.com", section: "Quick Actions", icon: FaCopy, action: "copy-email" },
   { id: "act-linkedin", title: "LinkedIn Profile", section: "Socials", icon: FaLinkedin, action: "link", url: "https://www.linkedin.com/in/pritam-rauniyar/" },
   { id: "act-github", title: "GitHub Profile", section: "Socials", icon: FaGithub, action: "link", url: "https://github.com/pritamrauniyar" },
 
@@ -119,7 +119,7 @@ const CommandPalette = ({ isOpen, onClose, onOpenHud }) => {
         onClose();
       } else if (cmd.action === "copy-email") {
         sound.playSuccess();
-        navigator.clipboard.writeText("pritamrauniyar2912@gmail.com");
+        navigator.clipboard.writeText("pritamrauniyar.np@gmail.com");
         setCopied(true);
         setTimeout(() => {
           setCopied(false);
@@ -222,7 +222,7 @@ const CommandPalette = ({ isOpen, onClose, onOpenHud }) => {
 
             {copied && (
               <div className="cmd-copy-alert">
-                <FaCheck /> Email copied: pritamrauniyar2912@gmail.com
+                <FaCheck /> Email copied: pritamrauniyar.np@gmail.com
               </div>
             )}
 
