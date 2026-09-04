@@ -29,12 +29,12 @@ const metrics = [
     barWidth: 85,
   },
   {
-    value: 7,
+    value: 10,
     prefix: "",
     suffix: "",
-    label: "Professional certifications across cloud platforms & frontend frameworks",
+    label: "Professional certifications across cloud platforms, AI & frontend engineering",
     color: "#ff55c7",
-    barWidth: 70,
+    barWidth: 85,
   },
 ];
 

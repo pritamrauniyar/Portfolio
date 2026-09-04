@@ -12,7 +12,7 @@ import sound from "../../utils/soundEngine";
 const impactMetrics = [
   { value: "4+", label: "Years of engineering" },
   { value: "100+", label: "Products shipped" },
-  { value: "7", label: "Cloud certifications" },
+  { value: "10", label: "Certifications earned" },
   { value: "3", label: "Companies & teams" },
 ];
 
