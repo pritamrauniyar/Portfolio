@@ -1,266 +1,168 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import sound from "../../utils/soundEngine";
 import "./ResumeDownload.css";
 
-const BUBBLE_TEXT = {
-  greet: "Hey there! Nice to meet you! \uD83D\uDC4B",
-  collect: "Hold on, let me gather Pritam's info\u2026",
-  type: "Info collected! Preparing the resume\u2026",
-  download: "All done! Here comes the file!",
-};
-
-const PHASES = {
+const STATUS = {
   IDLE: "idle",
-  GREET: "greet",
-  COLLECT: "collect",
-  TYPE: "type",
-  DOWNLOAD: "download",
-  DONE: "done",
+  PACKAGING: "packaging",
+  SUCCESS: "success",
 };
-
-const SpeechBubble = ({ text }) => (
-  <motion.div
-    className="rd-bubble"
-    initial={{ opacity: 0, scale: 0.6, y: 10 }}
-    animate={{ opacity: 1, scale: 1, y: 0 }}
-    exit={{ opacity: 0, scale: 0.6, y: 10 }}
-    transition={{ duration: 0.35, ease: "backOut" }}
-  >
-    <span className="rd-bubble-text">{text}</span>
-    <span className="rd-bubble-tail" />
-  </motion.div>
-);
-
-const LaptopScreen = () => (
-  <motion.div
-    className="rd-laptop"
-    initial={{ opacity: 0, y: 30, scale: 0.8 }}
-    animate={{ opacity: 1, y: 0, scale: 1 }}
-    transition={{ duration: 0.5, ease: "backOut" }}
-  >
-    <div className="rd-laptop-bar">
-      <span className="rd-dot rd-dot-r" />
-      <span className="rd-dot rd-dot-y" />
-      <span className="rd-dot rd-dot-g" />
-    </div>
-    <div className="rd-laptop-body">
-      <motion.div className="rd-code-line rd-cl1"
-        initial={{ width: 0 }} animate={{ width: "75%" }}
-        transition={{ delay: 0.4, duration: 0.8 }} />
-      <motion.div className="rd-code-line rd-cl2"
-        initial={{ width: 0 }} animate={{ width: "55%" }}
-        transition={{ delay: 0.8, duration: 0.7 }} />
-      <motion.div className="rd-code-line rd-cl3"
-        initial={{ width: 0 }} animate={{ width: "85%" }}
-        transition={{ delay: 1.2, duration: 0.8 }} />
-      <motion.div className="rd-code-line rd-cl4"
-        initial={{ width: 0 }} animate={{ width: "45%" }}
-        transition={{ delay: 1.6, duration: 0.6 }} />
-    </div>
-  </motion.div>
-);
-
-const FlyingFile = () => (
-  <motion.div
-    className="rd-file"
-    initial={{ opacity: 0, x: 0, y: 0, scale: 0.5, rotate: 0 }}
-    animate={{
-      opacity: [0, 1, 1, 1, 0],
-      x: [0, 20, 60, 120, 180],
-      y: [0, -30, -80, -130, -170],
-      scale: [0.5, 1, 1.1, 1, 0.8],
-      rotate: [0, -3, -8, -12, -18],
-    }}
-    transition={{ duration: 1.8, times: [0, 0.15, 0.4, 0.7, 1], ease: "easeOut" }}
-  >
-    <svg width="40" height="48" viewBox="0 0 40 48">
-      <rect x="2" y="2" width="36" height="44" rx="4" fill="rgba(232,115,74,0.2)" stroke="#E8734A" strokeWidth="2" />
-      <path d="M24 2 L38 16 L24 16 Z" fill="rgba(232,115,74,0.35)" stroke="#E8734A" strokeWidth="1.5" />
-      <line x1="8" y1="24" x2="32" y2="24" stroke="#E8734A" strokeWidth="1.5" opacity="0.6" />
-      <line x1="8" y1="30" x2="24" y2="30" stroke="#E8734A" strokeWidth="1.5" opacity="0.4" />
-      <line x1="8" y1="36" x2="28" y2="36" stroke="#E8734A" strokeWidth="1.5" opacity="0.3" />
-    </svg>
-  </motion.div>
-);
-
-const SuccessView = () => (
-  <motion.div
-    className="rd-success"
-    initial={{ opacity: 0, scale: 0.5 }}
-    animate={{ opacity: 1, scale: 1 }}
-    transition={{ duration: 0.5, ease: "backOut" }}
-  >
-    <svg width="90" height="90" viewBox="0 0 90 90">
-      <circle cx="45" cy="45" r="42" fill="rgba(34,197,94,0.12)" stroke="#22c55e" strokeWidth="3" />
-      <motion.path
-        d="M26 45 L38 57 L64 31"
-        fill="none" stroke="#22c55e" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-      />
-    </svg>
-    <motion.p
-      className="rd-success-text"
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.5, duration: 0.4 }}
-    >
-      Resume downloaded! Enjoy reading.
-    </motion.p>
-  </motion.div>
-);
 
 const ResumeDownload = ({ resumeUrl = "/PritamRauniyarResume.pdf" }) => {
-  const [phase, setPhase] = useState(PHASES.IDLE);
-  const [showOverlay, setShowOverlay] = useState(false);
+  const [status, setStatus] = useState(STATUS.IDLE);
+  const [particles, setParticles] = useState([]);
+  const [showToast, setShowToast] = useState(false);
+  const toastTimeoutRef = useRef(null);
+  const resetTimeoutRef = useRef(null);
 
-  const triggerDownload = useCallback(() => {
+  // Trigger real file download
+  const triggerNativeDownload = useCallback(() => {
     const a = document.createElement("a");
     a.href = resumeUrl;
-    a.download = "";
+    a.download = "Pritam_Rauniyar_Resume.pdf";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
   }, [resumeUrl]);
 
-  const startAnimation = useCallback(() => {
-    setShowOverlay(true);
-    setPhase(PHASES.GREET);
+  // Generate particle burst on click
+  const spawnParticles = (e) => {
+    let cx = 80;
+    let cy = 22;
+    if (e && e.currentTarget && typeof e.currentTarget.getBoundingClientRect === "function") {
+      const rect = e.currentTarget.getBoundingClientRect();
+      cx = (e.clientX != null && e.clientX !== 0) ? e.clientX - rect.left : rect.width / 2;
+      cy = (e.clientY != null && e.clientY !== 0) ? e.clientY - rect.top : rect.height / 2;
+    }
 
-    setTimeout(() => setPhase(PHASES.COLLECT), 2400);
-    setTimeout(() => setPhase(PHASES.TYPE), 5000);
-    setTimeout(() => setPhase(PHASES.DOWNLOAD), 7500);
+    const colors = ["#00c4ff", "#7b5cff", "#22c55e", "#ffd700", "#ff007a"];
+    const newParticles = Array.from({ length: 16 }).map((_, i) => {
+      const angle = (i / 16) * 2 * Math.PI + (Math.random() - 0.5) * 0.4;
+      const distance = 40 + Math.random() * 65;
+      return {
+        id: Date.now() + i,
+        x: cx,
+        y: cy,
+        targetX: cx + Math.cos(angle) * distance,
+        targetY: cy + Math.sin(angle) * distance,
+        color: colors[i % colors.length],
+        size: 3.5 + Math.random() * 4.5,
+      };
+    });
+    setParticles(newParticles);
+    setTimeout(() => setParticles([]), 750);
+  };
+
+  const handleDownloadClick = (e, isRetry = false) => {
+    if (status !== STATUS.IDLE && !isRetry) return;
+
+    sound.playSuccess();
+    if (e && e.currentTarget) spawnParticles(e);
+    setStatus(STATUS.PACKAGING);
+
+    // Packaging animation (500ms)
     setTimeout(() => {
-      triggerDownload();
-      setPhase(PHASES.DONE);
-    }, 9000);
-    setTimeout(() => {
-      setShowOverlay(false);
-      setPhase(PHASES.IDLE);
-    }, 11500);
-  }, [triggerDownload]);
+      triggerNativeDownload();
+      setStatus(STATUS.SUCCESS);
+      setShowToast(true);
 
-  const bubbleText = BUBBLE_TEXT[phase];
-  const showCharacter = phase !== PHASES.DONE && phase !== PHASES.IDLE;
-  const showLaptop = phase === PHASES.TYPE || phase === PHASES.DOWNLOAD;
+      // Auto-hide toast after 5.5s
+      clearTimeout(toastTimeoutRef.current);
+      toastTimeoutRef.current = setTimeout(() => {
+        setShowToast(false);
+      }, 5500);
 
-  const overlayContent = (
+      // Auto-reset button state after 3s
+      clearTimeout(resetTimeoutRef.current);
+      resetTimeoutRef.current = setTimeout(() => {
+        setStatus(STATUS.IDLE);
+      }, 3000);
+    }, 500);
+  };
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(toastTimeoutRef.current);
+      clearTimeout(resetTimeoutRef.current);
+    };
+  }, []);
+
+  const toastContent = (
     <AnimatePresence>
-      {showOverlay && (
+      {showToast && (
         <motion.div
-          className="resume-overlay"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.4 }}
-          onClick={() => { setShowOverlay(false); setPhase(PHASES.IDLE); }}
+          className="rd-hud-toast"
+          initial={{ opacity: 0, y: 35, scale: 0.94 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 25, scale: 0.94 }}
+          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          role="status"
+          aria-live="polite"
         >
-          <motion.div
-            className="rd-stage"
-            onClick={(e) => e.stopPropagation()}
-            initial={{ scale: 0.85, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.85, opacity: 0 }}
-            transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-          >
-            {phase !== PHASES.DONE ? (
-              <div className="rd-scene">
-                {/* Speech bubble */}
-                <div className="rd-bubble-zone">
-                  <AnimatePresence mode="wait">
-                    {bubbleText && <SpeechBubble key={phase} text={bubbleText} />}
-                  </AnimatePresence>
-                </div>
-
-                {/* Main scene area */}
-                <div className="rd-scene-content">
-                  {/* Character image */}
-                  {showCharacter && (
-                    <motion.div
-                      className="rd-character-wrap"
-                      initial={{ x: -120, opacity: 0 }}
-                      animate={{
-                        x: 0,
-                        opacity: 1,
-                        rotate: phase === PHASES.GREET ? [0, -3, 3, -2, 2, 0] : 0,
-                      }}
-                      transition={{
-                        x: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] },
-                        opacity: { duration: 0.6 },
-                        rotate: { duration: 1.4, ease: "easeInOut", delay: 0.8 },
-                      }}
-                    >
-                      <img
-                        src="/images/cartoon-girl.png"
-                        alt="Cute assistant"
-                        className="rd-character-img"
-                        draggable={false}
-                      />
-                      {phase === PHASES.GREET && (
-                        <motion.span
-                          className="rd-wave-emoji"
-                          animate={{
-                            rotate: [0, 20, -15, 20, -10, 0],
-                            scale: [1, 1.2, 1, 1.2, 1, 1],
-                          }}
-                          transition={{ duration: 1.2, ease: "easeInOut", delay: 1.0 }}
-                        >
-                          {"\uD83D\uDC4B"}
-                        </motion.span>
-                      )}
-                    </motion.div>
-                  )}
-
-                  {/* Side panel for laptop / animations */}
-                  <div className="rd-side-panel">
-                    <AnimatePresence>
-                      {showLaptop && <LaptopScreen key="laptop" />}
-                    </AnimatePresence>
-
-                    <AnimatePresence>
-                      {phase === PHASES.DOWNLOAD && <FlyingFile key="file" />}
-                    </AnimatePresence>
-
-                    {phase === PHASES.COLLECT && (
-                      <motion.div
-                        className="rd-loading-dots"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.3 }}
-                      >
-                        <motion.span animate={{ opacity: [0.3, 1, 0.3] }}
-                          transition={{ duration: 1.2, repeat: Infinity, delay: 0 }}>.</motion.span>
-                        <motion.span animate={{ opacity: [0.3, 1, 0.3] }}
-                          transition={{ duration: 1.2, repeat: Infinity, delay: 0.2 }}>.</motion.span>
-                        <motion.span animate={{ opacity: [0.3, 1, 0.3] }}
-                          transition={{ duration: 1.2, repeat: Infinity, delay: 0.4 }}>.</motion.span>
-                      </motion.div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <SuccessView />
-            )}
-
-            {/* Progress bar */}
-            <div className="rd-progress-track">
-              <motion.div
-                className="rd-progress-fill"
-                animate={{
-                  width: phase === PHASES.GREET ? "12%" :
-                         phase === PHASES.COLLECT ? "35%" :
-                         phase === PHASES.TYPE ? "60%" :
-                         phase === PHASES.DOWNLOAD ? "88%" :
-                         phase === PHASES.DONE ? "100%" : "0%"
-                }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-              />
+          <div className="rd-toast-header">
+            <div className="rd-toast-status">
+              <span className="rd-toast-dot" />
+              <span className="rd-toast-tag">RESUME ACQUIRED • 200 OK</span>
             </div>
-          </motion.div>
+            <button
+              className="rd-toast-close"
+              onClick={() => setShowToast(false)}
+              aria-label="Dismiss toast"
+              type="button"
+            >
+              &times;
+            </button>
+          </div>
+
+          <div className="rd-toast-body">
+            <div className="rd-toast-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00c4ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <polyline points="14 2 14 8 20 8" />
+                <line x1="16" y1="13" x2="8" y2="13" />
+                <line x1="16" y1="17" x2="8" y2="17" />
+                <polyline points="10 9 9 9 8 9" />
+              </svg>
+            </div>
+            <div className="rd-toast-meta">
+              <span className="rd-toast-filename">PritamRauniyarResume.pdf</span>
+              <span className="rd-toast-sub">Senior Software Engineer II • 49 KB</span>
+            </div>
+          </div>
+
+          <div className="rd-toast-actions">
+            <a
+              href={resumeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rd-toast-btn primary"
+              onClick={() => sound.playClick()}
+            >
+              <span>Preview in Browser</span>
+              <span className="rd-toast-arrow">↗</span>
+            </a>
+            <button
+              type="button"
+              className="rd-toast-btn secondary"
+              onClick={(e) => {
+                sound.playClick();
+                handleDownloadClick(e, true);
+              }}
+            >
+              <span>Download Again</span>
+              <span className="rd-toast-arrow">⤓</span>
+            </button>
+          </div>
+
+          {/* Auto dismiss countdown bar */}
+          <motion.div
+            className="rd-toast-progress"
+            initial={{ scaleX: 1 }}
+            animate={{ scaleX: 0 }}
+            transition={{ duration: 5.5, ease: "linear" }}
+          />
         </motion.div>
       )}
     </AnimatePresence>
@@ -270,35 +172,165 @@ const ResumeDownload = ({ resumeUrl = "/PritamRauniyarResume.pdf" }) => {
     <>
       <button
         type="button"
-        className="hero-primary resume-btn"
-        onClick={() => {
-          sound.playSuccess();
-          startAnimation();
-        }}
+        className={`hero-primary resume-btn ${status}`}
+        onClick={handleDownloadClick}
         onMouseEnter={() => sound.playHover()}
         data-cursor="link"
+        aria-label="Download Pritam Rauniyar Resume PDF"
       >
+        {/* Click particle burst */}
+        {particles.map((p) => (
+          <motion.span
+            key={p.id}
+            className="rd-click-particle"
+            initial={{ x: p.x, y: p.y, scale: 1, opacity: 1 }}
+            animate={{ x: p.targetX, y: p.targetY, scale: 0, opacity: 0 }}
+            transition={{ duration: 0.65, ease: "easeOut" }}
+            style={{
+              backgroundColor: p.color,
+              width: p.size,
+              height: p.size,
+            }}
+          />
+        ))}
+
+        {/* Dynamic State Icon */}
         <span className="btn-icon">
-          <svg
-            width="17"
-            height="17"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.4"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-            <polyline points="7 10 12 15 17 10" />
-            <line x1="12" y1="15" x2="12" y2="3" />
-          </svg>
+          <AnimatePresence mode="wait">
+            {status === STATUS.IDLE && (
+              <motion.svg
+                key="idle"
+                width="17"
+                height="17"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                initial={{ opacity: 0, y: -6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 6 }}
+                transition={{ duration: 0.2 }}
+                aria-hidden="true"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </motion.svg>
+            )}
+
+            {status === STATUS.PACKAGING && (
+              <motion.svg
+                key="packaging"
+                width="17"
+                height="17"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="rd-spin"
+                initial={{ opacity: 0, scale: 0.7 }}
+                animate={{ opacity: 1, scale: 1, rotate: 360 }}
+                exit={{ opacity: 0, scale: 0.7 }}
+                transition={{
+                  rotate: { duration: 0.8, repeat: Infinity, ease: "linear" },
+                  opacity: { duration: 0.2 },
+                }}
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="9" strokeOpacity="0.25" />
+                <path d="M12 3a9 9 0 0 1 9 9" />
+              </motion.svg>
+            )}
+
+            {status === STATUS.SUCCESS && (
+              <motion.svg
+                key="success"
+                width="17"
+                height="17"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#22c55e"
+                strokeWidth="2.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.5 }}
+                transition={{ duration: 0.25, ease: "backOut" }}
+                aria-hidden="true"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </motion.svg>
+            )}
+          </AnimatePresence>
         </span>
-        <span className="btn-label">Download Resume</span>
-        <span className="btn-badge">PDF</span>
+
+        {/* Dynamic State Label */}
+        <span className="btn-label">
+          <AnimatePresence mode="wait">
+            {status === STATUS.IDLE && (
+              <motion.span
+                key="idle-txt"
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.18 }}
+              >
+                Download Resume
+              </motion.span>
+            )}
+
+            {status === STATUS.PACKAGING && (
+              <motion.span
+                key="pack-txt"
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.18 }}
+              >
+                Packaging PDF...
+              </motion.span>
+            )}
+
+            {status === STATUS.SUCCESS && (
+              <motion.span
+                key="success-txt"
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.18 }}
+                style={{ color: "#22c55e" }}
+              >
+                Downloaded!
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </span>
+
+        {/* Dynamic Badge */}
+        <span className={`btn-badge ${status}`}>
+          {status === STATUS.IDLE && "PDF"}
+          {status === STATUS.PACKAGING && "49KB"}
+          {status === STATUS.SUCCESS && "✓"}
+        </span>
+
+        {/* Laser Progress Bar during packaging */}
+        {status === STATUS.PACKAGING && (
+          <motion.div
+            className="rd-laser-progress"
+            initial={{ width: "0%" }}
+            animate={{ width: "100%" }}
+            transition={{ duration: 0.55, ease: "easeInOut" }}
+          />
+        )}
       </button>
-      {createPortal(overlayContent, document.body)}
+
+      {/* Floating HUD Toast Notification portal */}
+      {typeof document !== "undefined" && createPortal(toastContent, document.body)}
     </>
   );
 };

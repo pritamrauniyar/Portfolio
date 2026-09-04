@@ -1,239 +1,404 @@
+/* ── Collaborate Transition: Quantum Hyperspace Portal ────────── */
+
 .ct-btn {
   cursor: pointer;
   border: none;
   font-family: inherit;
+  position: relative;
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ── Overlay ────────────────────────────── */
-.ct-overlay {
+.ct-btn.warping {
+  border-color: #00c4ff !important;
+  background: rgba(30, 40, 90, 0.9) !important;
+  box-shadow:
+    0 0 35px rgba(0, 196, 255, 0.6),
+    0 0 60px rgba(123, 92, 255, 0.4),
+    inset 0 0 15px rgba(0, 196, 255, 0.35) !important;
+}
+
+.ct-btn.warping .btn-arrow {
+  transform: translateX(8px) scale(1.15) !important;
+  color: #00c4ff !important;
+}
+
+/* ── Full-Screen Quantum Warp Overlay ───────────────────────── */
+.ct-warp-overlay {
   position: fixed;
   inset: 0;
-  z-index: 9998;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(5, 5, 16, 0.9);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-}
-
-/* ── Stage ───────────────────────────────── */
-.ct-stage {
-  width: min(820px, 96vw);
-  padding: 2rem 2.4rem 1.6rem;
-  border-radius: 32px;
-  background: rgba(12, 15, 35, 0.94);
-  border: 1px solid rgba(123, 92, 255, 0.2);
-  box-shadow:
-    0 40px 120px rgba(0, 0, 0, 0.6),
-    0 0 80px rgba(123, 92, 255, 0.06);
+  z-index: 99998;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 1rem;
+  justify-content: space-between;
+  padding: 2.5rem 3.2rem;
+  background: radial-gradient(circle at 50% 50%, rgba(12, 16, 40, 0.96) 0%, rgba(3, 4, 12, 0.98) 100%);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  cursor: pointer;
   overflow: hidden;
-}
-
-/* ── Scene ───────────────────────────────── */
-.ct-scene {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-.ct-bubble-zone {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  min-height: 52px;
-  margin-bottom: 0.4rem;
-}
-
-/* ── Speech bubble ──────────────────────── */
-.ct-bubble {
-  position: relative;
-  background: rgba(135, 206, 235, 0.14);
-  border: 1.5px solid rgba(135, 206, 235, 0.5);
-  border-radius: 22px;
-  padding: 0.6rem 1.3rem;
-  max-width: 400px;
-}
-
-.ct-bubble-text {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #d4e4f7;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-}
-
-.ct-bubble-tail {
-  position: absolute;
-  bottom: -9px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 9px solid transparent;
-  border-right: 9px solid transparent;
-  border-top: 9px solid rgba(135, 206, 235, 0.5);
-}
-
-/* ── Animation area ─────────────────────── */
-.ct-animation-area {
-  position: relative;
-  width: 100%;
-  height: 280px;
-  overflow: hidden;
-}
-
-/* ── Girl ────────────────────────────────── */
-.ct-girl-wrap {
-  position: absolute;
-  bottom: 32px;
-  left: 40px;
-  z-index: 3;
-}
-
-.ct-girl-img {
-  height: 200px;
-  width: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.4));
   user-select: none;
+}
+
+/* Top Telemetry HUD */
+.ct-hud-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  z-index: 10;
+}
+
+.ct-hud-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.42rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(123, 92, 255, 0.14);
+  border: 1px solid rgba(123, 92, 255, 0.35);
+}
+
+.ct-hud-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #00c4ff;
+  box-shadow: 0 0 10px #00c4ff, 0 0 18px rgba(0, 196, 255, 0.8);
+  animation: ct-dot-pulse 1.2s infinite ease-in-out;
+}
+
+@keyframes ct-dot-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0.55;
+  }
+}
+
+.ct-hud-protocol {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #e0e7ff;
+  letter-spacing: 0.08em;
+}
+
+.ct-hud-node {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.76rem;
+  color: rgba(255, 255, 255, 0.55);
+  letter-spacing: 0.08em;
+}
+
+.ct-hud-skip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.42rem 0.95rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.22s ease;
+}
+
+.ct-hud-skip:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.45);
+  transform: translateX(2px);
+}
+
+.ct-skip-arrow {
+  font-size: 0.8rem;
+}
+
+/* Center Warp Stage */
+.ct-warp-stage {
+  position: relative;
+  width: 100%;
+  height: 440px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   pointer-events: none;
 }
 
-.ct-wave-emoji {
+/* Radial Hyperspace Laser Streaks */
+.ct-warp-rays-container {
   position: absolute;
-  top: 8px;
-  right: -16px;
-  font-size: 1.8rem;
-  display: inline-block;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+  width: 1px;
+  height: 1px;
+  top: 50%;
+  left: 50%;
+  pointer-events: none;
 }
 
-/* ── Train ───────────────────────────────── */
-.ct-train-wrap {
+.ct-warp-ray {
   position: absolute;
-  bottom: 20px;
-  left: 120px;
-  z-index: 2;
+  top: -190px;
+  left: -1.5px;
+  width: 3px;
+  height: 190px;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 196, 255, 0.85) 60%, #ffffff 100%);
+  transform-origin: bottom center;
+  border-radius: 3px;
+  box-shadow: 0 0 12px #00c4ff, 0 0 24px #7b5cff;
 }
 
-.ct-train-svg {
-  width: 440px;
-  height: auto;
-  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.35));
-}
-
-/* ── Ground / tracks ────────────────────── */
-.ct-ground {
+/* Concentric Energy Rings */
+.ct-energy-ring {
   position: absolute;
-  bottom: 18px;
-  left: 0;
-  right: 0;
-  height: 12px;
-  z-index: 1;
+  border-radius: 50%;
+  pointer-events: none;
 }
 
-.ct-ground-line {
+.ring-outer {
+  width: 390px;
+  height: 390px;
+  border: 2px dashed rgba(0, 196, 255, 0.45);
+  box-shadow: 0 0 45px rgba(0, 196, 255, 0.3);
+}
+
+.ring-mid {
+  width: 270px;
+  height: 270px;
+  border: 2px solid rgba(123, 92, 255, 0.6);
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  box-shadow: 0 0 35px rgba(123, 92, 255, 0.4);
+}
+
+.ring-inner {
+  width: 170px;
+  height: 170px;
+  border: 1.5px dashed rgba(34, 197, 94, 0.55);
+  box-shadow: 0 0 24px rgba(34, 197, 94, 0.3);
+}
+
+/* Center Monogram Reticle */
+.ct-center-reticle {
+  position: relative;
+  width: 116px;
+  height: 116px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 6;
+}
+
+.ct-reticle-ring {
   position: absolute;
-  bottom: 4px;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: #5C4A3A;
-  border-radius: 2px;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(0, 196, 255, 0.7);
+  box-shadow:
+    0 0 28px rgba(0, 196, 255, 0.55),
+    inset 0 0 16px rgba(0, 196, 255, 0.35);
+  animation: ct-spin 8s linear infinite;
 }
 
-.ct-ground-tie {
+@keyframes ct-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.ct-reticle-core {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: rgba(12, 16, 42, 0.92);
+  border: 1.5px solid rgba(123, 92, 255, 0.55);
+  box-shadow: 0 0 24px rgba(123, 92, 255, 0.45);
+}
+
+.ct-core-brand {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.7rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  background: linear-gradient(135deg, #ffffff 10%, #00c4ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.1;
+}
+
+.ct-core-sub {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--accent-300, #a78bfa);
+  line-height: 1;
+}
+
+/* Crosshairs */
+.ct-reticle-crosshair {
   position: absolute;
-  bottom: 0;
-  width: 14px;
-  height: 5px;
-  background: #4A3728;
-  border-radius: 1px;
-  opacity: 0.5;
+  background: #00c4ff;
+  box-shadow: 0 0 8px #00c4ff;
 }
 
-/* ── Progress bar ───────────────────────── */
-.ct-progress-track {
+.ch-top {
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 10px;
+}
+
+.ch-bottom {
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 10px;
+}
+
+.ch-left {
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 2px;
+  width: 10px;
+}
+
+.ch-right {
+  right: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 2px;
+  width: 10px;
+}
+
+/* Warp Ticker */
+.ct-warp-ticker {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 2.2rem;
+  padding: 0.5rem 1.25rem;
+  border-radius: 999px;
+  background: rgba(10, 14, 34, 0.85);
+  border: 1px solid rgba(0, 196, 255, 0.45);
+  box-shadow: 0 0 20px rgba(0, 196, 255, 0.25);
+  z-index: 6;
+}
+
+.ct-ticker-icon {
+  font-size: 0.92rem;
+  color: #ffd700;
+}
+
+.ct-ticker-text {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.06em;
+}
+
+/* Bottom Gauge */
+.ct-hud-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
   width: 100%;
-  height: 4px;
-  border-radius: 99px;
-  background: rgba(123, 92, 255, 0.1);
+  max-width: 620px;
+  margin: 0 auto;
+  z-index: 10;
+}
+
+.ct-gauge-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+}
+
+.ct-gauge-label {
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 600;
+}
+
+.ct-gauge-val {
+  color: #00c4ff;
+  font-weight: 700;
+}
+
+.ct-gauge-track {
+  width: 100%;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
   overflow: hidden;
+  position: relative;
 }
 
-.ct-progress-fill {
+.ct-gauge-fill {
   height: 100%;
-  border-radius: 99px;
-  background: linear-gradient(90deg, #E85D3A, #4A90D9);
-  box-shadow: 0 0 12px rgba(232, 93, 58, 0.4);
+  border-radius: 999px;
+  background: linear-gradient(90deg, #7b5cff, #00c4ff, #22c55e);
+  box-shadow: 0 0 16px #00c4ff;
 }
 
-/* ── Responsive ─────────────────────────── */
-@media (max-width: 960px) {
-  .ct-stage {
-    width: min(700px, 96vw);
+/* Responsive */
+@media (max-width: 768px) {
+  .ct-warp-overlay {
+    padding: 1.6rem 1.2rem;
   }
 
-  .ct-animation-area {
-    height: 240px;
+  .ct-hud-node {
+    display: none;
   }
 
-  .ct-girl-img {
-    height: 160px;
+  .ct-warp-stage {
+    height: 340px;
   }
 
-  .ct-train-svg {
-    width: 360px;
+  .ring-outer {
+    width: 300px;
+    height: 300px;
   }
 
-  .ct-bubble-text {
-    font-size: 0.88rem;
+  .ring-mid {
+    width: 220px;
+    height: 220px;
+  }
+
+  .ring-inner {
+    width: 140px;
+    height: 140px;
+  }
+
+  .ct-warp-ticker {
+    max-width: 90%;
+  }
+
+  .ct-ticker-text {
+    font-size: 0.72rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
-@media (max-width: 640px) {
-  .ct-stage {
-    padding: 1.4rem 1rem 1.2rem;
-    border-radius: 24px;
-  }
-
-  .ct-animation-area {
-    height: 200px;
-  }
-
-  .ct-girl-img {
-    height: 130px;
-  }
-
-  .ct-train-svg {
-    width: 280px;
-  }
-
-  .ct-girl-wrap {
-    left: 8px;
-  }
-
-  .ct-train-wrap {
-    left: 40px;
-  }
-
-  .ct-bubble-text {
-    font-size: 0.78rem;
-    white-space: normal;
-  }
-
-  .ct-bubble {
-    max-width: 260px;
-  }
-
-  .ct-ground-tie {
-    width: 10px;
-  }
-}
