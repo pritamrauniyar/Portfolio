@@ -10,10 +10,10 @@ const SmoothScroll = ({ children }) => {
 
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 0.85,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
-      touchMultiplier: 1.5,
+      touchMultiplier: 1.0,
       prevent: (node) => !!node.closest?.("[data-lenis-prevent]"),
     });
     lenisRef.current = lenis;
@@ -21,13 +21,15 @@ const SmoothScroll = ({ children }) => {
       window.__lenis = lenis;
     }
 
+    let rafId = null;
     function raf(time) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(raf);
     }
-    requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(raf);
 
     return () => {
+      if (rafId) cancelAnimationFrame(rafId);
       lenis.destroy();
       lenisRef.current = null;
       if (typeof window !== "undefined") {

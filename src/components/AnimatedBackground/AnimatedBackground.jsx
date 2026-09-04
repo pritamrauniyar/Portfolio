@@ -2,12 +2,12 @@ import { useCallback, useEffect, useRef } from "react";
 import { useScroll, useTransform, motion } from "framer-motion";
 import "./AnimatedBackground.css";
 
-const DOT_COUNT = 60;
+const DOT_COUNT = 32;
 const COLORS = [
-  "rgba(123, 92, 255, 0.5)",
-  "rgba(0, 196, 255, 0.4)",
-  "rgba(255, 85, 199, 0.35)",
-  "rgba(159, 135, 255, 0.45)",
+  "rgba(123, 92, 255, 0.45)",
+  "rgba(0, 196, 255, 0.35)",
+  "rgba(255, 85, 199, 0.3)",
+  "rgba(159, 135, 255, 0.4)",
 ];
 
 function randomBetween(min, max) {
@@ -68,7 +68,7 @@ const AnimatedBackground = () => {
       ctx.fill();
     });
 
-    const connectionDistance = 110;
+    const connectionDistance = 90;
     for (let i = 0; i < dotsRef.current.length; i++) {
       for (let j = i + 1; j < dotsRef.current.length; j++) {
         const a = dotsRef.current[i];
@@ -80,8 +80,8 @@ const AnimatedBackground = () => {
           ctx.beginPath();
           ctx.moveTo(a.x * cssWidth, a.y * cssHeight);
           ctx.lineTo(b.x * cssWidth, b.y * cssHeight);
-          ctx.strokeStyle = `rgba(123, 92, 255, ${0.12 * (1 - dist / connectionDistance)})`;
-          ctx.lineWidth = 0.6;
+          ctx.strokeStyle = `rgba(123, 92, 255, ${0.1 * (1 - dist / connectionDistance)})`;
+          ctx.lineWidth = 0.5;
           ctx.stroke();
         }
       }
@@ -132,7 +132,7 @@ const AnimatedBackground = () => {
     const handleVisibilityChange = () => {
       if (document.hidden) {
         stopAnimation();
-      } else if (window.scrollY < 900) {
+      } else if (window.scrollY < 700) {
         startAnimation();
       }
     };
@@ -141,12 +141,12 @@ const AnimatedBackground = () => {
     const handleScrollOptimization = () => {
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
-        if (window.scrollY > 900 && isRunningRef.current) {
+        if (window.scrollY > 700 && isRunningRef.current) {
           stopAnimation();
-        } else if (window.scrollY <= 900 && !isRunningRef.current && !document.hidden) {
+        } else if (window.scrollY <= 700 && !isRunningRef.current && !document.hidden) {
           startAnimation();
         }
-      }, 100);
+      }, 80);
     };
 
     document.addEventListener("visibilitychange", handleVisibilityChange);

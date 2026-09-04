@@ -82,7 +82,6 @@ const HeroSection = () => {
   const heroAnimation = useRef(null);
   const subcopyAnimation = useRef(null);
   const heroRef = useRef(null);
-  const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
   const [istTime, setIstTime] = useState("");
 
   // Live Bangalore (IST) timezone presence clock
@@ -149,10 +148,10 @@ const HeroSection = () => {
   const handleMouseMove = useCallback((e) => {
     if (!heroRef.current) return;
     const rect = heroRef.current.getBoundingClientRect();
-    setMousePos({
-      x: (e.clientX - rect.left) / rect.width,
-      y: (e.clientY - rect.top) / rect.height,
-    });
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    heroRef.current.style.setProperty("--spotlight-x", `${x.toFixed(1)}%`);
+    heroRef.current.style.setProperty("--spotlight-y", `${y.toFixed(1)}%`);
   }, []);
 
   const openArchitecture = (id = "ai-transcription") => {
@@ -164,13 +163,7 @@ const HeroSection = () => {
 
   return (
     <section className="hero" ref={heroRef} onMouseMove={handleMouseMove}>
-      <div
-        className="hero-spotlight"
-        aria-hidden="true"
-        style={{
-          background: `radial-gradient(900px circle at ${mousePos.x * 100}% ${mousePos.y * 100}%, rgba(123,92,255,0.09), transparent 45%)`,
-        }}
-      />
+      <div className="hero-spotlight" aria-hidden="true" />
 
       <motion.div
         className="bento-hero section-wrapper"

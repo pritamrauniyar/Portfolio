@@ -27,7 +27,6 @@ const cardVariants = {
 const ProjectCard = ({ data, index }) => {
   const cardRef = useRef(null);
   const imgRef = useRef(null);
-  const [spotlight, setSpotlight] = useState({ x: 50, y: 50 });
 
   const archTarget = useMemo(() => {
     const title = (data.title || "").toLowerCase();
@@ -40,18 +39,19 @@ const ProjectCard = ({ data, index }) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
-    setSpotlight({ x, y });
+    e.currentTarget.style.setProperty("--spotlight-x", `${x.toFixed(1)}%`);
+    e.currentTarget.style.setProperty("--spotlight-y", `${y.toFixed(1)}%`);
 
     if (imgRef.current) {
       const ix = (e.clientX - rect.left) / rect.width - 0.5;
       const iy = (e.clientY - rect.top) / rect.height - 0.5;
-      imgRef.current.style.transform = `translate(${-ix * 12}px, ${-iy * 12}px) scale(1.06)`;
+      imgRef.current.style.transform = `translate3d(${-ix * 10}px, ${-iy * 10}px, 0) scale(1.05)`;
     }
   }, []);
 
-  const handleMouseLeave = useCallback(() => {
+  const handleMouseLeave = useCallback((e) => {
     if (imgRef.current) {
-      imgRef.current.style.transform = "translate(0, 0) scale(1)";
+      imgRef.current.style.transform = "translate3d(0, 0, 0) scale(1)";
     }
   }, []);
 
@@ -71,10 +71,6 @@ const ProjectCard = ({ data, index }) => {
         data-cursor-text="View"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        style={{
-          "--spotlight-x": `${spotlight.x}%`,
-          "--spotlight-y": `${spotlight.y}%`,
-        }}
       >
         <div className="project-spotlight" aria-hidden="true" />
         

@@ -23,7 +23,11 @@ export default function DevToolsHUD({ isOpen, onClose }) {
   const rafId = useRef(null);
 
   useEffect(() => {
+    if (!isOpen) return;
+
     let active = true;
+    frameCount.current = 0;
+    lastTime.current = performance.now();
 
     const measure = (now) => {
       if (!active) return;
@@ -37,7 +41,7 @@ export default function DevToolsHUD({ isOpen, onClose }) {
         frameCount.current = 0;
         lastTime.current = now;
 
-        // Count DOM nodes
+        // Count DOM nodes only when HUD is active
         if (typeof document !== "undefined") {
           setDomCount(document.getElementsByTagName("*").length);
         }
@@ -59,7 +63,7 @@ export default function DevToolsHUD({ isOpen, onClose }) {
       active = false;
       if (rafId.current) cancelAnimationFrame(rafId.current);
     };
-  }, []);
+  }, [isOpen]);
 
   const triggerSpringAnimation = () => {
     sound.playClick();
