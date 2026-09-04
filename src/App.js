@@ -29,7 +29,7 @@ ReactGA.initialize("G-1SJ51YJ4NT");
 function App() {
   const [isCmdOpen, setIsCmdOpen] = useState(false);
   const [isHudOpen, setIsHudOpen] = useState(false);
-  const [archModal, setArchModal] = useState({ isOpen: false, systemId: "ai-transcription" });
+  const [archModal, setArchModal] = useState({ isOpen: false, systemId: "splithive" });
 
   // Global Keyboard Shortcuts (Cmd+K for Command Palette, Cmd+I for HUD)
   useEffect(() => {
@@ -52,7 +52,7 @@ function App() {
     const handleOpenArch = (e) => {
       setArchModal({
         isOpen: true,
-        systemId: e.detail || "ai-transcription",
+        systemId: e.detail || "splithive",
       });
     };
     window.addEventListener("open-arch-modal", handleOpenArch);

@@ -154,7 +154,7 @@ const HeroSection = () => {
     heroRef.current.style.setProperty("--spotlight-y", `${y.toFixed(1)}%`);
   }, []);
 
-  const openArchitecture = (id = "ai-transcription") => {
+  const openArchitecture = (id = "splithive") => {
     sound.playSuccess();
     if (typeof window !== "undefined") {
       window.dispatchEvent(new CustomEvent("open-arch-modal", { detail: id }));

@@ -116,7 +116,7 @@ export default function InteractiveTerminal({ isEmbedded = false, onOpenArch, on
           break;
 
         case "arch": {
-          const target = arg || "ai-transcription";
+          const target = arg || "splithive";
           newEntries.push(
             { type: "system", text: `Launching Architecture Blueprint for [${target}]...` }
           );
