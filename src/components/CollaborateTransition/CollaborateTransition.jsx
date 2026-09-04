@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import sound from "../../utils/soundEngine";
 import "./CollaborateTransition.css";
 
 const PHASES = {
@@ -274,10 +275,30 @@ const CollaborateTransition = () => {
       <button
         type="button"
         className="hero-secondary ct-btn"
-        onClick={startAnimation}
+        onClick={() => {
+          sound.playSuccess();
+          startAnimation();
+        }}
+        onMouseEnter={() => sound.playHover()}
         data-cursor="link"
       >
-        Let&apos;s collaborate
+        <span className="btn-icon sparkle-icon">
+          <svg
+            width="17"
+            height="17"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M12 2l2.4 7.2L21 12l-6.6 2.8L12 22l-2.4-7.2L3 12l6.6-2.8z" />
+          </svg>
+        </span>
+        <span className="btn-label">Let&apos;s collaborate</span>
+        <span className="btn-arrow" aria-hidden="true">→</span>
       </button>
       {createPortal(overlayContent, document.body)}
     </>

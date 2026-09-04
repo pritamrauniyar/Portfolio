@@ -1,6 +1,7 @@
 import { useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import sound from "../../utils/soundEngine";
 import "./ResumeDownload.css";
 
 const BUBBLE_TEXT = {
@@ -270,10 +271,32 @@ const ResumeDownload = ({ resumeUrl = "/PritamRauniyarResume.pdf" }) => {
       <button
         type="button"
         className="hero-primary resume-btn"
-        onClick={startAnimation}
+        onClick={() => {
+          sound.playSuccess();
+          startAnimation();
+        }}
+        onMouseEnter={() => sound.playHover()}
         data-cursor="link"
       >
-        Download Resume
+        <span className="btn-icon">
+          <svg
+            width="17"
+            height="17"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="7 10 12 15 17 10" />
+            <line x1="12" y1="15" x2="12" y2="3" />
+          </svg>
+        </span>
+        <span className="btn-label">Download Resume</span>
+        <span className="btn-badge">PDF</span>
       </button>
       {createPortal(overlayContent, document.body)}
     </>
