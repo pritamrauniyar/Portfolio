@@ -1,56 +1,132 @@
 [
   {
     "id": "01",
+    "title": "Uber",
+    "role": "Software Engineer II — Enterprise Ads & Offers",
+    "type": "Full Time Employee",
+    "category": "experience",
     "startDate": "Nov 2025",
     "endDate": "Present",
-    "type": "Full Time Employee",
-    "imageSource": "/work.png",
-    "title": "Uber",
-    "desc": "Working as a Software Engineer II in the Enterprise Experience Ads team. Owned Lapsed Customer Targeting across Ads & Offers, driving over $1M incremental spend in Offers and approximately $3M annualized in Ads. Contributed to New-to-Brand Targeting generating nearly $10M in annual spend. Led the unification and revamp of campaign creation forms across Ads and Offers."
+    "current": true,
+    "location": "Bengaluru, India",
+    "desc": "Leading architecture and product delivery across Enterprise Ads, Offers Billing, and AI Developer Productivity tooling at Uber.",
+    "metrics": [
+      "$27M+ NTB Revenue",
+      "18x+ Average ROAS",
+      "500+ Daily Devs (Claude AI)",
+      "30K+ Restaurants Billed"
+    ],
+    "highlights": [
+      {
+        "title": "Corporate Billing Integration",
+        "detail": "Designed and drove centralized billing integration for 3,000 ad accounts linked with 30K+ restaurants, collaborating across Billing and Payments teams to address revenue leakage and enable unified Offers billing."
+      },
+      {
+        "title": "New-to-Brand (NTB) Targeting",
+        "detail": "Led the end-to-end design and delivery of NTB targeting enabling advertisers to reach high-value new customers; scaled to 700+ enterprise brands and 5,100 campaigns, generating $27M+ revenue at 18x+ average ROAS in H1 2026."
+      },
+      {
+        "title": "AI-Powered PR Readiness Skill",
+        "detail": "Designed and built an internal Claude Code developer skill with LangGraph, LangChain, and MCP to automate code review, test execution, linting, type checks, remediation, and stacked-PR validation; adopted daily by 500+ Uber engineers."
+      },
+      {
+        "title": "Store Performance Insights & Recommendations",
+        "detail": "Architected store-level performance intelligence with click-through rate (CTR), click-to-order rate (CTO), online uptime, and competitor benchmarks, enabling 62% of ad accounts to take guided campaign optimizations."
+      },
+      {
+        "title": "Ads & Offers Unification",
+        "detail": "Delivered unified targeting experience across Ads and Offers for Lapsed and Existing customer segments, generating $8M in Ads revenue and $3M in Offers revenue via feature-flagged, backward-compatible rollout."
+      }
+    ],
+    "skills": ["Go", "Fusion.js", "React", "TypeScript", "LangGraph", "LangChain", "MCP", "Kafka", "Docstore", "uGrafana"]
   },
   {
     "id": "02",
+    "title": "Elevate K-12",
+    "role": "Software Development Engineer — Core Platform & Real-Time Media",
+    "type": "Full Time Employee",
+    "category": "experience",
     "startDate": "June 2023",
     "endDate": "Sept 2025",
-    "type": "Full Time Employee",
-    "imageSource": "/work.png",
-    "title": "Elevate K-12",
-    "desc": "Worked as an SDE in the Classroom Experience team. Led development of an Angular-based microservice with CI/CD pipelines, Azure AD B2C SSO, and lazy loading. Achieved 5-6x speed improvements via API call reduction, token caching, and CDN delivery. Built a virtual keyboard and multi-user collaboration browser. Drove POCs for OpenAI Whisper transcription and Jitsi Web SDK integration."
+    "current": false,
+    "location": "Remote",
+    "desc": "Spearheaded frontend microservice architecture, enterprise authentication, and real-time collaboration platforms for live digital classrooms.",
+    "metrics": [
+      "350K+ Active Users",
+      "5-6x Speedup",
+      "50% Token Generation Cut",
+      "1M+ Platform Scale"
+    ],
+    "highlights": [
+      {
+        "title": "Architecture & Performance Optimization",
+        "detail": "Led development of an Angular microservice with automated CI/CD pipelines, Azure AD B2C SSO, token caching, and lazy loading, delivering a 5–6x performance improvement across 350K+ teachers, students, coaches, and administrators."
+      },
+      {
+        "title": "Enterprise SSO & Authentication",
+        "detail": "Implemented Azure AD B2C Single Sign-On across all platform user tiers, reducing redundant token generation by 50% across a 1M+ user base and securing cross-service token delegation."
+      },
+      {
+        "title": "Real-Time AI Transcription & Video",
+        "detail": "Implemented OpenAI Whisper to bring real-time speech-to-text transcription to Live Classroom for engagement analysis; integrated Jitsi Web SDK for multi-user collaboration and breakout rooms."
+      }
+    ],
+    "skills": ["Angular", "RxJS", "Node.js", "Azure AD B2C", "OpenAI Whisper", "Jitsi Web SDK", "CI/CD", "TypeScript"]
   },
   {
     "id": "03",
+    "title": "Ola Electric Technologies",
+    "role": "Software Development Engineer — Customer Purchase & Onboarding",
+    "type": "Full Time Employee",
+    "category": "experience",
     "startDate": "June 2022",
     "endDate": "April 2023",
-    "type": "Full Time Employee",
-    "imageSource": "/work.png",
-    "title": "Ola Electric Technologies",
-    "desc": "Worked as an SDE in the Customer Onboarding team. Enhanced post-onboarding user journeys and purchase processes. Developed a seamless payment UI with React, including robust API validation for debit/credit card transactions. Implemented delivery date filtering by date, time, and location."
+    "current": false,
+    "location": "Bengaluru, India",
+    "desc": "Engineered high-concurrency purchase journeys, payment processing flows, and delivery constraint engines for India's leading EV platform.",
+    "metrics": [
+      "Production Checkout",
+      "Real-Time Payment Gateways",
+      "Dynamic Delivery Engine"
+    ],
+    "highlights": [
+      {
+        "title": "Customer Purchase & Onboarding Experience",
+        "detail": "Designed and built high-conversion React UI flows for vehicle onboarding, scooter customization, and multi-tier payment processing with robust debit/credit card gateway validations."
+      },
+      {
+        "title": "Location & Schedule Constraint Engine",
+        "detail": "Implemented location, date, and time-based delivery scheduling algorithms to dynamically match vehicle availability with regional logistics capacity."
+      }
+    ],
+    "skills": ["React", "JavaScript", "RESTful APIs", "Redux", "HTML/CSS", "State Management"]
   },
   {
     "id": "04",
-    "startDate": "2018",
-    "endDate": "2022",
-    "type": "Graduation (Bachelors)",
-    "imageSource": "/school.png",
     "title": "MNNIT, Allahabad",
-    "desc": "Here, I pursued a bachelor's degree, majoring in Electronics and Communication Engineering. The institute is located in Prayagraj, UP, India. This was a crucial period where I deepened my understanding of engineering concepts."
-  },
-  {
-    "id": "05",
-    "startDate": "2015",
-    "endDate": "2017",
-    "type": "Secondary Education",
-    "imageSource": "/secondary-school.png",
-    "title": "Model Secondary School",
-    "desc": "I completed my secondary schooling, such as 11th and 12th grades, at this school in my hometown, Janakpur. I chose Science as a major with Computer Science as an extra subject. It was here that I began to develop my interest in technology."
-  },
-  {
-    "id": "06",
-    "startDate": "",
-    "endDate": "2015",
-    "type": "Primary Education",
-    "imageSource": "/secondary-school.png",
-    "title": "Galaxy English Boarding School",
-    "desc": "I had done primary schooling in this school. It is placed in my hometown janakpur. The teachers were supportive and the environment was conducive to learning. This period laid the groundwork for my educational journey."
+    "role": "B.Tech in Electronics and Communication Engineering",
+    "type": "Graduation (Bachelors)",
+    "category": "education",
+    "startDate": "Aug 2018",
+    "endDate": "May 2022",
+    "current": false,
+    "location": "Prayagraj, UP, India",
+    "desc": "Motilal Nehru National Institute of Technology (NIT Allahabad). Deep theoretical foundations in data structures, algorithms, computer architecture, and distributed systems.",
+    "metrics": [
+      "Premier National Institute",
+      "Core CS & Systems",
+      "Competitive Programming"
+    ],
+    "highlights": [
+      {
+        "title": "Core Engineering Foundations",
+        "detail": "Comprehensive study of Data Structures, Algorithms, Object-Oriented Design (C++), Operating Systems, Microprocessors, Computer Networks, and Signal Processing."
+      },
+      {
+        "title": "Competitive Programming & Problem Solving",
+        "detail": "Extensive practice in algorithmic problem solving, time/space complexity optimization, and system design fundamentals."
+      }
+    ],
+    "skills": ["C++", "C", "Data Structures", "Algorithms", "Computer Networks", "OOP"]
   }
 ]

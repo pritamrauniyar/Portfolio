@@ -4,9 +4,9 @@ import TreeModal from "../TreeModal/TreeModal";
 const Journey = () => (
   <section className="journey section-wrapper" id="journey">
     <TreeModal
-      eyebrow="Journey so far"
-      title="From curiosity to craft."
-      caption="A timeline of moments that shaped my engineering perspective — blending rigorous foundations, cross-functional collaboration, and user-first delivery."
+      eyebrow="Career & Engineering Track Record"
+      title="Architectural Milestones & Technical Leadership"
+      caption="A timeline of high-impact production systems, cross-functional ownership, and engineering deliverables across enterprise platforms."
     />
   </section>
 );

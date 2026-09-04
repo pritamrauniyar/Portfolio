@@ -1,31 +1,34 @@
 .timeline {
   display: grid;
-  gap: 2.4rem;
+  gap: 2.2rem;
 }
 
 .timeline-header {
   display: grid;
   gap: 0.75rem;
-  max-width: 640px;
+  max-width: 680px;
 }
 
 .timeline-eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.3rem 0.85rem;
+  padding: 0.32rem 0.95rem;
   border-radius: 999px;
-  border: 1px solid rgba(123, 92, 255, 0.18);
+  border: 1px solid rgba(123, 92, 255, 0.22);
   background: rgba(16, 20, 46, 0.65);
-  font-size: 0.72rem;
-  letter-spacing: 0.28em;
+  font-size: 0.74rem;
+  letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: rgba(201, 193, 255, 0.74);
+  color: rgba(201, 193, 255, 0.8);
   width: fit-content;
 }
 
 .timeline-header h3 {
-  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+  color: var(--text-primary);
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 .timeline-header p {
@@ -34,18 +37,114 @@
   line-height: 1.7;
 }
 
+/* ── Executive Impact Stats Bar ────────────────────────── */
+.timeline-stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  padding: 1.3rem 1.6rem;
+  border-radius: 20px;
+  background: linear-gradient(145deg, rgba(20, 24, 58, 0.75), rgba(12, 14, 36, 0.85));
+  border: 1px solid rgba(123, 92, 255, 0.22);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+}
+
+.timeline-stat-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  border-right: 1px solid rgba(123, 92, 255, 0.14);
+  padding-right: 1rem;
+}
+
+.timeline-stat-cell:last-child {
+  border-right: none;
+  padding-right: 0;
+}
+
+.timeline-stat-value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.4rem, 2.4vw, 1.85rem);
+  font-weight: 700;
+  color: var(--accent-300);
+  line-height: 1.1;
+  background: linear-gradient(135deg, #fff 30%, var(--accent-300) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.timeline-stat-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-top: 0.15rem;
+}
+
+.timeline-stat-detail {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+/* ── Category Filter Tabs ────────────────────────────── */
+.timeline-filters-wrap {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.timeline-filters {
+  display: inline-flex;
+  gap: 0.45rem;
+  padding: 0.32rem;
+  border-radius: 999px;
+  background: rgba(14, 17, 42, 0.85);
+  border: 1px solid rgba(123, 92, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.timeline-filter-btn {
+  padding: 0.45rem 1.15rem;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.timeline-filter-btn:hover {
+  color: var(--text-primary);
+}
+
+.timeline-filter-btn.active {
+  background: linear-gradient(135deg, rgba(123, 92, 255, 0.35), rgba(0, 196, 255, 0.2));
+  color: #fff;
+  border: 1px solid rgba(123, 92, 255, 0.45);
+  box-shadow: 0 4px 16px rgba(123, 92, 255, 0.25);
+}
+
+/* ── Timeline Track & Line ───────────────────────────── */
 .timeline-wrapper {
   position: relative;
   display: grid;
-  gap: 1.8rem;
-  padding-left: clamp(1.8rem, 4vw, 3.2rem);
+  gap: 2.2rem;
+  padding-left: clamp(2rem, 4.5vw, 3.8rem);
+  margin-top: 0.5rem;
 }
 
 .timeline-line {
   position: absolute;
-  inset: 0 auto 0 10px;
+  inset: 0 auto 0 14px;
   width: 2px;
-  background: linear-gradient(180deg, rgba(123, 92, 255, 0.4), rgba(0, 196, 255, 0.42));
+  background: linear-gradient(180deg, rgba(123, 92, 255, 0.6), rgba(0, 196, 255, 0.5) 75%, transparent 100%);
   border-radius: 999px;
 }
 
@@ -57,123 +156,410 @@
 
 .timeline-marker {
   position: absolute;
-  left: -38px;
-  top: 32px;
+  left: -44px;
+  top: 36px;
   transform: translateX(-50%);
-  width: 30px;
-  height: 30px;
-  border-radius: 999px;
-  background: rgba(123, 92, 255, 0.25);
-  border: 1px solid rgba(123, 92, 255, 0.4);
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(16, 20, 48, 0.95);
+  border: 1.5px solid rgba(123, 92, 255, 0.38);
   display: grid;
   place-items: center;
-  box-shadow: 0 12px 30px rgba(8, 6, 26, 0.45);
-  animation: pulse-glow 3s ease-in-out infinite;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
   overflow: hidden;
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.timeline-item--current .timeline-marker {
+  border-color: #10b981;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
 }
 
 .timeline-marker span {
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
   background: linear-gradient(135deg, var(--accent-500), #00a3ff);
-  box-shadow: 0 0 20px rgba(123, 92, 255, 0.65);
+  box-shadow: 0 0 16px rgba(123, 92, 255, 0.65);
 }
 
-.timeline-card-title {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.timeline-card-logo {
-  border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  flex-shrink: 0;
-}
-
+/* ── Milestone Card ──────────────────────────────────── */
 .timeline-card {
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  padding: 2rem 1.9rem;
+  border-radius: 24px;
+  border: 1px solid rgba(123, 92, 255, 0.2);
+  background: linear-gradient(160deg, rgba(18, 22, 54, 0.88), rgba(12, 14, 36, 0.82));
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.38);
+  display: grid;
+  gap: 1.25rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.timeline-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(123, 92, 255, 0.35), transparent);
+}
+
+.timeline-item--current .timeline-card {
+  border-color: rgba(16, 185, 129, 0.35);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.42), 0 0 24px rgba(16, 185, 129, 0.1);
+}
+
+.timeline-item--current .timeline-card::before {
+  background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.5), transparent);
 }
 
 .timeline-card:hover {
   border-color: rgba(123, 92, 255, 0.4);
-  box-shadow: 0 0 24px rgba(123, 92, 255, 0.15), var(--shadow-md);
+  transform: translateY(-2px);
+  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.45), 0 0 30px rgba(123, 92, 255, 0.12);
 }
 
-.timeline-card {
-  padding: 1.8rem 1.6rem;
-  border-radius: 26px;
-  border: 1px solid rgba(123, 92, 255, 0.18);
-  background: linear-gradient(160deg, rgba(18, 21, 50, 0.88), rgba(13, 15, 34, 0.78));
-  box-shadow: var(--shadow-md);
-  display: grid;
-  gap: 1rem;
-}
-
-.timeline-card header {
+/* ── Card Header ─────────────────────────────────────── */
+.timeline-card-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 1.25rem;
+  gap: 1.2rem;
+  flex-wrap: wrap;
 }
 
-.timeline-card header h4 {
-  font-size: 1.15rem;
-  font-weight: 600;
+.timeline-card-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.95rem;
 }
 
-.timeline-type {
-  font-size: 0.82rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
+.timeline-card-logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 3px;
+}
+
+.timeline-card-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.timeline-company-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.timeline-badge-current {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.16);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #10b981;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: rgba(201, 193, 255, 0.72);
+}
+
+.badge-pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #10b981;
+  box-shadow: 0 0 8px #10b981;
+  animation: pulse-dot 1.5s infinite;
+}
+
+.timeline-role-title {
+  display: block;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--accent-300);
+  margin-top: 0.2rem;
+}
+
+.timeline-dates-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
 }
 
 .timeline-dates {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.9rem;
-  color: var(--accent-300);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text-primary);
   white-space: nowrap;
 }
 
-.timeline-card p {
-  font-size: 0.98rem;
+.timeline-location-badge {
+  font-size: 0.76rem;
   color: var(--text-muted);
-  line-height: 1.7;
 }
 
-.timeline-card footer {
-  font-size: 0.85rem;
-  color: rgba(196, 210, 255, 0.6);
-  letter-spacing: 0.08em;
+.timeline-card-summary {
+  font-size: 0.95rem;
+  color: rgba(220, 226, 255, 0.85);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ── Metric Chips Strip ──────────────────────────────── */
+.timeline-metrics-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.timeline-metric-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.28rem 0.75rem;
+  border-radius: 8px;
+  background: rgba(123, 92, 255, 0.12);
+  border: 1px solid rgba(123, 92, 255, 0.26);
+  color: #e2dcff;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.metric-spark {
+  color: var(--accent-300);
+  font-size: 0.7rem;
+}
+
+/* ── Architectural Deliverables Section ──────────────── */
+.timeline-highlights-section {
+  padding: 1.15rem 1.3rem;
+  border-radius: 16px;
+  background: rgba(10, 12, 30, 0.55);
+  border: 1px solid rgba(123, 92, 255, 0.16);
+  display: grid;
+  gap: 0.85rem;
+}
+
+.timeline-highlights-heading {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
+  color: rgba(201, 193, 255, 0.8);
+}
+
+.timeline-highlights-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.timeline-highlight-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.highlight-bullet {
+  color: var(--accent-300);
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.highlight-content {
+  color: var(--text-muted);
+}
+
+.highlight-title {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.highlight-detail {
+  color: rgba(210, 218, 255, 0.78);
+}
+
+.timeline-expand-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: none;
+  color: var(--accent-300);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.35rem 0.2rem;
+  margin-top: 0.2rem;
+  transition: all 0.2s ease;
+  width: fit-content;
+}
+
+.timeline-expand-btn:hover {
+  color: #fff;
+  transform: translateX(2px);
+}
+
+.expand-arrow {
+  font-size: 0.7rem;
+}
+
+/* ── Skills Strip ────────────────────────────────────── */
+.timeline-skills-strip {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding-top: 0.4rem;
+  border-top: 1px solid rgba(123, 92, 255, 0.12);
+}
+
+.timeline-skills-label {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.timeline-skills-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.38rem;
+}
+
+.timeline-skill-pill {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.18rem 0.58rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(220, 228, 255, 0.85);
+  transition: all 0.2s ease;
+}
+
+.timeline-skill-pill:hover {
+  background: rgba(123, 92, 255, 0.18);
+  border-color: rgba(123, 92, 255, 0.35);
+  color: #fff;
 }
 
 .timeline-empty {
   font-size: 0.95rem;
   color: rgba(200, 200, 230, 0.6);
+  padding: 2rem;
+  text-align: center;
 }
 
-@media (max-width: 720px) {
+/* ══════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .timeline-stats-bar {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+    padding: 1.2rem;
+  }
+
+  .timeline-stat-cell:nth-child(2) {
+    border-right: none;
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 768px) {
   .timeline-wrapper {
-    padding-left: 2.6rem;
+    padding-left: 2.8rem;
   }
 
   .timeline-marker {
-    left: -24px;
+    left: -32px;
+    width: 32px;
+    height: 32px;
   }
 
-  .timeline-card header {
+  .timeline-card {
+    padding: 1.5rem 1.3rem;
+  }
+
+  .timeline-card-header {
     flex-direction: column;
     align-items: flex-start;
+    gap: 0.65rem;
+  }
+
+  .timeline-dates-wrap {
+    align-items: flex-start;
+  }
+
+  .timeline-highlights-section {
+    padding: 1rem 1.05rem;
+  }
+
+  .timeline-highlight-row {
+    font-size: 0.84rem;
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 540px) {
+  .timeline-stats-bar {
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+  }
+
+  .timeline-stat-cell {
+    border-right: none;
+    padding-right: 0;
+    border-bottom: 1px solid rgba(123, 92, 255, 0.12);
+    padding-bottom: 0.75rem;
+  }
+
+  .timeline-stat-cell:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .timeline-filters {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .timeline-filter-btn {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.75rem;
+    flex: 1;
+    text-align: center;
+  }
+
   .timeline-wrapper {
-    padding-left: 1.9rem;
+    padding-left: 1.8rem;
   }
 
   .timeline-marker {
@@ -184,22 +570,22 @@
     left: 0;
   }
 
-  .timeline-dates {
-    white-space: normal;
-    font-size: 0.82rem;
-  }
-
-  .timeline-card header h4 {
-    font-size: 1rem;
-  }
-
-  .timeline-card p {
-    font-size: 0.88rem;
-    line-height: 1.6;
-  }
-
   .timeline-card {
-    padding: 1.1rem 1rem;
+    padding: 1.2rem 1rem;
+    border-radius: 18px;
+  }
+
+  .timeline-card-logo {
+    width: 36px;
+    height: 36px;
+  }
+
+  .timeline-company-name {
+    font-size: 1.1rem;
+  }
+
+  .timeline-role-title {
+    font-size: 0.85rem;
   }
 }
 
