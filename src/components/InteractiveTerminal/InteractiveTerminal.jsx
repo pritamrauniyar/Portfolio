@@ -101,13 +101,16 @@ export default function InteractiveTerminal({ isEmbedded = false, onOpenArch, on
         case "projects":
           newEntries.push(
             { type: "highlight", text: "Featured Engineering Systems:" },
-            { type: "accent", text: "1. Distributed AI Real-Time Transcription Pipeline" },
+            { type: "accent", text: "1. SplitHive — Distributed Real-Time Expense Ledger" },
+            { type: "output", text: "   React Native + Expo -> Bi-directional Socket.IO -> O(V+E) Greedy Settlement -> MySQL Transactions" },
+            { type: "muted", text: "   Try: 'arch splithive' to inspect the ledger blueprint." },
+            { type: "accent", text: "2. Distributed AI Real-Time Transcription Pipeline" },
             { type: "output", text: "   AudioWorklet 16kHz PCM downsampler -> WebSocket stream -> Whisper Inference -> SSE Virtualized UI" },
             { type: "muted", text: "   Try: 'arch ai-transcription' to inspect the live data pipeline." },
-            { type: "accent", text: "2. High-Throughput Network Inspector & Diagnostic Engine" },
+            { type: "accent", text: "3. High-Throughput Network Inspector & Diagnostic Engine" },
             { type: "output", text: "   PerformanceObserver -> Web Worker Aggregator -> Circular Buffer -> IndexedDB -> 60fps Telemetry" },
             { type: "muted", text: "   Try: 'arch net-inspector' to inspect the engine blueprint." },
-            { type: "accent", text: "3. Uber High-Scale Dispatch & Fleet Telemetry" },
+            { type: "accent", text: "4. Uber High-Scale Dispatch & Fleet Telemetry" },
             { type: "output", text: "   Sub-second geospatial dispatch interfaces powering high-concurrency urban mobility workflows." }
           );
           break;
@@ -266,7 +269,7 @@ export default function InteractiveTerminal({ isEmbedded = false, onOpenArch, on
     }
   };
 
-  const chips = ["help", "bio", "skills", "projects", "arch ai-transcription", "sudo hire"];
+  const chips = ["help", "bio", "skills", "projects", "arch splithive", "arch ai-transcription", "sudo hire"];
 
   return (
     <div className={`terminal-container ${isEmbedded ? "embedded" : ""}`}>

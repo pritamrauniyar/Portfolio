@@ -1,6 +1,16 @@
 [
   {
     "id": 1,
+    "title": "SplitHive",
+    "category": "Mobile & Full-Stack",
+    "description": "An open-source Splitwise alternative built for cross-platform expense sharing, real-time debt simplification graphs, and instant multi-user settlement calculations.",
+    "link": "https://github.com/pritamrauniyar/splithive",
+    "github": "https://github.com/pritamrauniyar/splithive",
+    "image": "/splithive.png",
+    "tags": ["React Native", "Node.js", "Socket.IO", "MySQL", "Expo"]
+  },
+  {
+    "id": 2,
     "title": "AI Transcription",
     "category": "AI & Machine Learning",
     "description": "This web app showcases an AI-powered speech-to-text workflow that accepts recorded or uploaded audio, transcribes it with modern ASR models, and lets users review and export polished transcripts.",
@@ -10,7 +20,7 @@
     "tags": ["AI / ASR", "Whisper", "React", "Web Audio API"]
   },
   {
-    "id": 2,
+    "id": 3,
     "title": "Net Inspector",
     "category": "Cloud & Diagnostics",
     "description": "This diagnostic dashboard runs latency checks, port probes, and traceroutes to surface real-time network health insights with lightweight visual summaries for quick troubleshooting.",
@@ -20,7 +30,7 @@
     "tags": ["Networking", "Diagnostics", "Dashboard", "Real-time Metrics"]
   },
   {
-    "id": 3,
+    "id": 4,
     "title": "Random Password Generator",
     "category": "Productivity & Tools",
     "description": "This web-based application is designed to generate cryptographically random passwords combining character sets, numbers, and symbols. Ensures high usability and entropy for personal security.",
@@ -30,7 +40,7 @@
     "tags": ["Security", "Web Crypto", "JavaScript", "Tooling"]
   },
   {
-    "id": 4,
+    "id": 5,
     "title": "Daily To-Do Application",
     "category": "Productivity & Tools",
     "description": "An intuitive, responsive task management application built to streamline daily workflows. Features persistent storage, quick filtering, and an accessible, keyboard-friendly interface.",
@@ -40,7 +50,7 @@
     "tags": ["React", "LocalStorage", "State Management", "Productivity"]
   },
   {
-    "id": 5,
+    "id": 6,
     "title": "Countdown & Stopwatch Timer",
     "category": "Productivity & Tools",
     "description": "A precision time-tracking application combining dual-mode stopwatch and countdown timer functionality with millisecond accuracy and customizable alert triggers.",
@@ -50,7 +60,7 @@
     "tags": ["JavaScript", "Timers", "Web Audio", "CSS Animation"]
   },
   {
-    "id": 6,
+    "id": 7,
     "title": "Simple Calculator",
     "category": "Productivity & Tools",
     "description": "A streamlined arithmetic computing tool designed with keyboard listener shortcuts, operator precedence evaluation, and clean tactile feedback states.",
@@ -60,7 +70,7 @@
     "tags": ["JavaScript", "Math Engine", "Responsive Design"]
   },
   {
-    "id": 7,
+    "id": 8,
     "title": "Evergreen Impex",
     "category": "Web Applications",
     "description": "A multi-page corporate showcase website presenting enterprise import-export services, corporate portfolio assets, and an interactive contact inquiry pipeline.",
@@ -70,7 +80,7 @@
     "tags": ["Web Design", "UI/UX", "SEO", "Responsive"]
   },
   {
-    "id": 8,
+    "id": 9,
     "title": "Analog Clock",
     "category": "Web Applications",
     "description": "A canvas and CSS-driven analog clock displaying real-time hours, minutes, and continuous second sweeps using SVG trigonometry and CSS transitions.",

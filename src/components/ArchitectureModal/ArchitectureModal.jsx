@@ -180,6 +180,90 @@ const SYSTEMS = [
       },
     ],
   },
+  {
+    id: "splithive",
+    name: "SplitHive — Distributed Real-Time Expense Ledger",
+    badge: "React Native + Socket.IO + MySQL Transactions",
+    summary:
+      "A cross-platform financial collaborative ledger delivering real-time expense reconciliation, sub-50ms peer delta syncing, and an O(V+E) greedy debt minimization algorithm.",
+    sla: {
+      syncLatency: "< 45ms",
+      transactionSafety: "ACID Guaranteed",
+      graphSimplification: "O(V + E) greedy",
+      socketThroughput: "> 10k events/s",
+    },
+    nodes: [
+      {
+        id: "rn-client",
+        title: "React Native Mobile Client",
+        sub: "Expo SDK 54 + React 19",
+        type: "client",
+        detail: "Cross-platform mobile UI with local caching, pessimistic transaction submission, and optimistic rollbacks.",
+      },
+      {
+        id: "socket-client",
+        title: "Bi-directional Real-Time Bus",
+        sub: "Socket.IO Client + Heartbeat",
+        type: "transport",
+        detail: "Multiplexed WebSocket channels mapped to group rooms with automated exponential reconnect logic.",
+      },
+      {
+        id: "express-gw",
+        title: "REST & WebSocket Gateway",
+        sub: "Node.js + Express + Zod",
+        type: "server",
+        detail: "Strict schema validation, JWT auth middleware with token revocation, and rate-limited invite tokens.",
+      },
+      {
+        id: "debt-engine",
+        title: "Greedy Debt Minimizer",
+        sub: "Bipartite Net Settlement Engine",
+        type: "server",
+        detail: "Calculates net creditor/debtor balances across multi-payer groups, collapsing N complex debts into at most N-1 pairwise transfers.",
+      },
+      {
+        id: "db-pool",
+        title: "Transactional Relational Store",
+        sub: "MySQL 8.0 + mysql2 Pool",
+        type: "server",
+        detail: "Row-level locking (SELECT ... FOR UPDATE) during expense splits and settlement recordings to prevent double-balance races.",
+      },
+      {
+        id: "audit-sink",
+        title: "Immutable Expense Audit Trail",
+        sub: "Event Sourcing / History Log",
+        type: "server",
+        detail: "Maintains append-only expense revisions and restore links for transparent dispute resolution.",
+      },
+      {
+        id: "mailer-queue",
+        title: "Transactional Email Dispatcher",
+        sub: "Nodemailer SMTP Worker",
+        type: "server",
+        detail: "Asynchronous dispatch for invite link tokens, account verification, and settlement confirmation receipts.",
+      },
+    ],
+    tradeoffs: [
+      {
+        title: "Greedy Debt Minimization vs NP-Hard Optimal Subset Sum",
+        decision: "O(V log V) greedy debtor/creditor pairing.",
+        rationale:
+          "Finding the absolute minimum transaction count across cycles is NP-complete (equivalent to the subset-sum problem). The greedy heuristic produces at most N-1 transactions in microsecond execution time with zero server bottleneck.",
+      },
+      {
+        title: "Push WebSockets (Socket.IO) vs Short Polling",
+        decision: "Event-driven WebSocket room broadcasting.",
+        rationale:
+          "Polling every 5 seconds drains mobile battery and produces 95% redundant database reads. Socket.IO room broadcasts push group expense updates in under 45ms only when ledger mutations occur.",
+      },
+      {
+        title: "ACID Row-Level Locking vs Eventual Consistency",
+        decision: "Atomic SQL transactions with strict row locks on member balances.",
+        rationale:
+          "Financial ledger corruption cannot be reconciled after the fact. Locking the group's expense records during settlement prevents race conditions when two roommates settle simultaneously.",
+      },
+    ],
+  },
 ];
 
 export default function ArchitectureModal({ isOpen, onClose, initialSystemId = "ai-transcription" }) {

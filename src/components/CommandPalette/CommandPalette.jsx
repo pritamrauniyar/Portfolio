@@ -34,6 +34,7 @@ const BASE_COMMANDS = [
   { id: "nav-contact", title: "Contact", section: "Navigation", icon: FaEnvelope, action: "navigate", path: "/contact" },
 
   // Engineering Architecture Deep Dives
+  { id: "arch-splithive", title: "Architecture Blueprint: SplitHive Real-Time Expense Ledger", section: "Architecture", icon: FaMicrochip, action: "arch", target: "splithive" },
   { id: "arch-ai", title: "Architecture Blueprint: Real-Time AI Audio Pipeline", section: "Architecture", icon: FaMicrochip, action: "arch", target: "ai-transcription" },
   { id: "arch-net", title: "Architecture Blueprint: Network Diagnostic Engine (Zero-GC)", section: "Architecture", icon: FaMicrochip, action: "arch", target: "net-inspector" },
 
@@ -54,6 +55,7 @@ const BASE_COMMANDS = [
   { id: "act-github", title: "GitHub Profile", section: "Socials", icon: FaGithub, action: "link", url: "https://github.com/pritamrauniyar" },
 
   // Featured Projects
+  { id: "proj-splithive", title: "SplitHive — Open Splitwise-style Mobile App", section: "Featured Projects", icon: FaExternalLinkAlt, action: "link", url: "https://github.com/pritamrauniyar/splithive" },
   { id: "proj-ai-transcription", title: "AI Transcription App (Live)", section: "Featured Projects", icon: FaExternalLinkAlt, action: "link", url: "https://ai-transcription.pritamrauniyar.com.np/" },
   { id: "proj-net-inspector", title: "Net Inspector Dashboard (Live)", section: "Featured Projects", icon: FaExternalLinkAlt, action: "link", url: "https://www.net-inspector.pritamrauniyar.com.np/" },
 ];

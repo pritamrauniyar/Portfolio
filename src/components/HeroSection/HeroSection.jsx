@@ -207,6 +207,16 @@ const HeroSection = () => {
             <button
               type="button"
               className="arch-pill-btn"
+              onClick={() => openArchitecture("splithive")}
+              onMouseEnter={() => sound.playHover()}
+            >
+              <span className="pill-dot" />
+              <span>SplitHive Ledger (Real-Time)</span>
+              <span className="pill-arrow">↗</span>
+            </button>
+            <button
+              type="button"
+              className="arch-pill-btn"
               onClick={() => openArchitecture("ai-transcription")}
               onMouseEnter={() => sound.playHover()}
             >

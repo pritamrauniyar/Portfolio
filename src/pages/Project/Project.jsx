@@ -7,6 +7,7 @@ import sound from "../../utils/soundEngine";
 
 const CATEGORIES = [
   "All",
+  "Mobile & Full-Stack",
   "AI & Machine Learning",
   "Cloud & Diagnostics",
   "Productivity & Tools",
@@ -30,6 +31,7 @@ const ProjectCard = ({ data, index }) => {
 
   const archTarget = useMemo(() => {
     const title = (data.title || "").toLowerCase();
+    if (title.includes("splithive") || title.includes("split")) return "splithive";
     if (title.includes("transcription")) return "ai-transcription";
     if (title.includes("inspector") || title.includes("net")) return "net-inspector";
     return null;
@@ -109,7 +111,7 @@ const ProjectCard = ({ data, index }) => {
               onClick={() => sound.playClick()}
               onMouseEnter={() => sound.playHover()}
             >
-              <FaExternalLinkAlt aria-hidden="true" /> Live Demo
+              <FaExternalLinkAlt aria-hidden="true" /> {data.linkText || (data.link && data.link.includes("github.com") ? "View Project" : "Live Demo")}
             </a>
             {data.github && (
               <a
