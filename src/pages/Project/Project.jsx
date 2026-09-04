@@ -1,6 +1,73 @@
 import "./Project.css";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import TextReveal from "../../components/TextReveal/TextReveal";
+
+const containerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+};
+
+const ProjectCard = ({ data, index }) => {
+  const cardRef = useRef(null);
+  const imgRef = useRef(null);
+  const [spotlight, setSpotlight] = useState({ x: 50, y: 50 });
+
+  const handleMouseMove = useCallback((e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    setSpotlight({ x, y });
+
+    if (imgRef.current) {
+      const ix = (e.clientX - rect.left) / rect.width - 0.5;
+      const iy = (e.clientY - rect.top) / rect.height - 0.5;
+      imgRef.current.style.transform = `translate(${-ix * 14}px, ${-iy * 14}px) scale(1.08)`;
+    }
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    if (imgRef.current) {
+      imgRef.current.style.transform = "translate(0, 0) scale(1)";
+    }
+  }, []);
+
+  return (
+    <motion.div variants={cardVariants}>
+      <a
+        ref={cardRef}
+        href={data.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="project-card"
+        data-cursor="project"
+        data-cursor-text="View"
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        style={{
+          "--spotlight-x": `${spotlight.x}%`,
+          "--spotlight-y": `${spotlight.y}%`,
+        }}
+      >
+        <div className="project-spotlight" aria-hidden="true" />
+        <div className="project-visual">
+          <img ref={imgRef} src={data.image} alt={data.title} loading="lazy" />
+          <div className="project-overlay" aria-hidden="true" />
+        </div>
+        <div className="project-copy">
+          <span className="project-index">0{index + 1}</span>
+          <h3>{data.title}</h3>
+          <p>{data.description}</p>
+        </div>
+      </a>
+    </motion.div>
+  );
+};
 
 const Project = () => {
   const [projects, setProjects] = useState([]);
@@ -12,22 +79,15 @@ const Project = () => {
       try {
         const response = await fetch("/data/projectsData.json");
         const responseData = await response.json();
-        if (isMounted) {
-          setProjects(responseData);
-        }
+        if (isMounted) setProjects(responseData);
       } catch (error) {
         console.error("Unable to fetch projects", error);
       } finally {
-        if (isMounted) {
-          setIsLoading(false);
-        }
+        if (isMounted) setIsLoading(false);
       }
     };
-
     fetchData();
-    return () => {
-      isMounted = false;
-    };
+    return () => { isMounted = false; };
   }, []);
 
   return (
@@ -39,44 +99,41 @@ const Project = () => {
         transition={{ duration: 0.55, ease: "easeOut" }}
       >
         <span className="projects-eyebrow">Selected Work</span>
-        <h1>Interfaces, systems, and stories I have built.</h1>
+        <TextReveal as="h1" mode="words" className="gradient-text">
+          Interfaces, systems, and stories I have built.
+        </TextReveal>
         <p>
-          Each project blends interaction design with technical depth — from data-heavy
+          Each project blends interaction design with technical depth â€” from data-heavy
           dashboards to playful micro-tools that refine everyday workflows.
         </p>
       </motion.header>
 
-      <div className="project-grid">
-        {(isLoading ? Array.from({ length: 6 }) : projects).map((data, index) => (
-          <motion.a
-            key={data ? data.title : `placeholder-${index}`}
-            href={data ? data.link : undefined}
-            target={data ? "_blank" : undefined}
-            rel={data ? "noopener noreferrer" : undefined}
-            className={data ? "project-card" : "project-card skeleton"}
-            initial={{ opacity: 0, y: 36 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.08 * (index % 6), duration: 0.55, ease: "easeOut" }}
-          >
-            <div className="project-visual">
-              {data ? (
-                <img src={data.image} alt={data.title} loading="lazy" />
-              ) : (
-                <span />
-              )}
-              <div className="project-overlay" aria-hidden="true" />
-            </div>
-            <div className="project-copy">
-              <span className="project-index">0{index + 1}</span>
-              <h3>{data ? data.title : "Loading project"}</h3>
-              <p>{data ? data.description : "Curating something special..."}</p>
-            </div>
-          </motion.a>
-        ))}
-      </div>
+      <motion.div
+        className="project-grid"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        {(isLoading ? Array.from({ length: 6 }) : projects).map((data, index) =>
+          data ? (
+            <ProjectCard key={data.title} data={data} index={index} />
+          ) : (
+            <motion.div
+              key={`placeholder-${index}`}
+              className="project-card skeleton"
+              variants={cardVariants}
+            >
+              <div className="project-visual"><span /></div>
+              <div className="project-copy">
+                <h3>Loading project</h3>
+                <p>Curating something special...</p>
+              </div>
+            </motion.div>
+          )
+        )}
+      </motion.div>
     </section>
   );
 };
 
 export default Project;
-

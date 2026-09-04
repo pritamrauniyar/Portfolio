@@ -1,0 +1,12 @@
+.animated-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+}
+
+.animated-bg-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}

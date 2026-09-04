@@ -1,0 +1,239 @@
+.ct-btn {
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+}
+
+/* ── Overlay ────────────────────────────── */
+.ct-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5, 5, 16, 0.9);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+/* ── Stage ───────────────────────────────── */
+.ct-stage {
+  width: min(820px, 96vw);
+  padding: 2rem 2.4rem 1.6rem;
+  border-radius: 32px;
+  background: rgba(12, 15, 35, 0.94);
+  border: 1px solid rgba(123, 92, 255, 0.2);
+  box-shadow:
+    0 40px 120px rgba(0, 0, 0, 0.6),
+    0 0 80px rgba(123, 92, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  overflow: hidden;
+}
+
+/* ── Scene ───────────────────────────────── */
+.ct-scene {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.ct-bubble-zone {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  min-height: 52px;
+  margin-bottom: 0.4rem;
+}
+
+/* ── Speech bubble ──────────────────────── */
+.ct-bubble {
+  position: relative;
+  background: rgba(135, 206, 235, 0.14);
+  border: 1.5px solid rgba(135, 206, 235, 0.5);
+  border-radius: 22px;
+  padding: 0.6rem 1.3rem;
+  max-width: 400px;
+}
+
+.ct-bubble-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #d4e4f7;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.ct-bubble-tail {
+  position: absolute;
+  bottom: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 9px solid transparent;
+  border-right: 9px solid transparent;
+  border-top: 9px solid rgba(135, 206, 235, 0.5);
+}
+
+/* ── Animation area ─────────────────────── */
+.ct-animation-area {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+}
+
+/* ── Girl ────────────────────────────────── */
+.ct-girl-wrap {
+  position: absolute;
+  bottom: 32px;
+  left: 40px;
+  z-index: 3;
+}
+
+.ct-girl-img {
+  height: 200px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.4));
+  user-select: none;
+  pointer-events: none;
+}
+
+.ct-wave-emoji {
+  position: absolute;
+  top: 8px;
+  right: -16px;
+  font-size: 1.8rem;
+  display: inline-block;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+}
+
+/* ── Train ───────────────────────────────── */
+.ct-train-wrap {
+  position: absolute;
+  bottom: 20px;
+  left: 120px;
+  z-index: 2;
+}
+
+.ct-train-svg {
+  width: 440px;
+  height: auto;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.35));
+}
+
+/* ── Ground / tracks ────────────────────── */
+.ct-ground {
+  position: absolute;
+  bottom: 18px;
+  left: 0;
+  right: 0;
+  height: 12px;
+  z-index: 1;
+}
+
+.ct-ground-line {
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #5C4A3A;
+  border-radius: 2px;
+}
+
+.ct-ground-tie {
+  position: absolute;
+  bottom: 0;
+  width: 14px;
+  height: 5px;
+  background: #4A3728;
+  border-radius: 1px;
+  opacity: 0.5;
+}
+
+/* ── Progress bar ───────────────────────── */
+.ct-progress-track {
+  width: 100%;
+  height: 4px;
+  border-radius: 99px;
+  background: rgba(123, 92, 255, 0.1);
+  overflow: hidden;
+}
+
+.ct-progress-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #E85D3A, #4A90D9);
+  box-shadow: 0 0 12px rgba(232, 93, 58, 0.4);
+}
+
+/* ── Responsive ─────────────────────────── */
+@media (max-width: 960px) {
+  .ct-stage {
+    width: min(700px, 96vw);
+  }
+
+  .ct-animation-area {
+    height: 240px;
+  }
+
+  .ct-girl-img {
+    height: 160px;
+  }
+
+  .ct-train-svg {
+    width: 360px;
+  }
+
+  .ct-bubble-text {
+    font-size: 0.88rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .ct-stage {
+    padding: 1.4rem 1rem 1.2rem;
+    border-radius: 24px;
+  }
+
+  .ct-animation-area {
+    height: 200px;
+  }
+
+  .ct-girl-img {
+    height: 130px;
+  }
+
+  .ct-train-svg {
+    width: 280px;
+  }
+
+  .ct-girl-wrap {
+    left: 8px;
+  }
+
+  .ct-train-wrap {
+    left: 40px;
+  }
+
+  .ct-bubble-text {
+    font-size: 0.78rem;
+    white-space: normal;
+  }
+
+  .ct-bubble {
+    max-width: 260px;
+  }
+
+  .ct-ground-tie {
+    width: 10px;
+  }
+}

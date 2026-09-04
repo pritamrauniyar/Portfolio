@@ -37,6 +37,7 @@
 }
 
 .blogs-coming-soon {
+  position: relative;
   padding: 2.4rem 2rem;
   border-radius: 32px;
   border: 1px solid rgba(123, 92, 255, 0.18);
@@ -45,6 +46,22 @@
   display: grid;
   gap: 1rem;
   max-width: 720px;
+  overflow: hidden;
+}
+
+.blogs-shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(123, 92, 255, 0.06) 45%,
+    rgba(123, 92, 255, 0.12) 50%,
+    rgba(123, 92, 255, 0.06) 55%,
+    transparent 60%
+  );
+  animation: shimmer 3s ease-in-out infinite;
+  pointer-events: none;
 }
 
 .blogs-badge {
@@ -57,6 +74,7 @@
   text-transform: uppercase;
   font-size: 0.75rem;
   color: rgba(201, 193, 255, 0.8);
+  animation: pulse-glow 2.5s ease-in-out infinite;
 }
 
 .blogs-coming-soon h2 {

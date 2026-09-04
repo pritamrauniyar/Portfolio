@@ -1,12 +1,12 @@
 .home-container {
   display: flex;
   flex-direction: column;
-  gap: 5.5rem;
+  gap: 0;
+  margin-top: -108px;
 }
 
 @media (max-width: 768px) {
   .home-container {
-    gap: 4rem;
+    margin-top: -88px;
   }
 }
-

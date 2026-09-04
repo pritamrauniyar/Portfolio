@@ -1,0 +1,13 @@
+.tilt-card {
+  position: relative;
+  will-change: transform;
+}
+
+.tilt-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+  transition: opacity 0.3s ease;
+}

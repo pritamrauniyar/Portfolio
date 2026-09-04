@@ -1,24 +1,33 @@
 [
   {
     "id": "01",
-    "startDate": "June 2023",
+    "startDate": "Nov 2025",
     "endDate": "Present",
     "type": "Full Time Employee",
     "imageSource": "/work.png",
-    "title": "Elevate K-12",
-    "desc": "I worked as a SDE 1 at this firm. I worked with tech stacks such as angular.js, Dynamic 365, HTML, and CSS. New Journey to become elevate and will do my best for the growth of company and myself."
+    "title": "Uber",
+    "desc": "Working as a Software Engineer II in the Enterprise Experience Ads team. Owned Lapsed Customer Targeting across Ads & Offers, driving over $1M incremental spend in Offers and approximately $3M annualized in Ads. Contributed to New-to-Brand Targeting generating nearly $10M in annual spend. Led the unification and revamp of campaign creation forms across Ads and Offers."
   },
   {
     "id": "02",
+    "startDate": "June 2023",
+    "endDate": "Sept 2025",
+    "type": "Full Time Employee",
+    "imageSource": "/work.png",
+    "title": "Elevate K-12",
+    "desc": "Worked as an SDE in the Classroom Experience team. Led development of an Angular-based microservice with CI/CD pipelines, Azure AD B2C SSO, and lazy loading. Achieved 5-6x speed improvements via API call reduction, token caching, and CDN delivery. Built a virtual keyboard and multi-user collaboration browser. Drove POCs for OpenAI Whisper transcription and Jitsi Web SDK integration."
+  },
+  {
+    "id": "03",
     "startDate": "June 2022",
     "endDate": "April 2023",
     "type": "Full Time Employee",
     "imageSource": "/work.png",
     "title": "Ola Electric Technologies",
-    "desc": "I worked as a SDE 1 at this firm. I worked with tech stacks such as React.js, Node.js, Next.js, HTML, and CSS. My major projects included creating UI for debit/credit cards and the project called 'Promise Engine'."
+    "desc": "Worked as an SDE in the Customer Onboarding team. Enhanced post-onboarding user journeys and purchase processes. Developed a seamless payment UI with React, including robust API validation for debit/credit card transactions. Implemented delivery date filtering by date, time, and location."
   },
   {
-    "id": "03",
+    "id": "04",
     "startDate": "2018",
     "endDate": "2022",
     "type": "Graduation (Bachelors)",
@@ -27,7 +36,7 @@
     "desc": "Here, I pursued a bachelor's degree, majoring in Electronics and Communication Engineering. The institute is located in Prayagraj, UP, India. This was a crucial period where I deepened my understanding of engineering concepts."
   },
   {
-    "id": "04",
+    "id": "05",
     "startDate": "2015",
     "endDate": "2017",
     "type": "Secondary Education",
@@ -36,7 +45,7 @@
     "desc": "I completed my secondary schooling, such as 11th and 12th grades, at this school in my hometown, Janakpur. I chose Science as a major with Computer Science as an extra subject. It was here that I began to develop my interest in technology."
   },
   {
-    "id": "05",
+    "id": "06",
     "startDate": "",
     "endDate": "2015",
     "type": "Primary Education",

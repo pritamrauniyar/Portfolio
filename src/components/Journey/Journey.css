@@ -1,8 +1,8 @@
 .journey {
   position: relative;
   display: grid;
-  gap: 3.8rem;
-  padding-bottom: 1rem;
+  gap: 2.2rem;
+  padding: 3rem 0 1rem;
 }
 
 .journey-header {
@@ -53,6 +53,23 @@
   display: grid;
   gap: 0.75rem;
   min-height: 220px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.journey-highlight-card:hover {
+  border-color: rgba(123, 92, 255, 0.45);
+  box-shadow: 0 0 20px rgba(123, 92, 255, 0.2), var(--shadow-md);
+}
+
+.journey-highlight-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.journey-company-logo {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .journey-highlight-card footer {

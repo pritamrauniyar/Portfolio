@@ -1,25 +1,41 @@
 import TreeModal from "../../components/TreeModal/TreeModal";
 import "./About.css";
 import { motion } from "framer-motion";
+import { getTechIcon } from "../../components/SvgIcons/TechIcons";
+import TextReveal from "../../components/TextReveal/TextReveal";
 
 const skillColumns = [
   {
     heading: "Languages",
-    items: ["TypeScript", "JavaScript", "C++", "Java"],
+    items: ["JavaScript", "TypeScript", "Go (Golang)", "C++", "Java", "SQL"],
   },
   {
     heading: "Frameworks",
-    items: ["React", "Next.js", "Angular", "Node.js"],
+    items: ["React", "Fusion.js", "Angular", "Node.js", "Next.js", "RxJS"],
   },
   {
     heading: "Platforms",
-    items: ["Azure", "Vercel", "Firebase", "GitHub Actions"],
+    items: ["Azure AD B2C", "Azure DevOps", "AWS Cloud"],
   },
   {
     heading: "Tooling",
-    items: ["Jira", "Storybook", "Postman", "Redux Toolkit"],
+    items: ["Jira", "UMonitor", "Postman", "Git/GitLab", "DynamoDB"],
   },
 ];
+
+const iconContainerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.06 } },
+};
+
+const iconItemVariants = {
+  hidden: { scale: 0, opacity: 0 },
+  visible: {
+    scale: 1,
+    opacity: 1,
+    transition: { type: "spring", stiffness: 350, damping: 15 },
+  },
+};
 
 const About = () => {
   return (
@@ -32,7 +48,9 @@ const About = () => {
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
         <span className="about-eyebrow">About</span>
-        <h1>Engineer, collaborator, perpetual learner.</h1>
+        <TextReveal as="h1" mode="chars" className="gradient-text">
+          Engineer, collaborator, perpetual learner.
+        </TextReveal>
         <p>
           I turn ambitious concepts into delightful, performant interfaces. My experience
           spans fast-paced product teams and large-scale engineering organisations, where I
@@ -42,7 +60,7 @@ const About = () => {
 
       <div className="about-grid">
         <motion.article
-          className="about-card"
+          className="about-card about-card-gradient-border"
           initial={{ y: 32, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           viewport={{ once: true, amount: 0.5 }}
@@ -81,7 +99,7 @@ const About = () => {
         className="about-stack"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.5 }}
+        viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.65, ease: "easeOut" }}
       >
         <h2>Capabilities</h2>
@@ -89,11 +107,32 @@ const About = () => {
           {skillColumns.map((column) => (
             <div key={column.heading} className="stack-column">
               <span>{column.heading}</span>
-              <ul>
-                {column.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
+              <motion.ul
+                variants={iconContainerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.3 }}
+              >
+                {column.items.map((item, idx) => {
+                  const IconComponent = getTechIcon(item);
+                  return (
+                    <motion.li
+                      key={item}
+                      variants={iconItemVariants}
+                      style={{ animationDelay: `${idx * 0.15}s` }}
+                      className="stack-item-with-icon"
+                    >
+                      {IconComponent && (
+                        <span className="stack-icon-wrapper">
+                          <IconComponent size={24} />
+                        </span>
+                      )}
+                      <span>{item}</span>
+                      <span className="stack-tooltip">{item}</span>
+                    </motion.li>
+                  );
+                })}
+              </motion.ul>
             </div>
           ))}
         </div>
@@ -109,4 +148,3 @@ const About = () => {
 };
 
 export default About;
-

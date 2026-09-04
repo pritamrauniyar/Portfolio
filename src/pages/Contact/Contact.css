@@ -118,6 +118,7 @@
 }
 
 .icon-circle {
+  position: relative;
   width: 42px;
   height: 42px;
   border-radius: 999px;
@@ -125,6 +126,12 @@
   place-items: center;
   background: rgba(123, 92, 255, 0.18);
   border: 1px solid rgba(123, 92, 255, 0.32);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-socials a:hover .icon-circle {
+  border-color: rgba(123, 92, 255, 0.6);
+  box-shadow: 0 0 16px rgba(123, 92, 255, 0.35);
 }
 
 @media (max-width: 640px) {

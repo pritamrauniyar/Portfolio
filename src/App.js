@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { AnimatePresence } from "framer-motion";
 import "./App.css";
 import About from "./pages/About/About";
 import Contact from "./pages/Contact/Contact";
@@ -10,31 +11,30 @@ import Home from "./pages/Home/Home";
 import Certificates from "./pages/Certificates/Certificates";
 import Blogs from "./pages/Blogs/Blogs";
 import { MyContextProvider } from "./components/MyContext/MyContext";
+import AnimatedBackground from "./components/AnimatedBackground/AnimatedBackground";
+import PageTransition from "./components/PageTransition/PageTransition";
+import SmoothScroll, { useLenis } from "./components/SmoothScroll/SmoothScroll";
+import CustomCursor from "./components/CustomCursor/CustomCursor";
 import ReactGA from "react-ga4";
 
-// Initialize Google Analytics
 ReactGA.initialize("G-1SJ51YJ4NT");
 
 function App() {
   return (
     <MyContextProvider>
       <Router>
-        <div className="App">
-          <Navbar />
-          <main>
-            <AnalyticsWrapper>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/project" element={<Project />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/certificates" element={<Certificates />} />
-                <Route path="/blogs" element={<Blogs />} />
-              </Routes>
-            </AnalyticsWrapper>
-          </main>
-          <Footer />
-        </div>
+        <SmoothScroll>
+          <div className="App">
+            <div className="noise-overlay" aria-hidden="true" />
+            <CustomCursor />
+            <AnimatedBackground />
+            <Navbar />
+            <main>
+              <AnimatedRoutes />
+            </main>
+            <Footer />
+          </div>
+        </SmoothScroll>
       </Router>
     </MyContextProvider>
   );
@@ -42,17 +42,29 @@ function App() {
 
 export default App;
 
-// Component to handle Google Analytics page tracking
-function AnalyticsWrapper({ children }) {
+function AnimatedRoutes() {
   const location = useLocation();
+  const lenisRef = useLenis();
 
   useEffect(() => {
-    // Send a pageview to Google Analytics
     ReactGA.send({ hitType: "pageview", page: location.pathname });
-  }, [location]);
+    if (lenisRef?.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [location, lenisRef]);
 
-  return <>{children}</>;
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<PageTransition><Home /></PageTransition>} />
+        <Route path="/project" element={<PageTransition><Project /></PageTransition>} />
+        <Route path="/about" element={<PageTransition><About /></PageTransition>} />
+        <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
+        <Route path="/certificates" element={<PageTransition><Certificates /></PageTransition>} />
+        <Route path="/blogs" element={<PageTransition><Blogs /></PageTransition>} />
+      </Routes>
+    </AnimatePresence>
+  );
 }
-
-
-

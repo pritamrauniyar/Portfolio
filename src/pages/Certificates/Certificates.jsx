@@ -1,6 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import "./Certificates.css";
+import TiltCard from "../../components/TiltCard/TiltCard";
+import TextReveal from "../../components/TextReveal/TextReveal";
 
 const certifications = [
   {
@@ -95,6 +97,26 @@ const certifications = [
   },
 ];
 
+const containerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08 } },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 40, scale: 0.96 },
+  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.55, ease: "easeOut" } },
+};
+
+const chipVariants = {
+  hidden: { opacity: 0, y: 12, scale: 0.8 },
+  visible: (i) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { delay: 0.05 * i, duration: 0.35, ease: "easeOut" },
+  }),
+};
+
 const Certificates = () => {
   return (
     <section className="certifications section-wrapper">
@@ -105,50 +127,64 @@ const Certificates = () => {
         transition={{ duration: 0.55, ease: "easeOut" }}
       >
         <span className="certifications-eyebrow">Credentials</span>
-        <h1>Constantly sharpening the craft.</h1>
+        <TextReveal as="h1" mode="words" className="gradient-text">
+          Constantly sharpening the craft.
+        </TextReveal>
         <p>
           Certifications that reflect my commitment to staying curious, advancing my
           technical range, and contributing with confidence across the stack.
         </p>
       </motion.header>
 
-      <div className="certifications-list">
+      <motion.div
+        className="certifications-list"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.05 }}
+      >
         {certifications.map((cert, index) => (
-          <motion.article
-            key={cert.name}
-            className="cert-card"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.35 }}
-            transition={{ delay: 0.06 * (index % 5), duration: 0.55, ease: "easeOut" }}
-          >
-            <div className="cert-visual">
-              <img src={cert.image} alt={cert.name} loading="lazy" />
-              <span className="cert-chip">{cert.issuedDate}</span>
-            </div>
-            <div className="cert-details">
-              <h2 className="cert-name">{cert.name}</h2>
-              <p className="cert-org">Issued by {cert.issuingOrganization}</p>
-              <a
-                className="cert-link"
-                href={cert.credentialUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                View credential
-              </a>
-              <ul className="cert-skill-list">
-                {cert.skills.map((skill) => (
-                  <li key={`${cert.name}-${skill}`}>{skill}</li>
-                ))}
-              </ul>
-            </div>
-          </motion.article>
+          <motion.div key={cert.name} variants={cardVariants}>
+            <TiltCard tiltMax={5} scale={1.02}>
+              <article className="cert-card">
+                <div className="cert-visual">
+                  <img src={cert.image} alt={cert.name} loading="lazy" />
+                  <span className="cert-chip">{cert.issuedDate}</span>
+                </div>
+                <div className="cert-details">
+                  <h2 className="cert-name">{cert.name}</h2>
+                  <p className="cert-org">Issued by {cert.issuingOrganization}</p>
+                  <a
+                    className="cert-link"
+                    href={cert.credentialUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-cursor="link"
+                  >
+                    View credential
+                  </a>
+                  <ul className="cert-skill-list">
+                    {cert.skills.map((skill, i) => (
+                      <motion.li
+                        key={`${cert.name}-${skill}`}
+                        variants={chipVariants}
+                        custom={i}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                      >
+                        {skill}
+                      </motion.li>
+                    ))}
+                  </ul>
+                </div>
+              </article>
+            </TiltCard>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   );
 };
 
 export default Certificates;
-

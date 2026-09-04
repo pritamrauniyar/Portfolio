@@ -76,6 +76,15 @@
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: rgba(201, 193, 255, 0.78);
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.cert-card {
+  transition: border-color 0.3s ease;
+}
+
+.cert-card:hover {
+  border-color: rgba(123, 92, 255, 0.45);
 }
 
 .cert-details {

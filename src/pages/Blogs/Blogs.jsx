@@ -1,5 +1,6 @@
 import "./Blogs.css";
 import { motion } from "framer-motion";
+import TextReveal from "../../components/TextReveal/TextReveal";
 
 const Blogs = () => {
   return (
@@ -11,10 +12,12 @@ const Blogs = () => {
         transition={{ duration: 0.55, ease: "easeOut" }}
       >
         <span className="blogs-eyebrow">Blogs</span>
-        <h1>Insights, deep dives, and engineering stories.</h1>
+        <TextReveal as="h1" mode="words" className="gradient-text">
+          Insights, deep dives, and engineering stories.
+        </TextReveal>
         <p>
           I am lining up articles on architecture lessons, frontend craft, and product delivery.
-          Check back soon—fresh perspectives are on the way.
+          Check back soonï¿½fresh perspectives are on the way.
         </p>
       </motion.header>
 
@@ -29,6 +32,7 @@ const Blogs = () => {
         <p>
           I am building the publishing workflow and backend to share detailed write-ups. Follow me on LinkedIn for updates in the meantime.
         </p>
+        <div className="blogs-shimmer" aria-hidden="true" />
       </motion.div>
     </section>
   );

@@ -50,17 +50,35 @@
   border-radius: 30px;
   text-decoration: none;
   color: inherit;
-  border: 1px solid rgba(123, 92, 255, 0.18);
-  background: linear-gradient(160deg, rgba(18, 20, 52, 0.9), rgba(13, 15, 34, 0.78));
+  border: 1px solid rgba(123, 92, 255, 0.12);
+  background: rgba(12, 15, 35, 0.6);
   box-shadow: var(--shadow-md);
   overflow: hidden;
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  transition: border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.project-spotlight {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: radial-gradient(
+    500px circle at var(--spotlight-x, 50%) var(--spotlight-y, 50%),
+    rgba(123, 92, 255, 0.12),
+    transparent 40%
+  );
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.project-card:hover .project-spotlight {
+  opacity: 1;
 }
 
 .project-card:hover,
 .project-card:focus {
-  transform: translateY(-6px);
-  box-shadow: 0 30px 65px rgba(15, 15, 40, 0.55);
+  border-color: rgba(123, 92, 255, 0.35);
+  box-shadow: 0 0 28px rgba(123, 92, 255, 0.12), 0 30px 65px rgba(15, 15, 40, 0.55);
 }
 
 .project-visual {
@@ -76,12 +94,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
-}
-
-.project-card:hover .project-visual img,
-.project-card:focus .project-visual img {
-  transform: scale(1.05);
+  transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  will-change: transform;
 }
 
 .project-overlay {
@@ -145,14 +159,20 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
   .project-card {
-    padding: 1.4rem;
-    border-radius: 26px;
+    padding: 1.2rem;
+    border-radius: 22px;
   }
 
   .project-visual {
-    border-radius: 20px;
+    border-radius: 18px;
   }
 }
 
