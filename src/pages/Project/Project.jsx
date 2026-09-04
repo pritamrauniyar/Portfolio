@@ -2,7 +2,8 @@ import "./Project.css";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import TextReveal from "../../components/TextReveal/TextReveal";
-import { FaGithub, FaExternalLinkAlt, FaSearch } from "react-icons/fa";
+import { FaGithub, FaExternalLinkAlt, FaSearch, FaMicrochip } from "react-icons/fa";
+import sound from "../../utils/soundEngine";
 
 const CATEGORIES = [
   "All",
@@ -27,6 +28,13 @@ const ProjectCard = ({ data, index }) => {
   const cardRef = useRef(null);
   const imgRef = useRef(null);
   const [spotlight, setSpotlight] = useState({ x: 50, y: 50 });
+
+  const archTarget = useMemo(() => {
+    const title = (data.title || "").toLowerCase();
+    if (title.includes("transcription")) return "ai-transcription";
+    if (title.includes("inspector") || title.includes("net")) return "net-inspector";
+    return null;
+  }, [data.title]);
 
   const handleMouseMove = useCallback((e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -102,6 +110,8 @@ const ProjectCard = ({ data, index }) => {
               rel="noopener noreferrer"
               className="project-btn primary"
               data-cursor="link"
+              onClick={() => sound.playClick()}
+              onMouseEnter={() => sound.playHover()}
             >
               <FaExternalLinkAlt aria-hidden="true" /> Live Demo
             </a>
@@ -112,9 +122,28 @@ const ProjectCard = ({ data, index }) => {
                 rel="noopener noreferrer"
                 className="project-btn secondary"
                 data-cursor="link"
+                onClick={() => sound.playClick()}
+                onMouseEnter={() => sound.playHover()}
               >
                 <FaGithub aria-hidden="true" /> Source
               </a>
+            )}
+            {archTarget && (
+              <button
+                type="button"
+                className="project-btn arch-btn"
+                onClick={() => {
+                  sound.playSuccess();
+                  window.dispatchEvent(
+                    new CustomEvent("open-arch-modal", { detail: archTarget })
+                  );
+                }}
+                data-cursor="link"
+                onMouseEnter={() => sound.playHover()}
+                title="Inspect System Architecture Blueprint"
+              >
+                <FaMicrochip aria-hidden="true" /> Architecture
+              </button>
             )}
           </div>
         </div>

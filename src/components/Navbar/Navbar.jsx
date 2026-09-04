@@ -2,6 +2,8 @@ import { Link, useLocation } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import { FaSearch } from "react-icons/fa";
+import { useTheme } from "../../context/ThemeContext";
+import sound from "../../utils/soundEngine";
 import "./Navbar.css";
 
 const links = [
@@ -13,10 +15,19 @@ const links = [
   { label: "Contact", to: "/contact" },
 ];
 
-const Navbar = ({ onOpenCmd }) => {
+const Navbar = ({ onOpenCmd, onOpenHud }) => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const activePath = useMemo(() => location.pathname, [location.pathname]);
+  const { theme, cycleTheme, availableThemes } = useTheme();
+  const [isSoundMuted, setIsSoundMuted] = useState(() => sound.isMuted());
+
+  useEffect(() => {
+    const unsub = sound.subscribe((muted) => setIsSoundMuted(muted));
+    return unsub;
+  }, []);
+
+  const activeThemeObj = availableThemes.find((t) => t.id === theme) || availableThemes[0];
 
   const { scrollY } = useScroll();
   const navBg = useTransform(
@@ -49,7 +60,12 @@ const Navbar = ({ onOpenCmd }) => {
       }}
     >
       <div className="nav-content section-wrapper">
-        <Link to="/" className="brand" aria-label="Back to home">
+        <Link
+          to="/"
+          className="brand"
+          aria-label="Back to home"
+          onClick={() => sound.playClick()}
+        >
           <span className="brand-glow" aria-hidden="true" />
           <span className="brand-icon">
             <svg width="32" height="32" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -69,6 +85,8 @@ const Navbar = ({ onOpenCmd }) => {
                 to={link.to}
                 className={activePath === link.to ? "active" : ""}
                 data-cursor="link"
+                onClick={() => sound.playClick()}
+                onMouseEnter={() => sound.playHover()}
               >
                 {link.label}
                 {activePath === link.to && (
@@ -84,9 +102,65 @@ const Navbar = ({ onOpenCmd }) => {
         </ul>
 
         <div className="nav-actions">
+          {/* Sound FX Toggle */}
+          <button
+            className={`nav-action-btn sound-btn ${!isSoundMuted ? "sound-active" : ""}`}
+            onClick={() => sound.toggleMute()}
+            onMouseEnter={() => sound.playHover()}
+            type="button"
+            aria-label="Toggle procedural sound effects"
+            title={isSoundMuted ? "Sound: Muted (Click to Enable Audio Haptics)" : "Sound: Active (0 kB Web Audio)"}
+          >
+            {isSoundMuted ? (
+              <span className="sound-muted-icon">🔇</span>
+            ) : (
+              <span className="nav-equalizer">
+                <span className="eq-bar bar-1" />
+                <span className="eq-bar bar-2" />
+                <span className="eq-bar bar-3" />
+              </span>
+            )}
+          </button>
+
+          {/* Theme Switcher */}
+          <button
+            className="nav-action-btn theme-btn"
+            onClick={cycleTheme}
+            onMouseEnter={() => sound.playHover()}
+            type="button"
+            aria-label={`Current Theme: ${activeThemeObj.label}. Click to cycle theme`}
+            title={`Theme: ${activeThemeObj.label} (${activeThemeObj.description})`}
+          >
+            <span className="theme-icon">{activeThemeObj.icon}</span>
+            <span className="theme-label">{activeThemeObj.label}</span>
+          </button>
+
+          {/* Engineering HUD Launcher */}
+          {onOpenHud && (
+            <button
+              className="nav-action-btn hud-launcher-btn"
+              onClick={() => {
+                sound.playClick();
+                onOpenHud();
+              }}
+              onMouseEnter={() => sound.playHover()}
+              type="button"
+              aria-label="Open Engineering Telemetry HUD"
+              title="Open Real-Time Engineering HUD (Ctrl+I)"
+            >
+              <span className="hud-badge-dot" />
+              <span className="hud-launcher-text">HUD</span>
+            </button>
+          )}
+
+          {/* Command Palette Launcher */}
           <button
             className="nav-cmd-btn"
-            onClick={onOpenCmd}
+            onClick={() => {
+              sound.playClick();
+              onOpenCmd?.();
+            }}
+            onMouseEnter={() => sound.playHover()}
             type="button"
             aria-label="Open Command Palette"
             title="Search or jump to page (Cmd+K or Ctrl+K)"
@@ -99,7 +173,10 @@ const Navbar = ({ onOpenCmd }) => {
 
           <button
             className={isOpen ? "nav-toggle is-open" : "nav-toggle"}
-            onClick={() => setIsOpen((open) => !open)}
+            onClick={() => {
+              sound.playClick();
+              setIsOpen((open) => !open);
+            }}
             aria-label="Toggle navigation"
             aria-expanded={isOpen}
             type="button"
@@ -124,6 +201,7 @@ const Navbar = ({ onOpenCmd }) => {
               <button
                 className="nav-mobile-cmd-btn"
                 onClick={() => {
+                  sound.playClick();
                   setIsOpen(false);
                   onOpenCmd?.();
                 }}
@@ -132,11 +210,44 @@ const Navbar = ({ onOpenCmd }) => {
                 <FaSearch /> Search / Commands (⌘K)
               </button>
             </li>
+            <li className="nav-mobile-tools">
+              <button
+                className="nav-mobile-tool-btn"
+                onClick={() => {
+                  sound.toggleMute();
+                }}
+                type="button"
+              >
+                {isSoundMuted ? "🔇 Audio Haptics: Off" : "🔊 Audio Haptics: On"}
+              </button>
+              <button
+                className="nav-mobile-tool-btn"
+                onClick={() => {
+                  cycleTheme();
+                }}
+                type="button"
+              >
+                {activeThemeObj.icon} Theme: {activeThemeObj.label}
+              </button>
+              {onOpenHud && (
+                <button
+                  className="nav-mobile-tool-btn"
+                  onClick={() => {
+                    setIsOpen(false);
+                    onOpenHud();
+                  }}
+                  type="button"
+                >
+                  📊 Open Engineering HUD
+                </button>
+              )}
+            </li>
             {links.map((link) => (
               <li key={`${link.to}-mobile`}>
                 <Link
                   to={link.to}
                   className={activePath === link.to ? "active" : ""}
+                  onClick={() => sound.playClick()}
                 >
                   {link.label}
                 </Link>

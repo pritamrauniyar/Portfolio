@@ -315,6 +315,20 @@
   transform: translateY(-2px);
 }
 
+.project-btn.arch-btn {
+  background: rgba(123, 92, 255, 0.14);
+  border: 1px solid var(--accent-400);
+  color: var(--accent-300);
+}
+
+.project-btn.arch-btn:hover {
+  background: rgba(123, 92, 255, 0.28);
+  border-color: #ffffff;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(123, 92, 255, 0.4);
+}
+
 .projects-empty {
   grid-column: 1 / -1;
   padding: 3rem 1rem;

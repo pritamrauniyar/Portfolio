@@ -6,6 +6,8 @@ import TextReveal from "../TextReveal/TextReveal";
 import MagneticButton from "../MagneticButton/MagneticButton";
 import ResumeDownload from "../ResumeDownload/ResumeDownload";
 import CollaborateTransition from "../CollaborateTransition/CollaborateTransition";
+import InteractiveTerminal from "../InteractiveTerminal/InteractiveTerminal";
+import sound from "../../utils/soundEngine";
 
 const impactMetrics = [
   { value: "4+", label: "Years of engineering" },
@@ -17,33 +19,21 @@ const impactMetrics = [
 const containerVariants = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.2 },
+    transition: { staggerChildren: 0.08, delayChildren: 0.15 },
   },
 };
 
 const cellVariants = {
-  hidden: { opacity: 0, y: 30, scale: 0.96 },
+  hidden: { opacity: 0, y: 25, scale: 0.97 },
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { duration: 0.7, ease: [0.25, 0.46, 0.45, 0.94] },
+    transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
   },
 };
 
-const StatusBadge = () => (
-  <motion.div
-    className="status-badge"
-    initial={{ opacity: 0, scale: 0.8 }}
-    animate={{ opacity: 1, scale: 1 }}
-    transition={{ delay: 0.8, duration: 0.5 }}
-  >
-    <span className="status-dot" />
-    <span>Software Engineer II @ Uber/ AI Engineer</span>
-  </motion.div>
-);
-
-const MetricCell = ({ metric, index }) => {
+const MetricCell = ({ metric }) => {
   const count = useMotionValue(0);
   const numericPart = parseFloat(metric.value.replace(/[^0-9.]/g, ""));
   const prefix = metric.value.startsWith("$") ? "$" : "";
@@ -73,6 +63,7 @@ const MetricCell = ({ metric, index }) => {
       className="bento-metric"
       variants={cellVariants}
       whileHover={{ y: -4, borderColor: "rgba(123, 92, 255, 0.5)" }}
+      onMouseEnter={() => sound.playHover()}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
     >
       <motion.span className="bento-metric-value">{rounded}</motion.span>
@@ -82,9 +73,9 @@ const MetricCell = ({ metric, index }) => {
 };
 
 const subcopyStrings = [
-  "I craft high-impact web platforms that power products at scale, blending obsessive frontend craft with full-stack product thinking.",
-  "I build resilient systems that handle millions of users, turning complex requirements into clean, scalable architectures.",
-  "I partner with cross-functional teams to ship experiences users love, combining design sensibility with engineering rigor.",
+  "Building distributed web systems that scale to millions of users, blending frontend craft with systems thinking.",
+  "Architecting resilient real-time streaming pipelines with AudioWorklet, WebSockets, and Web Workers.",
+  "Obsessed with shaving milliseconds off INP/LCP and building tactile, zero-stutter web experiences.",
 ];
 
 const HeroSection = () => {
@@ -92,30 +83,53 @@ const HeroSection = () => {
   const subcopyAnimation = useRef(null);
   const heroRef = useRef(null);
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
+  const [istTime, setIstTime] = useState("");
 
-  const typedOptions = useMemo(
+  // Live Bangalore (IST) timezone presence clock
+  useEffect(() => {
+    const updateTime = () => {
+      try {
+        const now = new Date();
+        const istString = now.toLocaleTimeString("en-US", {
+          timeZone: "Asia/Kolkata",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: true,
+        });
+        setIstTime(istString);
+      } catch (e) {
+        setIstTime(new Date().toLocaleTimeString());
+      }
+    };
+    updateTime();
+    const timer = setInterval(updateTime, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const subcopyOptions = useMemo(
     () => ({
-      strings: [
-        "Building Scalable Web Platforms",
-        "Crafting Delightful User Experiences",
-        "Full-Stack Product Engineering",
-        "Frontend Architecture & Design Systems",
-        "Performance Optimization at Scale",
-      ],
-      typeSpeed: 46,
-      backSpeed: 32,
+      strings: subcopyStrings,
+      typeSpeed: 26,
+      backSpeed: 14,
+      backDelay: 3200,
       loop: true,
       smartBackspace: true,
     }),
     []
   );
 
-  const subcopyOptions = useMemo(
+  const typedOptions = useMemo(
     () => ({
-      strings: subcopyStrings,
-      typeSpeed: 28,
-      backSpeed: 16,
-      backDelay: 3000,
+      strings: [
+        "Distributed Web Architecture",
+        "Real-Time WebSocket Pipelines",
+        "High-Throughput Telemetry",
+        "Generative AI UI Workflows",
+        "Micro-Frontends at Scale",
+      ],
+      typeSpeed: 44,
+      backSpeed: 30,
       loop: true,
       smartBackspace: true,
     }),
@@ -141,13 +155,20 @@ const HeroSection = () => {
     });
   }, []);
 
+  const openArchitecture = (id = "ai-transcription") => {
+    sound.playSuccess();
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("open-arch-modal", { detail: id }));
+    }
+  };
+
   return (
     <section className="hero" ref={heroRef} onMouseMove={handleMouseMove}>
       <div
         className="hero-spotlight"
         aria-hidden="true"
         style={{
-          background: `radial-gradient(800px circle at ${mousePos.x * 100}% ${mousePos.y * 100}%, rgba(123,92,255,0.08), transparent 40%)`,
+          background: `radial-gradient(900px circle at ${mousePos.x * 100}% ${mousePos.y * 100}%, rgba(123,92,255,0.09), transparent 45%)`,
         }}
       />
 
@@ -159,38 +180,60 @@ const HeroSection = () => {
       >
         {/* Main headline cell */}
         <motion.div className="bento-cell bento-headline" variants={cellVariants}>
-          <StatusBadge />
-          <TextReveal
-            as="h1"
-            mode="chars"
-            className="hero-title"
-          >
+          <div className="hero-top-meta">
+            <div className="status-badge">
+              <span className="status-dot" />
+              <span>Software Engineer II @ Uber / AI Engineer</span>
+            </div>
+
+            {/* Live Timezone Widget */}
+            <div className="timezone-badge" title="Live Bangalore local time">
+              <span className="timezone-icon">📍</span>
+              <span className="timezone-city">Bangalore, IN</span>
+              <span className="timezone-sep">•</span>
+              <span className="timezone-clock">{istTime || "IST (UTC+5:30)"}</span>
+            </div>
+          </div>
+
+          <TextReveal as="h1" mode="chars" className="hero-title">
             Building systems that move millions.
           </TextReveal>
+
           <motion.div
             className="hero-subcopy"
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.7 }}
+            transition={{ delay: 0.5, duration: 0.6 }}
           >
             <span ref={subcopyAnimation} />
           </motion.div>
-        </motion.div>
 
-        {/* Photo + typed cell */}
-        <motion.div className="bento-cell bento-profile" variants={cellVariants}>
-          <div className="bento-profile-img-wrap">
-            <img src="/developerpic.png" alt="Pritam Rauniyar" />
-            <div className="bento-profile-glow" aria-hidden="true" />
+          {/* Quick Architecture and Deep Dive triggers */}
+          <div className="hero-arch-pills">
+            <span className="arch-pills-label">Systems Architecture:</span>
+            <button
+              type="button"
+              className="arch-pill-btn"
+              onClick={() => openArchitecture("ai-transcription")}
+              onMouseEnter={() => sound.playHover()}
+            >
+              <span className="pill-dot" />
+              <span>AI Audio Pipeline (Sub-200ms)</span>
+              <span className="pill-arrow">↗</span>
+            </button>
+            <button
+              type="button"
+              className="arch-pill-btn"
+              onClick={() => openArchitecture("net-inspector")}
+              onMouseEnter={() => sound.playHover()}
+            >
+              <span className="pill-dot" />
+              <span>Network Diagnostic Engine (Zero-GC)</span>
+              <span className="pill-arrow">↗</span>
+            </button>
           </div>
-          <div className="bento-typed">
-            <span className="bento-typed-label">Exploring</span>
-            <span className="bento-typed-text" ref={heroAnimation} />
-          </div>
-        </motion.div>
 
-        {/* CTA cell */}
-        <motion.div className="bento-cell bento-cta" variants={cellVariants}>
+          {/* CTA Actions */}
           <div className="bento-cta-actions">
             <MagneticButton strength={0.25}>
               <ResumeDownload resumeUrl="/PritamRauniyarResume.pdf" />
@@ -199,6 +242,27 @@ const HeroSection = () => {
               <CollaborateTransition />
             </MagneticButton>
           </div>
+        </motion.div>
+
+        {/* Profile + typed cell */}
+        <motion.div className="bento-cell bento-profile" variants={cellVariants}>
+          <div className="bento-profile-img-wrap">
+            <img src="/developerpic.png" alt="Pritam Rauniyar" />
+            <div className="bento-profile-glow" aria-hidden="true" />
+          </div>
+          <div className="bento-typed">
+            <span className="bento-typed-label">Specializing in</span>
+            <span className="bento-typed-text" ref={heroAnimation} />
+          </div>
+          <div className="bento-profile-stats">
+            <span className="bento-mini-pill">Ex-Ola Mobility</span>
+            <span className="bento-mini-pill">MNNIT Alum</span>
+          </div>
+        </motion.div>
+
+        {/* Interactive Developer REPL Terminal Cell */}
+        <motion.div className="bento-cell bento-terminal-cell" variants={cellVariants}>
+          <InteractiveTerminal isEmbedded={true} />
         </motion.div>
 
         {/* Impact metrics cells */}

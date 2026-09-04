@@ -1,0 +1,421 @@
+.arch-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(4, 5, 15, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.arch-modal-container {
+  background: rgba(14, 16, 32, 0.95);
+  border: 1px solid rgba(123, 92, 255, 0.35);
+  border-radius: 20px;
+  max-width: 1040px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.8), 0 0 40px rgba(123, 92, 255, 0.2);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  color: #f1f5f9;
+}
+
+[data-theme="cyberpunk"] .arch-modal-container {
+  background: rgba(20, 8, 30, 0.95);
+  border-color: rgba(255, 0, 85, 0.45);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.8), 0 0 40px rgba(255, 0, 85, 0.25);
+}
+
+[data-theme="matrix"] .arch-modal-container {
+  background: rgba(4, 16, 8, 0.96);
+  border-color: rgba(0, 255, 102, 0.45);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.8), 0 0 40px rgba(0, 255, 102, 0.25);
+}
+
+.arch-modal-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.arch-modal-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+}
+
+.arch-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.arch-header-pill {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  color: var(--accent-400);
+  background: rgba(123, 92, 255, 0.15);
+  border: 1px solid rgba(123, 92, 255, 0.3);
+  padding: 4px 10px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.arch-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 6px;
+}
+
+.arch-summary {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  max-width: 800px;
+}
+
+.arch-close-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.arch-close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+.arch-tabs {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.arch-tab-btn {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 12px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  flex: 1;
+  min-width: 260px;
+}
+
+.arch-tab-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.arch-tab-btn.active {
+  background: rgba(123, 92, 255, 0.15);
+  border-color: var(--accent-400);
+  box-shadow: 0 0 20px rgba(123, 92, 255, 0.25);
+}
+
+[data-theme="cyberpunk"] .arch-tab-btn.active {
+  background: rgba(255, 0, 85, 0.15);
+  border-color: #ff0055;
+  box-shadow: 0 0 20px rgba(255, 0, 85, 0.25);
+}
+
+[data-theme="matrix"] .arch-tab-btn.active {
+  background: rgba(0, 255, 102, 0.15);
+  border-color: #00ff66;
+  box-shadow: 0 0 20px rgba(0, 255, 102, 0.25);
+}
+
+.arch-tab-badge {
+  font-size: 0.7rem;
+  font-family: monospace;
+  color: var(--accent-300);
+  text-transform: uppercase;
+}
+
+.arch-tab-name {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.arch-sla-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 12px;
+}
+
+.arch-sla-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.arch-sla-label {
+  font-size: 0.68rem;
+  font-family: monospace;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.arch-sla-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--accent-300);
+}
+
+.arch-diagram-section {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.arch-section-heading {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.arch-hint {
+  font-size: 0.78rem;
+  color: var(--accent-300);
+  font-weight: 400;
+}
+
+.arch-nodes-flow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 16px 4px 20px;
+}
+
+.arch-nodes-flow::-webkit-scrollbar {
+  height: 6px;
+}
+
+.arch-nodes-flow::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+.arch-node-card {
+  flex-shrink: 0;
+  width: 155px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 12px;
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  user-select: none;
+}
+
+.arch-node-card:hover {
+  border-color: var(--accent-400);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.arch-node-card.selected {
+  border-color: var(--accent-400);
+  box-shadow: 0 0 16px var(--accent-400);
+  background: rgba(123, 92, 255, 0.15);
+}
+
+.arch-node-card.client {
+  border-left: 3px solid #38bdf8;
+}
+
+.arch-node-card.transport {
+  border-left: 3px solid #facc15;
+}
+
+.arch-node-card.server {
+  border-left: 3px solid #a855f7;
+}
+
+.arch-node-tag {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.arch-node-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.arch-node-sub {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  display: block;
+}
+
+.arch-pipe-arrow {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+  color: var(--accent-400);
+}
+
+.arch-pipe-line {
+  width: 24px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.arch-pipe-pulse {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 100%;
+  background: var(--accent-400);
+  box-shadow: 0 0 8px var(--accent-400);
+  animation: pipe-pulse 1.4s infinite linear;
+}
+
+@keyframes pipe-pulse {
+  0% { transform: translateX(-10px); }
+  100% { transform: translateX(34px); }
+}
+
+.arch-arrow-head {
+  font-size: 0.65rem;
+  opacity: 0.8;
+}
+
+.arch-node-inspector {
+  background: rgba(123, 92, 255, 0.1);
+  border: 1px solid var(--accent-400);
+  border-radius: 12px;
+  padding: 14px 18px;
+  overflow: hidden;
+}
+
+.arch-inspector-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.arch-inspector-title {
+  font-size: 0.85rem;
+  color: #ffffff;
+}
+
+.arch-inspector-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.arch-inspector-close:hover {
+  color: #ffffff;
+}
+
+.arch-inspector-desc {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.arch-tradeoffs-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.arch-tradeoffs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 14px;
+}
+
+.arch-tradeoff-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.arch-tradeoff-title {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.arch-tradeoff-num {
+  font-family: monospace;
+  font-size: 0.78rem;
+  color: var(--accent-400);
+}
+
+.arch-tradeoff-decision {
+  font-size: 0.82rem;
+  color: var(--accent-300);
+  background: rgba(123, 92, 255, 0.08);
+  padding: 6px 10px;
+  border-radius: 8px;
+  border-left: 3px solid var(--accent-400);
+}
+
+.arch-tradeoff-rationale {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
