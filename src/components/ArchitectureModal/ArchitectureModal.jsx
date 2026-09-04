@@ -349,3 +349,4 @@ export default function ArchitectureModal({ isOpen, onClose, initialSystemId = "
     </AnimatePresence>
   );
 }
+

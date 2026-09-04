@@ -377,3 +377,4 @@ export default function InteractiveTerminal({ isEmbedded = false, onOpenArch, on
     </div>
   );
 }
+
