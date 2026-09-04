@@ -10,10 +10,34 @@ import InteractiveTerminal from "../InteractiveTerminal/InteractiveTerminal";
 import sound from "../../utils/soundEngine";
 
 const impactMetrics = [
-  { value: "4+", label: "Years of engineering" },
-  { value: "100+", label: "Products shipped" },
-  { value: "10", label: "Certifications earned" },
-  { value: "3", label: "Companies & teams" },
+  {
+    value: "4+",
+    label: "Years of engineering",
+    tag: "EXPERIENCE",
+    detail: "Full-Stack & Systems",
+    color: "#7b5cff",
+  },
+  {
+    value: "100+",
+    label: "Products shipped",
+    tag: "DELIVERED",
+    detail: "Web, Mobile & Services",
+    color: "#00c4ff",
+  },
+  {
+    value: "10",
+    label: "Certifications earned",
+    tag: "CREDENTIALS",
+    detail: "Cloud, AI & Frontend",
+    color: "#ff007a",
+  },
+  {
+    value: "3",
+    label: "Companies & teams",
+    tag: "LEADERSHIP",
+    detail: "Uber, Ola, Elevate K-12",
+    color: "#22c55e",
+  },
 ];
 
 const containerVariants = {
@@ -33,7 +57,7 @@ const cellVariants = {
   },
 };
 
-const MetricCell = ({ metric }) => {
+const MetricCell = ({ metric, index }) => {
   const count = useMotionValue(0);
   const numericPart = parseFloat(metric.value.replace(/[^0-9.]/g, ""));
   const prefix = metric.value.startsWith("$") ? "$" : "";
@@ -48,26 +72,50 @@ const MetricCell = ({ metric }) => {
       ([entry]) => {
         if (entry.isIntersecting && !hasAnimated) {
           setHasAnimated(true);
-          animate(count, numericPart, { duration: 1.8, ease: [0.25, 0.46, 0.45, 0.94] });
+          animate(count, numericPart, {
+            duration: 1.8,
+            delay: index * 0.1,
+            ease: [0.25, 0.46, 0.45, 0.94],
+          });
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.4 }
     );
     observer.observe(ref.current);
     return () => observer.disconnect();
-  }, [count, numericPart, hasAnimated]);
+  }, [count, numericPart, hasAnimated, index]);
+
+  const handleMouseMove = (e) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    ref.current.style.setProperty("--cell-x", `${x}px`);
+    ref.current.style.setProperty("--cell-y", `${y}px`);
+  };
 
   return (
     <motion.div
       ref={ref}
       className="bento-metric"
       variants={cellVariants}
-      whileHover={{ y: -4, borderColor: "rgba(123, 92, 255, 0.5)" }}
+      whileHover={{ y: -5, scale: 1.02 }}
+      onMouseMove={handleMouseMove}
       onMouseEnter={() => sound.playHover()}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      transition={{ type: "spring", stiffness: 350, damping: 22 }}
+      style={{ "--metric-accent": metric.color }}
     >
+      <div className="bento-metric-spotlight" aria-hidden="true" />
+      <div className="bento-metric-header">
+        <span className="bento-metric-tag">
+          <span className="bento-metric-dot" />
+          {metric.tag}
+        </span>
+        <span className="bento-metric-detail">{metric.detail}</span>
+      </div>
       <motion.span className="bento-metric-value">{rounded}</motion.span>
       <span className="bento-metric-label">{metric.label}</span>
+      <div className="bento-metric-progress-line" />
     </motion.div>
   );
 };

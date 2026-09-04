@@ -1,114 +1,319 @@
+/* ── Engineering Impact at Scale: Telemetry HUD ───────────── */
+
 .impact-section {
-  padding: 2.5rem 0 2rem;
+  padding: 4.8rem 0 3.5rem;
 }
 
 .impact-header {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-  margin-bottom: 3rem;
+  gap: 0.85rem;
+  margin-bottom: 2.8rem;
+}
+
+.impact-header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .impact-eyebrow {
   display: inline-flex;
-  padding: 0.3rem 0.9rem;
+  align-items: center;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--accent-300, #a78bfa);
+  background: rgba(123, 92, 255, 0.12);
+  border: 1px solid rgba(123, 92, 255, 0.28);
+  padding: 0.35rem 0.85rem;
   border-radius: 999px;
-  border: 1px solid rgba(123, 92, 255, 0.18);
-  background: rgba(16, 20, 46, 0.65);
-  font-size: 0.75rem;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: rgba(201, 193, 255, 0.72);
   width: fit-content;
 }
 
+.impact-live-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #22c55e;
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.24);
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+}
+
+.impact-beacon-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 10px #22c55e, 0 0 18px rgba(34, 197, 94, 0.6);
+  animation: im-beacon-pulse 1.8s infinite ease-in-out;
+}
+
+@keyframes im-beacon-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0.6;
+  }
+}
+
 .impact-title {
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2rem, 4.2vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
   line-height: 1.15;
+  color: #ffffff;
 }
 
 .impact-subtitle {
   color: var(--text-muted);
-  font-size: 1rem;
-  max-width: 520px;
-  line-height: 1.7;
+  font-size: 1.02rem;
+  max-width: 680px;
+  line-height: 1.68;
 }
 
+/* ── 2x2 Holographic Telemetry Grid ──────────────────────── */
 .impact-grid {
   display: grid;
-  gap: 1.6rem;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
 }
 
-.impact-metric {
-  padding: 1.6rem 1.8rem;
-  border-radius: 20px;
-  border: 1px solid rgba(123, 92, 255, 0.1);
-  background: rgba(12, 15, 35, 0.5);
+/* Telemetry Card */
+.im-card {
+  position: relative;
+  border-radius: 24px;
+  padding: 2.2rem 2.2rem 1.8rem;
+  background: rgba(12, 16, 38, 0.75);
+  border: 1px solid rgba(123, 92, 255, 0.18);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.38);
   display: flex;
   flex-direction: column;
+  gap: 1.15rem;
+  overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+  transition: border-color 0.28s ease, box-shadow 0.28s ease;
+}
+
+.im-card:hover {
+  border-color: var(--card-accent, #00c4ff);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.55),
+    0 0 35px rgba(123, 92, 255, 0.2);
+}
+
+/* Spotlight Cursor Follower */
+.im-card-spotlight {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    320px circle at var(--card-x, 50%) var(--card-y, 50%),
+    rgba(255, 255, 255, 0.08),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.im-card:hover .im-card-spotlight {
+  opacity: 1;
+}
+
+/* Card Header */
+.im-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: 1rem;
-  transition: border-color 0.3s ease;
+  width: 100%;
 }
 
-.impact-metric:hover {
-  border-color: rgba(123, 92, 255, 0.3);
+.im-category-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--card-accent, #00c4ff);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.25rem 0.65rem;
+  border-radius: 8px;
 }
 
-.impact-metric-head {
+.im-category-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--card-accent, #00c4ff);
+  box-shadow: 0 0 8px var(--card-accent, #00c4ff);
+}
+
+.im-telemetry-badge {
+  display: inline-flex;
+}
+
+.im-telemetry-pill {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.88);
+  background: rgba(123, 92, 255, 0.12);
+  border: 1px solid rgba(123, 92, 255, 0.25);
+  padding: 0.25rem 0.65rem;
+  border-radius: 8px;
+}
+
+/* Metric Value & Description */
+.im-metric-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.im-value-row {
   display: flex;
   align-items: baseline;
-  gap: 1.2rem;
-  flex-wrap: wrap;
 }
 
-.impact-value {
+.im-value {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 700;
-  letter-spacing: -0.03em;
+  font-size: clamp(2.6rem, 4.8vw, 3.8rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
   line-height: 1;
+  color: #ffffff;
+  background: linear-gradient(135deg, #ffffff 20%, var(--card-accent, #00c4ff) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.impact-label {
-  font-size: 0.92rem;
+.im-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.22rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-top: 0.35rem;
+  letter-spacing: -0.01em;
+}
+
+.im-desc {
+  font-size: 0.9rem;
   color: var(--text-muted);
-  line-height: 1.5;
-  flex: 1;
-  min-width: 200px;
+  line-height: 1.6;
 }
 
-.impact-bar-track {
+/* Sparkline Waveform */
+.im-sparkline-wrap {
   width: 100%;
-  height: 4px;
-  border-radius: 99px;
-  background: rgba(123, 92, 255, 0.08);
-  overflow: hidden;
+  height: 52px;
+  margin: 0.2rem 0;
+  opacity: 0.82;
+  transition: opacity 0.25s ease;
 }
 
-.impact-bar-fill {
+.im-card:hover .im-sparkline-wrap {
+  opacity: 1;
+}
+
+.im-sparkline {
+  width: 100%;
   height: 100%;
-  border-radius: 99px;
-  box-shadow: 0 0 12px currentColor;
+  overflow: visible;
+  filter: drop-shadow(0 0 10px var(--card-accent, #00c4ff));
 }
 
-@media (max-width: 768px) {
-  .impact-label {
-    min-width: 160px;
+/* Tech Stack Footer Tags */
+.im-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.im-stack-tag {
+  font-family: 'Space Grotesk', monospace;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+}
+
+/* Bottom Glow Accent Line */
+.im-card-glow-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2.5px;
+  background: linear-gradient(90deg, transparent, var(--card-accent, #00c4ff), transparent);
+  opacity: 0.5;
+  transition: opacity 0.3s ease, height 0.3s ease;
+}
+
+.im-card:hover .im-card-glow-line {
+  opacity: 1;
+  height: 3.5px;
+  box-shadow: 0 0 16px var(--card-accent, #00c4ff);
+}
+
+/* ── Responsive ─────────────────────────── */
+@media (max-width: 900px) {
+  .impact-grid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
   }
 }
 
 @media (max-width: 640px) {
-  .impact-metric {
-    padding: 1rem 1.1rem;
+  .impact-section {
+    padding: 3.2rem 0 2rem;
   }
 
-  .impact-metric-head {
+  .impact-header-top {
     flex-direction: column;
-    gap: 0.4rem;
+    align-items: flex-start;
+    gap: 0.6rem;
   }
 
-  .impact-label {
-    min-width: 0;
-    font-size: 0.82rem;
+  .im-card {
+    padding: 1.6rem 1.3rem 1.4rem;
+    border-radius: 20px;
+  }
+
+  .im-value {
+    font-size: 2.6rem;
+  }
+
+  .im-title {
+    font-size: 1.1rem;
+  }
+
+  .im-desc {
+    font-size: 0.85rem;
   }
 }

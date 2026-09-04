@@ -28,9 +28,9 @@ const TextReveal = ({
   once = true,
   amount = 0.3,
 }) => {
-  const text = typeof children === "string" ? children : "";
+  const text = typeof children === "string" ? children.trim() : "";
 
-  const words = useMemo(() => text.split(" "), [text]);
+  const words = useMemo(() => text.split(/\s+/).filter(Boolean), [text]);
 
   const parts = useMemo(() => {
     if (mode === "chars") return text.split("");
@@ -76,21 +76,25 @@ const TextReveal = ({
   return (
     <Tag className={className}>
       {parts.map((part, i) => (
-        <motion.span
+        <span
           key={`${part}-${i}`}
-          custom={i}
-          variants={variants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once, amount }}
-          style={{
-            display: "inline-block",
-            marginRight: "0.3em",
-            transformOrigin: "bottom",
-          }}
+          style={{ display: "inline-block", whiteSpace: "nowrap" }}
         >
-          {part}
-        </motion.span>
+          <motion.span
+            custom={i}
+            variants={variants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once, amount }}
+            style={{
+              display: "inline-block",
+              transformOrigin: "bottom",
+            }}
+          >
+            {part}
+          </motion.span>
+          {i < parts.length - 1 && "\u00A0"}
+        </span>
       ))}
     </Tag>
   );

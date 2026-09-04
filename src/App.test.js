@@ -4,6 +4,17 @@ import { sound } from "./utils/soundEngine";
 import ResumeDownload from "./components/ResumeDownload/ResumeDownload";
 import CollaborateTransition from "./components/CollaborateTransition/CollaborateTransition";
 
+beforeAll(() => {
+  global.IntersectionObserver = class {
+    constructor(callback) {
+      this.callback = callback;
+    }
+    observe() {}
+    unobserve() {}
+    disconnect() {}
+  };
+});
+
 describe("Portfolio Application Smoke Tests", () => {
   test("sound engine initializes and provides audio triggers including warp", () => {
     expect(sound).toBeDefined();
@@ -52,6 +63,21 @@ describe("Portfolio Application Smoke Tests", () => {
     const overlay = screen.getByRole("dialog", { name: /quantum hyperspace transition/i });
     expect(overlay).toBeInTheDocument();
     expect(screen.getByText(/initiating quantum handshake/i)).toBeInTheDocument();
+  });
+
+  test("ImpactMetrics renders distinct high-scale production benchmarks without redundant tenure stats", () => {
+    const ImpactMetrics = require("./components/ImpactMetrics/ImpactMetrics").default;
+    render(<ImpactMetrics />);
+    
+    // Checks that high-scale production metrics exist
+    expect(screen.getByText(/direct revenue impact/i)).toBeInTheDocument();
+    expect(screen.getByText(/sub-second latency acceleration/i)).toBeInTheDocument();
+    expect(screen.getByText(/production high-availability sla/i)).toBeInTheDocument();
+    expect(screen.getByText(/global engineers empowered/i)).toBeInTheDocument();
+
+    // Verify redundant career metrics are NOT in the impact grid
+    expect(screen.queryByText(/years building production systems/i)).toBeNull();
+    expect(screen.queryByText(/certifications across cloud platforms/i)).toBeNull();
   });
 });
 
