@@ -1,58 +1,82 @@
 [
-    {
+  {
     "id": 1,
     "title": "AI Transcription",
+    "category": "AI & Machine Learning",
     "description": "This web app showcases an AI-powered speech-to-text workflow that accepts recorded or uploaded audio, transcribes it with modern ASR models, and lets users review and export polished transcripts.",
     "link": "https://ai-transcription.pritamrauniyar.com.np/",
-    "image": "/ai-transcription.jpeg"
+    "github": "https://github.com/pritamrauniyar/AI-Transcription",
+    "image": "/ai-transcription.jpeg",
+    "tags": ["AI / ASR", "Whisper", "React", "Web Audio API"]
   },
   {
     "id": 2,
     "title": "Net Inspector",
+    "category": "Cloud & Diagnostics",
     "description": "This diagnostic dashboard runs latency checks, port probes, and traceroutes to surface real-time network health insights with lightweight visual summaries for quick troubleshooting.",
     "link": "https://www.net-inspector.pritamrauniyar.com.np/",
-    "image": "/net-inspector.jpeg"
+    "github": "https://github.com/pritamrauniyar/netInspector",
+    "image": "/net-inspector.jpeg",
+    "tags": ["Networking", "Diagnostics", "Dashboard", "Real-time Metrics"]
   },
   {
     "id": 3,
     "title": "Random Password Generator",
-    "description": "This web-based application is designed to generate random passwords combining lowercase and uppercase letters, numbers, and symbols. The application provides a high level of usability and security with support for a password length of 8-16 characters. Each password generated is unique, so ensuring a high  security.",
+    "category": "Productivity & Tools",
+    "description": "This web-based application is designed to generate cryptographically random passwords combining character sets, numbers, and symbols. Ensures high usability and entropy for personal security.",
     "link": "https://pritamrauniyar.github.io/random-password-generator/",
-    "image": "/pw-generator.jpg"
+    "github": "https://github.com/pritamrauniyar/random-password-generator",
+    "image": "/pw-generator.jpg",
+    "tags": ["Security", "Web Crypto", "JavaScript", "Tooling"]
   },
   {
     "id": 4,
-    "title": "DAiLY TO dO ApP",
-    "description": "This is an easy-to-use, user-friendly Todo app designed to boost productivity by helping manage tasks effectively. With features like effortless task management, task status at a glance, instant task removal, and persistent storage, this web-based app provides a clean, minimal design ensuring a seamless experience for tracking your tasks across any platform.",
+    "title": "Daily To-Do Application",
+    "category": "Productivity & Tools",
+    "description": "An intuitive, responsive task management application built to streamline daily workflows. Features persistent storage, quick filtering, and an accessible, keyboard-friendly interface.",
     "link": "https://pritamrauniyar.github.io/daily-todo-app/",
-    "image": "/todo-list.jpg"
+    "github": "https://github.com/pritamrauniyar/daily-todo-app",
+    "image": "/todo-list.jpg",
+    "tags": ["React", "LocalStorage", "State Management", "Productivity"]
   },
   {
     "id": 5,
-    "title": "countdown-and-stopwatch-timer",
-    "description": "This project includes a simple user interface that provides both countdown and stopwatch timer functionality. It allows users to measure the time and set countdowns as per their requirements.",
+    "title": "Countdown & Stopwatch Timer",
+    "category": "Productivity & Tools",
+    "description": "A precision time-tracking application combining dual-mode stopwatch and countdown timer functionality with millisecond accuracy and customizable alert triggers.",
     "link": "https://pritamrauniyar.github.io/countdown-and-stopwatch-timer/",
-    "image": "/timer.jpg"
+    "github": "https://github.com/pritamrauniyar/countdown-and-stopwatch-timer",
+    "image": "/timer.jpg",
+    "tags": ["JavaScript", "Timers", "Web Audio", "CSS Animation"]
   },
   {
     "id": 6,
-    "title": "simple calculator",
-    "description": "This project is a simple calculator that provides basic arithmetic calculations including addition, subtraction, multiplication, and a clear function. It helps users in performing quick calculations with a user-friendly interface.",
+    "title": "Simple Calculator",
+    "category": "Productivity & Tools",
+    "description": "A streamlined arithmetic computing tool designed with keyboard listener shortcuts, operator precedence evaluation, and clean tactile feedback states.",
     "link": "https://pritamrauniyar.github.io/simple-calculator/",
-    "image": "/calculator.jpg"
+    "github": "https://github.com/pritamrauniyar/simple-calculator",
+    "image": "/calculator.jpg",
+    "tags": ["JavaScript", "Math Engine", "Responsive Design"]
   },
   {
     "id": 7,
-    "title": "Evergreen-Impex",
-    "description": "This website provides information about the services offered by the Evergreen-Impex company. The site provides a comprehensive overview of the company and its services, making it easier for customers to find the services they need.",
+    "title": "Evergreen Impex",
+    "category": "Web Applications",
+    "description": "A multi-page corporate showcase website presenting enterprise import-export services, corporate portfolio assets, and an interactive contact inquiry pipeline.",
     "link": "https://pritamrauniyar.github.io/EvergreenImpex/",
-    "image": "/web-dev.jpg"
+    "github": "https://github.com/pritamrauniyar/EvergreenImpex",
+    "image": "/web-dev.jpg",
+    "tags": ["Web Design", "UI/UX", "SEO", "Responsive"]
   },
   {
     "id": 8,
-    "title": "AnalogClock",
-    "description": "This project is an analog clock created using HTML, CSS, and JS. The clock provides an accurate display of the time in an aesthetically pleasing format.",
+    "title": "Analog Clock",
+    "category": "Web Applications",
+    "description": "A canvas and CSS-driven analog clock displaying real-time hours, minutes, and continuous second sweeps using SVG trigonometry and CSS transitions.",
     "link": "https://pritamrauniyar.github.io/AnalogClock/",
-    "image": "/analog-clock.jpg"
+    "github": "https://github.com/pritamrauniyar/AnalogClock",
+    "image": "/analog-clock.jpg",
+    "tags": ["SVG", "Trigonometry", "CSS3", "JavaScript"]
   }
 ]

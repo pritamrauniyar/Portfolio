@@ -132,6 +132,52 @@
   transform: translateY(-6px) rotate(-45deg);
 }
 
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.nav-cmd-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 99px;
+  background: rgba(123, 92, 255, 0.12);
+  border: 1px solid rgba(123, 92, 255, 0.28);
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-cmd-btn:hover {
+  background: rgba(123, 92, 255, 0.22);
+  border-color: var(--accent-400);
+  color: var(--text-primary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(123, 92, 255, 0.2);
+}
+
+.nav-cmd-icon {
+  font-size: 0.8rem;
+  color: var(--accent-300);
+}
+
+.nav-cmd-kbd {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 4px;
+  padding: 0.1rem 0.35rem;
+  font-size: 0.68rem;
+  font-family: monospace;
+  color: var(--text-primary);
+}
+
+.nav-mobile,
 .nav-links-mobile {
   display: none;
 }
@@ -141,10 +187,15 @@
     display: none;
   }
 
+  .nav-cmd-btn {
+    display: none;
+  }
+
   .nav-toggle {
     display: inline-flex;
   }
 
+  .nav-mobile,
   .nav-links-mobile {
     display: grid;
     margin-top: -14px;
@@ -153,10 +204,12 @@
     list-style: none;
   }
 
+  .nav-mobile li,
   .nav-links-mobile li {
     display: contents;
   }
 
+  .nav-mobile a,
   .nav-links-mobile a {
     display: flex;
     align-items: center;
@@ -170,12 +223,32 @@
     transition: border-color 0.2s ease, color 0.2s ease;
   }
 
+  .nav-mobile a:hover,
+  .nav-mobile a:focus,
+  .nav-mobile a.active,
   .nav-links-mobile a:hover,
   .nav-links-mobile a:focus,
   .nav-links-mobile a.active {
     color: var(--text-primary);
     border-color: rgba(123, 92, 255, 0.45);
     box-shadow: 0 22px 45px rgba(17, 14, 40, 0.55);
+  }
+
+  .nav-mobile-cmd-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.85rem 1.1rem;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(123, 92, 255, 0.25), rgba(0, 196, 255, 0.15));
+    border: 1px solid rgba(123, 92, 255, 0.4);
+    color: var(--text-primary);
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 0.25rem;
   }
 }
 
@@ -184,6 +257,7 @@
     font-size: 1.2rem;
   }
 
+  .nav-mobile a,
   .nav-links-mobile a {
     padding: 1rem 1.1rem;
     font-size: 0.95rem;
@@ -194,4 +268,5 @@
     width: 22px;
   }
 }
+
 

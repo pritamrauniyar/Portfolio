@@ -1,0 +1,44 @@
+﻿.route-loader-wrap {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+}
+
+.route-loader-spinner {
+  position: relative;
+  width: 48px;
+  height: 48px;
+}
+
+.route-loader-ring {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 3px solid rgba(123, 92, 255, 0.15);
+  border-top-color: var(--accent-400);
+  border-right-color: #00c4ff;
+  animation: routeSpin 0.85s cubic-bezier(0.5, 0.1, 0.5, 0.9) infinite;
+}
+
+.route-loader-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(123, 92, 255, 0.4);
+}
+
+.route-loader-text {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+@keyframes routeSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

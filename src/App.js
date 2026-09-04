@@ -1,25 +1,43 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState, Suspense, lazy } from "react";
 import { AnimatePresence } from "framer-motion";
 import "./App.css";
-import About from "./pages/About/About";
-import Contact from "./pages/Contact/Contact";
 import Footer from "./components/Footer/Footer";
-import Project from "./pages/Project/Project";
 import Navbar from "./components/Navbar/Navbar";
-import Home from "./pages/Home/Home";
-import Certificates from "./pages/Certificates/Certificates";
-import Blogs from "./pages/Blogs/Blogs";
 import { MyContextProvider } from "./components/MyContext/MyContext";
 import AnimatedBackground from "./components/AnimatedBackground/AnimatedBackground";
 import PageTransition from "./components/PageTransition/PageTransition";
 import SmoothScroll, { useLenis } from "./components/SmoothScroll/SmoothScroll";
 import CustomCursor from "./components/CustomCursor/CustomCursor";
+import CommandPalette from "./components/CommandPalette/CommandPalette";
+import RouteLoader from "./components/RouteLoader/RouteLoader";
 import ReactGA from "react-ga4";
+
+// Route code-splitting for optimal bundle performance
+const Home = lazy(() => import("./pages/Home/Home"));
+const About = lazy(() => import("./pages/About/About"));
+const Project = lazy(() => import("./pages/Project/Project"));
+const Contact = lazy(() => import("./pages/Contact/Contact"));
+const Certificates = lazy(() => import("./pages/Certificates/Certificates"));
+const Blogs = lazy(() => import("./pages/Blogs/Blogs"));
 
 ReactGA.initialize("G-1SJ51YJ4NT");
 
 function App() {
+  const [isCmdOpen, setIsCmdOpen] = useState(false);
+
+  // Global Command Palette shortcut (Cmd+K or Ctrl+K)
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setIsCmdOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   return (
     <MyContextProvider>
       <Router>
@@ -28,9 +46,12 @@ function App() {
             <div className="noise-overlay" aria-hidden="true" />
             <CustomCursor />
             <AnimatedBackground />
-            <Navbar />
+            <Navbar onOpenCmd={() => setIsCmdOpen(true)} />
+            <CommandPalette isOpen={isCmdOpen} onClose={() => setIsCmdOpen(false)} />
             <main>
-              <AnimatedRoutes />
+              <Suspense fallback={<RouteLoader />}>
+                <AnimatedRoutes />
+              </Suspense>
             </main>
             <Footer />
           </div>
@@ -68,3 +89,4 @@ function AnimatedRoutes() {
     </AnimatePresence>
   );
 }
+

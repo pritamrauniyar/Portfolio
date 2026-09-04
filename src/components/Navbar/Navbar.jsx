@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
+import { FaSearch } from "react-icons/fa";
 import "./Navbar.css";
 
 const links = [
@@ -12,7 +13,7 @@ const links = [
   { label: "Contact", to: "/contact" },
 ];
 
-const Navbar = () => {
+const Navbar = ({ onOpenCmd }) => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const activePath = useMemo(() => location.pathname, [location.pathname]);
@@ -82,28 +83,55 @@ const Navbar = () => {
           ))}
         </ul>
 
-        <button
-          className={isOpen ? "nav-toggle is-open" : "nav-toggle"}
-          onClick={() => setIsOpen((open) => !open)}
-          aria-label="Toggle navigation"
-          aria-expanded={isOpen}
-          type="button"
-        >
-          <span />
-          <span />
-          <span />
-        </button>
+        <div className="nav-actions">
+          <button
+            className="nav-cmd-btn"
+            onClick={onOpenCmd}
+            type="button"
+            aria-label="Open Command Palette"
+            title="Search or jump to page (Cmd+K or Ctrl+K)"
+            data-cursor="link"
+          >
+            <FaSearch className="nav-cmd-icon" aria-hidden="true" />
+            <span className="nav-cmd-label">Search</span>
+            <kbd className="nav-cmd-kbd">⌘K</kbd>
+          </button>
+
+          <button
+            className={isOpen ? "nav-toggle is-open" : "nav-toggle"}
+            onClick={() => setIsOpen((open) => !open)}
+            aria-label="Toggle navigation"
+            aria-expanded={isOpen}
+            type="button"
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+        </div>
       </div>
 
       <AnimatePresence>
         {isOpen && (
           <motion.ul
-            className="nav-links-mobile section-wrapper"
-            initial={{ opacity: 0, y: -12 }}
+            className="nav-mobile"
+            initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
+            exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
           >
+            <li className="nav-mobile-cmd">
+              <button
+                className="nav-mobile-cmd-btn"
+                onClick={() => {
+                  setIsOpen(false);
+                  onOpenCmd?.();
+                }}
+                type="button"
+              >
+                <FaSearch /> Search / Commands (⌘K)
+              </button>
+            </li>
             {links.map((link) => (
               <li key={`${link.to}-mobile`}>
                 <Link

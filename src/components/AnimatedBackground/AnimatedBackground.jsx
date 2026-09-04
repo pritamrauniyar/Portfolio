@@ -19,6 +19,7 @@ const AnimatedBackground = () => {
   const mouseRef = useRef({ x: 0.5, y: 0.5 });
   const dotsRef = useRef([]);
   const rafRef = useRef(null);
+  const isRunningRef = useRef(false);
 
   const { scrollY } = useScroll();
   const opacity = useTransform(scrollY, [0, 800], [1, 0]);
@@ -29,7 +30,7 @@ const AnimatedBackground = () => {
       y: Math.random(),
       baseX: Math.random(),
       baseY: Math.random(),
-      radius: randomBetween(1.5, 4),
+      radius: randomBetween(1.5, 3.5),
       color: COLORS[Math.floor(Math.random() * COLORS.length)],
       speedX: randomBetween(-0.0003, 0.0003),
       speedY: randomBetween(-0.0003, 0.0003),
@@ -39,10 +40,15 @@ const AnimatedBackground = () => {
 
   const draw = useCallback(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas || !isRunningRef.current) return;
     const ctx = canvas.getContext("2d");
-    const { width, height } = canvas;
-    ctx.clearRect(0, 0, width, height);
+    const dpr = window.devicePixelRatio || 1;
+    const cssWidth = canvas.clientWidth || window.innerWidth;
+    const cssHeight = canvas.clientHeight || window.innerHeight;
+
+    ctx.save();
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, cssWidth, cssHeight);
 
     const mx = mouseRef.current.x;
     const my = mouseRef.current.y;
@@ -57,23 +63,23 @@ const AnimatedBackground = () => {
       dot.y = dot.baseY + (my - 0.5) * dot.parallaxFactor;
 
       ctx.beginPath();
-      ctx.arc(dot.x * width, dot.y * height, dot.radius, 0, Math.PI * 2);
+      ctx.arc(dot.x * cssWidth, dot.y * cssHeight, dot.radius, 0, Math.PI * 2);
       ctx.fillStyle = dot.color;
       ctx.fill();
     });
 
-    const connectionDistance = 120;
+    const connectionDistance = 110;
     for (let i = 0; i < dotsRef.current.length; i++) {
       for (let j = i + 1; j < dotsRef.current.length; j++) {
         const a = dotsRef.current[i];
         const b = dotsRef.current[j];
-        const dx = (a.x - b.x) * width;
-        const dy = (a.y - b.y) * height;
+        const dx = (a.x - b.x) * cssWidth;
+        const dy = (a.y - b.y) * cssHeight;
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < connectionDistance) {
           ctx.beginPath();
-          ctx.moveTo(a.x * width, a.y * height);
-          ctx.lineTo(b.x * width, b.y * height);
+          ctx.moveTo(a.x * cssWidth, a.y * cssHeight);
+          ctx.lineTo(b.x * cssWidth, b.y * cssHeight);
           ctx.strokeStyle = `rgba(123, 92, 255, ${0.12 * (1 - dist / connectionDistance)})`;
           ctx.lineWidth = 0.6;
           ctx.stroke();
@@ -81,7 +87,26 @@ const AnimatedBackground = () => {
       }
     }
 
-    rafRef.current = requestAnimationFrame(draw);
+    ctx.restore();
+
+    if (isRunningRef.current) {
+      rafRef.current = requestAnimationFrame(draw);
+    }
+  }, []);
+
+  const startAnimation = useCallback(() => {
+    if (!isRunningRef.current) {
+      isRunningRef.current = true;
+      rafRef.current = requestAnimationFrame(draw);
+    }
+  }, [draw]);
+
+  const stopAnimation = useCallback(() => {
+    isRunningRef.current = false;
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
   }, []);
 
   useEffect(() => {
@@ -89,20 +114,51 @@ const AnimatedBackground = () => {
     if (!canvas) return;
 
     const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const dpr = window.devicePixelRatio || 1;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      canvas.style.width = `${w}px`;
+      canvas.style.height = `${h}px`;
     };
+
     resize();
     window.addEventListener("resize", resize);
-
     initDots();
-    rafRef.current = requestAnimationFrame(draw);
+    startAnimation();
+
+    // Pause RAF when document is hidden or user scrolled deep down past opacity
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        stopAnimation();
+      } else if (window.scrollY < 900) {
+        startAnimation();
+      }
+    };
+
+    let scrollTimeout;
+    const handleScrollOptimization = () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        if (window.scrollY > 900 && isRunningRef.current) {
+          stopAnimation();
+        } else if (window.scrollY <= 900 && !isRunningRef.current && !document.hidden) {
+          startAnimation();
+        }
+      }, 100);
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("scroll", handleScrollOptimization, { passive: true });
 
     return () => {
       window.removeEventListener("resize", resize);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("scroll", handleScrollOptimization);
+      stopAnimation();
     };
-  }, [initDots, draw]);
+  }, [initDots, startAnimation, stopAnimation]);
 
   const handleMouseMove = useCallback((e) => {
     mouseRef.current = {
@@ -112,7 +168,7 @@ const AnimatedBackground = () => {
   }, []);
 
   useEffect(() => {
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, [handleMouseMove]);
 

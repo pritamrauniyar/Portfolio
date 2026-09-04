@@ -36,17 +36,145 @@
   line-height: 1.7;
 }
 
+.blogs-grid {
+  display: grid;
+  gap: 1.6rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.8rem;
+  border-radius: 26px;
+  background: linear-gradient(160deg, rgba(18, 20, 52, 0.85), rgba(12, 14, 34, 0.75));
+  border: 1px solid rgba(123, 92, 255, 0.2);
+  box-shadow: var(--shadow-md);
+  transition: all 0.25s ease;
+}
+
+.blog-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(123, 92, 255, 0.45);
+  box-shadow: 0 16px 40px rgba(12, 14, 38, 0.7);
+}
+
+.blog-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+}
+
+.blog-category {
+  color: var(--accent-300);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.74rem;
+}
+
+.blog-read-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--text-muted);
+}
+
+.blog-title {
+  font-size: 1.25rem;
+  line-height: 1.35;
+  color: var(--text-primary);
+}
+
+.blog-summary {
+  color: var(--text-muted);
+  font-size: 0.94rem;
+  line-height: 1.6;
+  flex: 1;
+}
+
+.blog-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.blog-tag {
+  font-size: 0.72rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  background: rgba(123, 92, 255, 0.12);
+  border: 1px solid rgba(123, 92, 255, 0.22);
+  color: rgba(227, 229, 255, 0.8);
+}
+
+.blog-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 0.82rem;
+}
+
+.blog-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+.blog-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #eab308;
+  box-shadow: 0 0 8px #eab308;
+}
+
+.blog-notify-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--accent-400);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.blog-notify-link:hover {
+  color: #fff;
+}
+
 .blogs-coming-soon {
   position: relative;
-  padding: 2.4rem 2rem;
-  border-radius: 32px;
-  border: 1px solid rgba(123, 92, 255, 0.18);
-  background: linear-gradient(160deg, rgba(18, 20, 52, 0.9), rgba(13, 15, 34, 0.78));
+  padding: 2.2rem 2rem;
+  border-radius: 28px;
+  border: 1px solid rgba(123, 92, 255, 0.22);
+  background: linear-gradient(160deg, rgba(16, 20, 48, 0.85), rgba(10, 12, 30, 0.7));
   box-shadow: var(--shadow-md);
-  display: grid;
-  gap: 1rem;
-  max-width: 720px;
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
   overflow: hidden;
+  margin-top: 1rem;
+}
+
+.blogs-notice-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  background: rgba(123, 92, 255, 0.18);
+  border: 1px solid rgba(123, 92, 255, 0.35);
+  color: var(--accent-300);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  flex-shrink: 0;
 }
 
 .blogs-shimmer {
@@ -66,30 +194,37 @@
 
 .blogs-badge {
   width: fit-content;
-  padding: 0.45rem 1rem;
+  padding: 0.35rem 0.85rem;
   border-radius: 999px;
   background: rgba(123, 92, 255, 0.16);
   border: 1px solid rgba(123, 92, 255, 0.28);
-  letter-spacing: 0.22em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  font-size: 0.75rem;
-  color: rgba(201, 193, 255, 0.8);
-  animation: pulse-glow 2.5s ease-in-out infinite;
+  font-size: 0.72rem;
+  color: rgba(201, 193, 255, 0.85);
+  display: inline-block;
+  margin-bottom: 0.6rem;
 }
 
 .blogs-coming-soon h2 {
-  font-size: 1.45rem;
+  font-size: 1.35rem;
+  margin-bottom: 0.4rem;
 }
 
 .blogs-coming-soon p {
   color: var(--text-muted);
-  line-height: 1.7;
-  font-size: 0.98rem;
+  line-height: 1.65;
+  font-size: 0.95rem;
 }
 
 @media (max-width: 640px) {
+  .blogs-grid {
+    grid-template-columns: 1fr;
+  }
+
   .blogs-coming-soon {
-    padding: 2rem 1.6rem;
-    border-radius: 26px;
+    flex-direction: column;
+    padding: 1.8rem 1.4rem;
+    gap: 1rem;
   }
 }
