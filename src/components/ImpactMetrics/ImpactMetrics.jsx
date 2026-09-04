@@ -13,12 +13,12 @@ const metrics = [
     barWidth: 90,
   },
   {
-    value: 25,
+    value: 100,
     prefix: "",
     suffix: "+",
-    label: "Web applications and micro-experiences shipped end-to-end",
+    label: "Products, applications, and features shipped end-to-end",
     color: "#00c4ff",
-    barWidth: 80,
+    barWidth: 95,
   },
   {
     value: 5,

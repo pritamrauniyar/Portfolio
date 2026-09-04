@@ -11,7 +11,7 @@ import sound from "../../utils/soundEngine";
 
 const impactMetrics = [
   { value: "4+", label: "Years of engineering" },
-  { value: "25+", label: "Products shipped" },
+  { value: "100+", label: "Products shipped" },
   { value: "7", label: "Cloud certifications" },
   { value: "3", label: "Companies & teams" },
 ];
