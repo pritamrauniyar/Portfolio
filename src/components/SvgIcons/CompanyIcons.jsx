@@ -1,7 +1,8 @@
-const LogoImg = ({ src, alt, size, className }) => (
+const LogoImg = ({ src, alt = "", size, className, "aria-hidden": ariaHidden = true }) => (
   <img
     src={src}
     alt={alt}
+    aria-hidden={ariaHidden}
     width={size}
     height={size}
     className={className}
@@ -10,20 +11,20 @@ const LogoImg = ({ src, alt, size, className }) => (
   />
 );
 
-export const UberIcon = ({ size = 28, className = "" }) => (
-  <LogoImg src="/images/logos/uber.svg" alt="Uber" size={size} className={className} />
+export const UberIcon = ({ size = 28, className = "", alt = "", ...props }) => (
+  <LogoImg src="/images/logos/uber.svg" alt={alt} size={size} className={className} {...props} />
 );
 
-export const ElevateK12Icon = ({ size = 28, className = "" }) => (
-  <LogoImg src="/images/logos/elevatek12.svg" alt="Elevate K-12" size={size} className={className} />
+export const ElevateK12Icon = ({ size = 28, className = "", alt = "", ...props }) => (
+  <LogoImg src="/images/logos/elevatek12.svg" alt={alt} size={size} className={className} {...props} />
 );
 
-export const OlaElectricIcon = ({ size = 28, className = "" }) => (
-  <LogoImg src="/images/logos/ola.svg" alt="Ola Electric" size={size} className={className} />
+export const OlaElectricIcon = ({ size = 28, className = "", alt = "", ...props }) => (
+  <LogoImg src="/images/logos/ola.svg" alt={alt} size={size} className={className} {...props} />
 );
 
-export const MNNITIcon = ({ size = 28, className = "" }) => (
-  <LogoImg src="/images/logos/mnnit.svg" alt="MNNIT Allahabad" size={size} className={className} />
+export const MNNITIcon = ({ size = 28, className = "", alt = "", ...props }) => (
+  <LogoImg src="/images/logos/mnnit.svg" alt={alt} size={size} className={className} {...props} />
 );
 
 const companyMap = {

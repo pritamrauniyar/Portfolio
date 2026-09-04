@@ -13,23 +13,21 @@ const EXECUTIVE_STATS = [
 ];
 
 const FILTER_TABS = [
-  { id: "all", label: "All Milestones" },
-  { id: "experience", label: "Industry Leadership" },
-  { id: "education", label: "Academic Foundations" },
+  { id: "all", label: "All Milestones", shortLabel: "All" },
+  { id: "experience", label: "Industry Leadership", shortLabel: "Experience" },
+  { id: "education", label: "Academic Foundations", shortLabel: "Education" },
 ];
 
 const timelineVariants = {
-  hidden: (custom) => ({
+  hidden: {
     opacity: 0,
-    x: custom.direction === "left" ? -40 : 40,
-    y: 20,
-  }),
+    y: 24,
+  },
   visible: {
     opacity: 1,
-    x: 0,
     y: 0,
     transition: {
-      duration: 0.55,
+      duration: 0.5,
       ease: [0.25, 0.46, 0.45, 0.94],
     },
   },
@@ -104,15 +102,18 @@ const TreeModal = ({
 
       {/* Filter Navigation Tabs */}
       <div className="timeline-filters-wrap">
-        <div className="timeline-filters">
+        <div className="timeline-filters" role="tablist" aria-label="Timeline category filter">
           {FILTER_TABS.map((tab) => (
             <button
               key={tab.id}
+              role="tab"
+              aria-selected={activeFilter === tab.id}
               className={`timeline-filter-btn ${activeFilter === tab.id ? "active" : ""}`}
               onClick={() => handleFilterChange(tab.id)}
               data-cursor="link"
             >
-              {tab.label}
+              <span className="tab-label-full">{tab.label}</span>
+              <span className="tab-label-short">{tab.shortLabel}</span>
             </button>
           ))}
         </div>
@@ -130,7 +131,6 @@ const TreeModal = ({
         <AnimatePresence mode="popLayout">
           {filteredItems.map((data, index) => {
             const CompanyLogo = getCompanyIcon(data.title);
-            const direction = index % 2 === 0 ? "left" : "right";
             const isExpanded = !!expandedIds[data.id];
             const hasHighlights = data.highlights && data.highlights.length > 0;
             const visibleHighlights = isExpanded
@@ -143,16 +143,15 @@ const TreeModal = ({
                 className={`timeline-item ${data.current ? "timeline-item--current" : ""}`}
                 initial="hidden"
                 whileInView="visible"
-                viewport={{ once: true, amount: 0.25 }}
+                viewport={{ once: true, amount: 0.2 }}
                 variants={timelineVariants}
-                custom={{ direction }}
                 layout
               >
-                <div className="timeline-marker">
+                <div className="timeline-marker" aria-hidden="true">
                   {CompanyLogo ? (
-                    <CompanyLogo size={22} />
+                    <CompanyLogo size={20} className="timeline-marker-icon" alt="" aria-hidden="true" />
                   ) : (
-                    <span />
+                    <span className="timeline-marker-dot" />
                   )}
                 </div>
 
@@ -160,14 +159,14 @@ const TreeModal = ({
                   <header className="timeline-card-header">
                     <div className="timeline-card-title-group">
                       {CompanyLogo && (
-                        <CompanyLogo size={36} className="timeline-card-logo" />
+                        <CompanyLogo size={38} className="timeline-card-logo" alt="" aria-hidden="true" />
                       )}
-                      <div>
+                      <div className="timeline-title-meta">
                         <div className="timeline-card-meta-row">
                           <h4 className="timeline-company-name">{data.title}</h4>
                           {data.current && (
                             <span className="timeline-badge-current">
-                              <span className="badge-pulse" />
+                              <span className="badge-pulse" aria-hidden="true" />
                               Active Role
                             </span>
                           )}
@@ -179,11 +178,13 @@ const TreeModal = ({
                     </div>
 
                     <div className="timeline-dates-wrap">
-                      <span className="timeline-dates" aria-label="Duration">
-                        {data.startDate} — {data.endDate}
+                      <span className="timeline-dates-pill" aria-label={`Tenure: ${data.startDate} to ${data.endDate}`}>
+                        <span className="meta-icon" aria-hidden="true">📅</span>
+                        <span>{data.startDate} — {data.endDate}</span>
                       </span>
-                      <span className="timeline-location-badge">
-                        📍 {data.location ?? "Globally distributed"}
+                      <span className="timeline-location-pill" aria-label={`Location: ${data.location ?? "Globally distributed"}`}>
+                        <span className="meta-icon" aria-hidden="true">📍</span>
+                        <span>{data.location ?? "Globally distributed"}</span>
                       </span>
                     </div>
                   </header>
@@ -195,7 +196,8 @@ const TreeModal = ({
                     <div className="timeline-metrics-strip">
                       {data.metrics.map((m, mIdx) => (
                         <span key={mIdx} className="timeline-metric-chip">
-                          <span className="metric-spark">✦</span> {m}
+                          <span className="metric-spark" aria-hidden="true">✦</span>
+                          <span className="metric-text">{m}</span>
                         </span>
                       ))}
                     </div>
@@ -210,7 +212,7 @@ const TreeModal = ({
                       <ul className="timeline-highlights-list">
                         {visibleHighlights.map((h, hIdx) => (
                           <li key={hIdx} className="timeline-highlight-row">
-                            <span className="highlight-bullet">▹</span>
+                            <span className="highlight-bullet" aria-hidden="true">▹</span>
                             <div className="highlight-content">
                               <strong className="highlight-title">{h.title}: </strong>
                               <span className="highlight-detail">{h.detail}</span>
@@ -225,18 +227,20 @@ const TreeModal = ({
                           className="timeline-expand-btn"
                           onClick={() => toggleExpand(data.id)}
                           data-cursor="link"
+                          aria-expanded={isExpanded}
+                          aria-label={isExpanded ? `Show summary view for ${data.title}` : `Deep dive into all deliverables for ${data.title}`}
                         >
                           {isExpanded ? (
                             <>
                               <span>Show summary view</span>
-                              <span className="expand-arrow">▲</span>
+                              <span className="expand-arrow" aria-hidden="true">▲</span>
                             </>
                           ) : (
                             <>
                               <span>
                                 Deep dive into all deliverables ({data.highlights.length})
                               </span>
-                              <span className="expand-arrow">▼</span>
+                              <span className="expand-arrow" aria-hidden="true">▼</span>
                             </>
                           )}
                         </button>

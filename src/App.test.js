@@ -156,6 +156,42 @@ describe("Portfolio Application Smoke Tests", () => {
     expect(screen.getByText(/payload-contract.ts/i)).toBeInTheDocument();
     expect(screen.getByText(/ExpenseMutationPayload/i)).toBeInTheDocument();
   });
+
+  test("TreeModal renders responsive timeline with accessible company markers and category filters", () => {
+    const TreeModal = require("./components/TreeModal/TreeModal").default;
+    const { MyContext } = require("./components/MyContext/MyContext");
+    const mockJourneyData = require("../public/data/journeyData.json");
+
+    render(
+      <MyContext.Provider value={mockJourneyData}>
+        <TreeModal />
+      </MyContext.Provider>
+    );
+
+    // Verify Executive Stats Bar
+    expect(screen.getByText(/Technical Ownership/i)).toBeInTheDocument();
+    expect(screen.getByText(/4\+ Yrs/i)).toBeInTheDocument();
+    expect(screen.getByText(/Direct Revenue Impact/i)).toBeInTheDocument();
+    expect(screen.getByText(/\$38M\+/i)).toBeInTheDocument();
+
+    // Verify Filter Tabs with full and short labels
+    const tablist = screen.getByRole("tablist", { name: /timeline category filter/i });
+    expect(tablist).toBeInTheDocument();
+    expect(screen.getByText("All Milestones")).toBeInTheDocument();
+    expect(screen.getByText("All")).toBeInTheDocument();
+    expect(screen.getByText("Industry Leadership")).toBeInTheDocument();
+    expect(screen.getByText("Experience")).toBeInTheDocument();
+
+    // Verify Milestone Cards rendered
+    expect(screen.getByText("Uber")).toBeInTheDocument();
+    expect(screen.getByText("Elevate K-12")).toBeInTheDocument();
+    expect(screen.getByText("Active Role")).toBeInTheDocument();
+
+    // Verify accordion button has aria-expanded
+    const expandButtons = screen.getAllByRole("button", { name: /deliverables/i });
+    expect(expandButtons.length).toBeGreaterThan(0);
+    expect(expandButtons[0]).toHaveAttribute("aria-expanded");
+  });
 });
 
 
