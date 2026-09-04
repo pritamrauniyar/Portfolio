@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useState, useCallback, useEffect, useRef, useMemo } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import {
   ReactIcon, AngularIcon, JavaScriptIcon, TypeScriptIcon,
@@ -98,33 +98,69 @@ const TECH = [
     tags: ["HTTP", "OAuth", "Swagger"] },
 ];
 
-// Clean 29-slot non-overlapping constellation layout with safe horizontal bounds (12% - 84%)
-const SLOTS = [
-  { x: 14, y: 8 },  { x: 32, y: 6 },  { x: 50, y: 8 },  { x: 68, y: 6 },  { x: 84, y: 8 },
-  { x: 12, y: 22 }, { x: 26, y: 19 }, { x: 40, y: 23 }, { x: 58, y: 19 }, { x: 72, y: 23 }, { x: 84, y: 20 },
-  { x: 12, y: 38 }, { x: 26, y: 36 }, { x: 72, y: 36 }, { x: 84, y: 38 },
-  { x: 12, y: 54 }, { x: 26, y: 52 }, { x: 40, y: 56 }, { x: 58, y: 52 }, { x: 72, y: 56 }, { x: 84, y: 54 },
-  { x: 14, y: 70 }, { x: 31, y: 68 }, { x: 48, y: 72 }, { x: 66, y: 68 }, { x: 82, y: 71 },
-  { x: 24, y: 86 }, { x: 48, y: 88 }, { x: 72, y: 86 },
+// Responsive slot constellations:
+// Laptop & Desktop (wide spread across arena: x spans 6% to 94%, y spans 6% to 88%)
+const DESKTOP_SLOTS = [
+  { x: 6, y: 8 },   { x: 21, y: 6 },  { x: 36, y: 9 },  { x: 64, y: 6 },  { x: 79, y: 9 },  { x: 94, y: 7 },
+  { x: 5, y: 24 },  { x: 18, y: 22 }, { x: 32, y: 26 }, { x: 68, y: 23 }, { x: 82, y: 25 }, { x: 95, y: 23 },
+  { x: 5, y: 44 },  { x: 17, y: 43 }, { x: 29, y: 46 }, { x: 71, y: 44 }, { x: 83, y: 46 }, { x: 95, y: 43 },
+  { x: 6, y: 64 },  { x: 19, y: 66 }, { x: 33, y: 63 }, { x: 67, y: 65 }, { x: 81, y: 63 }, { x: 94, y: 66 },
+  { x: 11, y: 85 }, { x: 26, y: 88 }, { x: 42, y: 85 }, { x: 58, y: 87 }, { x: 74, y: 85 }, { x: 89, y: 88 },
 ];
 
-const CENTER = { x: 50, y: 44 };
-const AUTO_INTERVAL_MS = 1600; // 1.6s per technology showcase
+// Tablet (balanced spread: x spans 8% to 92%, y spans 7% to 88%)
+const TABLET_SLOTS = [
+  { x: 9, y: 8 },   { x: 24, y: 7 },  { x: 40, y: 9 },  { x: 60, y: 7 },  { x: 76, y: 9 },  { x: 91, y: 8 },
+  { x: 8, y: 24 },  { x: 22, y: 23 }, { x: 36, y: 26 }, { x: 64, y: 24 }, { x: 78, y: 23 }, { x: 92, y: 25 },
+  { x: 8, y: 44 },  { x: 20, y: 43 }, { x: 33, y: 46 }, { x: 67, y: 44 }, { x: 80, y: 45 }, { x: 92, y: 43 },
+  { x: 9, y: 64 },  { x: 22, y: 66 }, { x: 36, y: 63 }, { x: 64, y: 65 }, { x: 78, y: 64 }, { x: 91, y: 66 },
+  { x: 13, y: 85 }, { x: 28, y: 88 }, { x: 44, y: 85 }, { x: 56, y: 87 }, { x: 72, y: 85 }, { x: 87, y: 87 },
+];
+
+// Mobile (compact, strictly bounded x: 14% to 86% to eliminate right-edge cut)
+const MOBILE_SLOTS = [
+  { x: 15, y: 7 },  { x: 32, y: 6 },  { x: 50, y: 8 },  { x: 68, y: 6 },  { x: 85, y: 7 },
+  { x: 14, y: 22 }, { x: 29, y: 20 }, { x: 44, y: 24 }, { x: 58, y: 20 }, { x: 72, y: 24 }, { x: 86, y: 22 },
+  { x: 14, y: 38 }, { x: 26, y: 42 }, { x: 74, y: 42 }, { x: 86, y: 38 },
+  { x: 15, y: 53 }, { x: 85, y: 53 },
+  { x: 14, y: 67 }, { x: 29, y: 65 }, { x: 44, y: 68 }, { x: 58, y: 65 }, { x: 72, y: 68 }, { x: 86, y: 67 },
+  { x: 16, y: 84 }, { x: 32, y: 87 }, { x: 50, y: 85 }, { x: 68, y: 87 }, { x: 84, y: 84 },
+  { x: 26, y: 77 }, { x: 74, y: 77 },
+];
+
+const CENTER = { x: 50, y: 45 };
+const AUTO_INTERVAL_MS = 1800; // 1.8s per technology showcase
 const INACTIVITY_TIMEOUT_MS = 10000; // 10s inactivity resume
 
-const Ball = ({ tech, pos, isFocused, isRelated, onClick }) => (
+const fisherYates = (arr) => {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+};
+
+const Ball = ({ tech, pos, isFocused, isRelated, isMobile, onClick }) => (
   <motion.button
     className={`tb-ball${isFocused ? " tb-ball--pop" : ""}${isRelated ? " tb-ball--related" : ""}`}
     style={{
       "--bc": tech.color,
-      left: `clamp(30px, ${pos.x}%, calc(100% - 30px))`,
-      top: `clamp(30px, ${pos.y}%, calc(100% - 30px))`,
     }}
     animate={{
-      scale: isFocused ? 1.5 : isRelated ? 1.08 : 1,
-      zIndex: isFocused ? 20 : isRelated ? 5 : 1,
+      left: `${pos.x}%`,
+      top: `${pos.y}%`,
+      x: "-50%",
+      y: "-50%",
+      scale: isFocused ? (isMobile ? 1.35 : 1.5) : isRelated ? 1.08 : 1,
+      zIndex: isFocused ? 30 : isRelated ? 5 : 1,
     }}
-    transition={{ type: "spring", stiffness: 180, damping: 18, mass: 0.85 }}
+    transition={{
+      type: "spring",
+      stiffness: 130,
+      damping: 17,
+      mass: 0.85,
+    }}
     onClick={onClick}
     whileHover={isFocused ? {} : { scale: 1.15 }}
     whileTap={{ scale: 0.92 }}
@@ -144,7 +180,7 @@ const Ball = ({ tech, pos, isFocused, isRelated, onClick }) => (
     <span className="tb-ball-shine" />
     <span className="tb-ball-seam" />
     <span className="tb-ball-icon">
-      <tech.Icon size={isFocused ? 32 : 22} />
+      <tech.Icon size={isFocused ? (isMobile ? 28 : 32) : (isMobile ? 18 : 22)} />
     </span>
     <span className="tb-ball-name">{tech.name}</span>
   </motion.button>
@@ -188,13 +224,34 @@ const DetailPanel = ({ tech, onTagClick }) => (
 );
 
 const TechMarquee = () => {
-  const [focusedIdx, setFocusedIdx] = useState(0); // Start highlighting immediately
+  const [focusedIdx, setFocusedIdx] = useState(0); // Start highlighting first tech immediately
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [slotMap] = useState(() => TECH.map((_, i) => i));
+  const [slotMap, setSlotMap] = useState(() => fisherYates(TECH.map((_, i) => i)));
+  const [windowWidth, setWindowWidth] = useState(() =>
+    typeof window !== "undefined" ? window.innerWidth : 1200
+  );
 
   const sectionRef = useRef(null);
   const inactivityTimerRef = useRef(null);
   const isInView = useInView(sectionRef, { amount: 0.25 });
+
+  // Dynamically listen to viewport width to adapt slots
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const isMobile = windowWidth < 768;
+
+  // Dynamically select slots for device width
+  const currentSlots = useMemo(() => {
+    if (windowWidth >= 1024) return DESKTOP_SLOTS;
+    if (windowWidth >= 768) return TABLET_SLOTS;
+    return MOBILE_SLOTS;
+  }, [windowWidth]);
 
   // Handle user manual interaction: pause auto tour and schedule 10s resume
   const handleUserActivity = useCallback(() => {
@@ -207,12 +264,13 @@ const TechMarquee = () => {
     }, INACTIVITY_TIMEOUT_MS);
   }, []);
 
-  // Auto-tour animation loop: cycles tech stack every 1.6s
+  // Auto-tour animation loop: advances tech stack and reshuffles peripheral slots every 1.8s
   useEffect(() => {
     if (!isAutoPlaying || !isInView) return;
 
     const interval = setInterval(() => {
       setFocusedIdx((prev) => (prev === null ? 0 : (prev + 1) % TECH.length));
+      setSlotMap(fisherYates(TECH.map((_, i) => i)));
     }, AUTO_INTERVAL_MS);
 
     return () => clearInterval(interval);
@@ -232,8 +290,24 @@ const TechMarquee = () => {
       sound.playClick();
       handleUserActivity();
       setFocusedIdx(idx);
+      setSlotMap(fisherYates(TECH.map((_, i) => i)));
     },
     [handleUserActivity]
+  );
+
+  const handleTagClick = useCallback(
+    (tag) => {
+      handleUserActivity();
+      const matchIdx = TECH.findIndex(
+        (t, idx) => idx !== focusedIdx && t.tags.includes(tag)
+      );
+      if (matchIdx !== -1) {
+        sound.playClick();
+        setFocusedIdx(matchIdx);
+        setSlotMap(fisherYates(TECH.map((_, i) => i)));
+      }
+    },
+    [focusedIdx, handleUserActivity]
   );
 
   const toggleAutoPlay = useCallback(() => {
@@ -270,7 +344,7 @@ const TechMarquee = () => {
         >
           <span className="tb-mode-dot" />
           <span className="tb-mode-label">
-            {isAutoPlaying ? "Auto Tour Active (Cycling 1.6s)" : "Manual Mode (Auto-resumes in 10s)"}
+            {isAutoPlaying ? "Auto Tour Active (Cycling 1.8s)" : "Manual Mode (Auto-resumes in 10s)"}
           </span>
           <span className="tb-mode-btn">
             {isAutoPlaying ? "⏸ Pause" : "▶ Resume"}
@@ -278,15 +352,11 @@ const TechMarquee = () => {
         </div>
       </motion.div>
 
-      <div
-        className="tb-arena section-wrapper"
-        onMouseEnter={handleUserActivity}
-        onTouchStart={handleUserActivity}
-      >
+      <div className="tb-arena section-wrapper">
         {TECH.map((tech, i) => {
           const isFocused = focusedIdx === i;
           const isRelated = !isFocused && activeCategory && tech.category === activeCategory;
-          const slot = isFocused ? CENTER : SLOTS[slotMap[i] % SLOTS.length];
+          const slot = isFocused ? CENTER : currentSlots[slotMap[i] % currentSlots.length];
           return (
             <Ball
               key={tech.name}
@@ -294,23 +364,20 @@ const TechMarquee = () => {
               pos={slot}
               isFocused={isFocused}
               isRelated={isRelated}
+              isMobile={isMobile}
               onClick={() => handleClick(i)}
             />
           );
         })}
       </div>
 
-      <div
-        className="tb-detail-zone section-wrapper"
-        onMouseEnter={handleUserActivity}
-        onTouchStart={handleUserActivity}
-      >
+      <div className="tb-detail-zone section-wrapper">
         <AnimatePresence mode="wait">
           {activeTech && (
             <DetailPanel
               key={activeTech.name}
               tech={activeTech}
-              onTagClick={handleUserActivity}
+              onTagClick={handleTagClick}
             />
           )}
         </AnimatePresence>
