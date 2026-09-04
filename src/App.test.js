@@ -46,7 +46,7 @@ describe("Portfolio Application Smoke Tests", () => {
 
   test("CollaborateTransition button renders and triggers quantum warp overlay", () => {
     render(
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <CollaborateTransition />
       </BrowserRouter>
     );
@@ -79,5 +79,83 @@ describe("Portfolio Application Smoke Tests", () => {
     expect(screen.queryByText(/years building production systems/i)).toBeNull();
     expect(screen.queryByText(/certifications across cloud platforms/i)).toBeNull();
   });
+
+  test("Navbar renders links in senior engineering hierarchy (Home -> Projects -> About -> Certificates -> Blogs -> Contact)", () => {
+    const Navbar = require("./components/Navbar/Navbar").default;
+    const { ThemeProvider } = require("./context/ThemeContext");
+    render(
+      <ThemeProvider>
+        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+          <Navbar />
+        </BrowserRouter>
+      </ThemeProvider>
+    );
+
+    const desktopLinks = screen.getAllByRole("link").map((l) => l.textContent.trim());
+    // Filter to navigation items
+    const navItems = desktopLinks.filter((txt) =>
+      ["Home", "Projects", "About", "Certificates", "Blogs", "Contact"].includes(txt)
+    );
+
+    // Verify Projects and About come before Certificates
+    expect(navItems[0]).toBe("Home");
+    expect(navItems[1]).toBe("Projects");
+    expect(navItems[2]).toBe("About");
+    expect(navItems[3]).toBe("Certificates");
+    expect(navItems[4]).toBe("Blogs");
+    expect(navItems[5]).toBe("Contact");
+  });
+
+  test("Contact renders instant Webmail launchers (Gmail, Outlook) and scheduling callout", () => {
+    const Contact = require("./pages/Contact/Contact").default;
+    render(<Contact />);
+
+    expect(screen.getByText(/compose in gmail/i)).toBeInTheDocument();
+    expect(screen.getByText(/compose in outlook/i)).toBeInTheDocument();
+    expect(screen.getByText(/quick 15-min intro chat/i)).toBeInTheDocument();
+    expect(screen.getByText(/book via linkedin/i)).toBeInTheDocument();
+    expect(screen.getByText(/open in gmail/i)).toBeInTheDocument();
+    expect(screen.getByText(/copy draft/i)).toBeInTheDocument();
+  });
+
+  test("ArchitectureModal renders live beacons, data flow pipes, and contract schema tab", () => {
+    const ArchitectureModal = require("./components/ArchitectureModal/ArchitectureModal").default;
+    render(
+      <ArchitectureModal
+        isOpen={true}
+        initialSystemId="splithive"
+        onClose={() => {}}
+      />
+    );
+
+    // Verify modal title & SLA metrics
+    expect(screen.getByText(/SYSTEM ARCHITECTURE BLUEPRINT/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/SplitHive — Distributed Real-Time Expense Ledger/i).length).toBeGreaterThan(0);
+    expect(screen.getByText(/ACID GUARANTEED/i)).toBeInTheDocument();
+
+    // Verify Live Beacons & Pipes exist
+    const beacons = screen.getAllByText(/LIVE/i);
+    expect(beacons.length).toBeGreaterThan(0);
+
+    // Click on a node card to open inspector
+    const nodeCard = screen.getByText(/React Native Mobile Client/i);
+    act(() => {
+      fireEvent.click(nodeCard);
+    });
+
+    // Inspector should open with Specification and Contract tab
+    expect(screen.getByText(/Protocol & Schema Contract ⚡/i)).toBeInTheDocument();
+
+    // Switch to Schema tab
+    const contractTab = screen.getByText(/Protocol & Schema Contract ⚡/i);
+    act(() => {
+      fireEvent.click(contractTab);
+    });
+
+    // Contract code block should be rendered
+    expect(screen.getByText(/payload-contract.ts/i)).toBeInTheDocument();
+    expect(screen.getByText(/ExpenseMutationPayload/i)).toBeInTheDocument();
+  });
 });
+
 

@@ -37,10 +37,10 @@ const Footer = () => {
 
         <nav className="footer-links" aria-label="Secondary navigation">
           <Link to="/">Home</Link>
-          <Link to="/certificates">Certificates</Link>
           <Link to="/project">Projects</Link>
-          <Link to="/blogs">Blogs</Link>
           <Link to="/about">About</Link>
+          <Link to="/certificates">Certificates</Link>
+          <Link to="/blogs">Blogs</Link>
           <Link to="/contact">Contact</Link>
         </nav>
 

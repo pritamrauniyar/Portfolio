@@ -62,7 +62,7 @@ function App() {
   return (
     <ThemeProvider>
       <MyContextProvider>
-        <Router>
+        <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <SmoothScroll>
             <div className="App">
               <div className="noise-overlay" aria-hidden="true" />

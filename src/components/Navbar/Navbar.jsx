@@ -8,10 +8,10 @@ import "./Navbar.css";
 
 const links = [
   { label: "Home", to: "/" },
-  { label: "Certificates", to: "/certificates" },
   { label: "Projects", to: "/project" },
-  { label: "Blogs", to: "/blogs" },
   { label: "About", to: "/about" },
+  { label: "Certificates", to: "/certificates" },
+  { label: "Blogs", to: "/blogs" },
   { label: "Contact", to: "/contact" },
 ];
 

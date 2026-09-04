@@ -28,9 +28,9 @@ const BASE_COMMANDS = [
   // Navigation
   { id: "nav-home", title: "Home", section: "Navigation", icon: FaHome, action: "navigate", path: "/" },
   { id: "nav-projects", title: "Projects", section: "Navigation", icon: FaProjectDiagram, action: "navigate", path: "/project" },
+  { id: "nav-about", title: "About", section: "Navigation", icon: FaUser, action: "navigate", path: "/about" },
   { id: "nav-certificates", title: "Certificates", section: "Navigation", icon: FaCertificate, action: "navigate", path: "/certificates" },
   { id: "nav-blogs", title: "Blogs", section: "Navigation", icon: FaBookOpen, action: "navigate", path: "/blogs" },
-  { id: "nav-about", title: "About", section: "Navigation", icon: FaUser, action: "navigate", path: "/about" },
   { id: "nav-contact", title: "Contact", section: "Navigation", icon: FaEnvelope, action: "navigate", path: "/contact" },
 
   // Engineering Architecture Deep Dives

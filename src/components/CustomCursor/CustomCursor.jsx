@@ -1,6 +1,14 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import "./CustomCursor.css";
 
+const isTouchOnly = () => {
+  if (typeof window === "undefined") return false;
+  if (window.matchMedia) {
+    return window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+  }
+  return "ontouchstart" in window;
+};
+
 const CustomCursor = () => {
   const [cursorVariant, setCursorVariant] = useState("default");
   const [cursorText, setCursorText] = useState("");
@@ -18,9 +26,7 @@ const CustomCursor = () => {
 
   // RAF loop for smooth 60/120fps ring interpolation (zero Framer Motion overhead)
   useEffect(() => {
-    const isTouch = typeof window !== "undefined" &&
-      ("ontouchstart" in window || navigator.maxTouchPoints > 0);
-    if (isTouch) return;
+    if (isTouchOnly()) return;
 
     const lerp = 0.22; // Snappy, responsive following factor
 
@@ -68,9 +74,7 @@ const CustomCursor = () => {
   }, []);
 
   useEffect(() => {
-    const isTouch = typeof window !== "undefined" &&
-      ("ontouchstart" in window || navigator.maxTouchPoints > 0);
-    if (isTouch) return;
+    if (isTouchOnly()) return;
 
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
     document.addEventListener("mouseleave", handleMouseLeave);
@@ -110,9 +114,7 @@ const CustomCursor = () => {
     };
   }, [handleMouseMove, handleMouseLeave, handleMouseEnter]);
 
-  const isTouchDevice = typeof window !== "undefined" &&
-    ("ontouchstart" in window || navigator.maxTouchPoints > 0);
-  if (isTouchDevice) return null;
+  if (isTouchOnly()) return null;
 
   return (
     <>

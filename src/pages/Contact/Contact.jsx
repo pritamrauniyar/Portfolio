@@ -10,9 +10,12 @@ import {
   FaPaperPlane,
   FaEnvelope,
   FaMapMarkerAlt,
+  FaGoogle,
+  FaCalendarAlt,
 } from "react-icons/fa";
 import TextReveal from "../../components/TextReveal/TextReveal";
 import MagneticButton from "../../components/MagneticButton/MagneticButton";
+import sound from "../../utils/soundEngine";
 
 const socials = [
   {
@@ -32,27 +35,57 @@ const socials = [
   },
 ];
 
+const TARGET_EMAIL = "pritamrauniyar.np@gmail.com";
+
 const Contact = () => {
-  const [copiedEmail, setCopiedEmail] = useState(null);
+  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedMessage, setCopiedMessage] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
   const [isSent, setIsSent] = useState(false);
 
-  const handleCopy = (email) => {
-    navigator.clipboard.writeText(email);
-    setCopiedEmail(email);
-    setTimeout(() => setCopiedEmail(null), 2000);
+  const handleCopyEmail = () => {
+    sound.playSuccess();
+    navigator.clipboard.writeText(TARGET_EMAIL);
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2200);
+  };
+
+  const getComposedBody = () => {
+    return `Hi Pritam,\n\nName: ${formData.name || "[Your Name]"}\nEmail: ${formData.email || "[Your Email]"}\n\nMessage:\n${formData.message || "[Message text]"}\n\nSent from portfolio contact form.`;
+  };
+
+  const getSubject = () => {
+    return formData.subject || (formData.name ? `Senior Engineering Opportunity — from ${formData.name}` : "Engineering Opportunity — Pritam Rauniyar");
+  };
+
+  const handleCopyFormattedDraft = () => {
+    sound.playSuccess();
+    const fullDraft = `To: ${TARGET_EMAIL}\nSubject: ${getSubject()}\n\n${getComposedBody()}`;
+    navigator.clipboard.writeText(fullDraft);
+    setCopiedMessage(true);
+    setTimeout(() => setCopiedMessage(false), 2500);
+  };
+
+  const handleOpenGmail = () => {
+    sound.playClick();
+    const url = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(TARGET_EMAIL)}&su=${encodeURIComponent(getSubject())}&body=${encodeURIComponent(getComposedBody())}`;
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
+  const handleOpenOutlook = () => {
+    sound.playClick();
+    const url = `https://outlook.live.com/mail/0/deeplink/compose?to=${encodeURIComponent(TARGET_EMAIL)}&subject=${encodeURIComponent(getSubject())}&body=${encodeURIComponent(getComposedBody())}`;
+    window.open(url, "_blank", "noopener,noreferrer");
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
 
-    // Create a mailto URL to launch default mail client with prefilled fields
-    const mailtoUrl = `mailto:pritamrauniyar.np@gmail.com?subject=${encodeURIComponent(
-      formData.subject || `Portfolio Inquiry from ${formData.name}`
-    )}&body=${encodeURIComponent(
-      `From: ${formData.name} (${formData.email})\n\nMessage:\n${formData.message}`
-    )}`;
+    sound.playSuccess();
+    const mailtoUrl = `mailto:${TARGET_EMAIL}?subject=${encodeURIComponent(
+      getSubject()
+    )}&body=${encodeURIComponent(getComposedBody())}`;
 
     window.location.href = mailtoUrl;
     setIsSent(true);
@@ -72,19 +105,19 @@ const Contact = () => {
       >
         <div className="contact-status-pill">
           <span className="contact-status-dot" />
-          <span>Available for Frontend & AI Eng Conversations</span>
+          <span>Available for Senior / Staff Engineering Roles (Q1/Q2)</span>
         </div>
         <TextReveal as="h1" mode="words" className="gradient-text">
           Let&apos;s build the next thing together.
         </TextReveal>
         <p>
-          Whether you have an ambitious product to ship, an architectural challenge to untangle,
-          or just want to talk shop — my inbox is always open.
+          Whether you are looking for high-scale distributed system ownership, AI pipeline architecture,
+          or want to discuss an executive opportunity — let&apos;s connect directly.
         </p>
       </motion.header>
 
       <div className="contact-grid">
-        {/* Left Column: Direct Info & Socials */}
+        {/* Left Column: Direct Info, Scheduling, Webmail Quick Launchers */}
         <motion.div
           className="contact-panel"
           initial={{ opacity: 0, x: -40 }}
@@ -94,33 +127,87 @@ const Contact = () => {
           <h2>Direct Reach-outs</h2>
           <div className="contact-items">
             <div className="contact-item-group">
-              <span className="contact-label">Email</span>
+              <span className="contact-label">Email Address</span>
               <div className="contact-email-row">
-                <a href="mailto:pritamrauniyar.np@gmail.com">pritamrauniyar.np@gmail.com</a>
+                <a href={`mailto:${TARGET_EMAIL}`}>{TARGET_EMAIL}</a>
                 <button
                   type="button"
                   className="contact-copy-btn"
-                  onClick={() => handleCopy("pritamrauniyar.np@gmail.com")}
-                  aria-label="Copy email"
-                  title="Copy to clipboard"
+                  onClick={handleCopyEmail}
+                  aria-label="Copy email address"
+                  title="Copy email to clipboard"
                 >
-                  {copiedEmail === "pritamrauniyar.np@gmail.com" ? (
-                    <span className="copied-tag"><FaCheck /> Copied</span>
+                  {copiedEmail ? (
+                    <span className="copied-tag"><FaCheck aria-hidden="true" /> Copied!</span>
                   ) : (
-                    <FaCopy />
+                    <>
+                      <FaCopy aria-hidden="true" />
+                      <span>Copy</span>
+                    </>
                   )}
                 </button>
               </div>
             </div>
 
+            {/* Instant Browser Webmail Launchers */}
             <div className="contact-item-group">
-              <span className="contact-label">Location</span>
-              <p className="contact-location"><FaMapMarkerAlt /> India / Nepal</p>
+              <span className="contact-label">Open in Browser Webmail</span>
+              <div className="webmail-buttons-row">
+                <button
+                  type="button"
+                  className="webmail-btn gmail"
+                  onClick={handleOpenGmail}
+                  title="Launch Gmail Web Compose"
+                  data-cursor="link"
+                >
+                  <FaGoogle aria-hidden="true" />
+                  <span>Compose in Gmail ↗</span>
+                </button>
+                <button
+                  type="button"
+                  className="webmail-btn outlook"
+                  onClick={handleOpenOutlook}
+                  title="Launch Outlook Web Compose"
+                  data-cursor="link"
+                >
+                  <FaEnvelope aria-hidden="true" />
+                  <span>Compose in Outlook ↗</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Quick 15-Min Intro Chat Callout */}
+            <div className="contact-item-group scheduling-group">
+              <span className="contact-label">Hiring or Consulting?</span>
+              <div className="scheduling-card">
+                <div className="scheduling-info">
+                  <strong>Quick 15-Min Intro Chat</strong>
+                  <p>Skip asynchronous email tag — connect directly on LinkedIn or request a calendar slot.</p>
+                </div>
+                <a
+                  href="https://www.linkedin.com/in/pritamrauniyar/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="scheduling-btn"
+                  data-cursor="link"
+                  onClick={() => sound.playClick()}
+                >
+                  <FaCalendarAlt aria-hidden="true" />
+                  <span>Book via LinkedIn ↗</span>
+                </a>
+              </div>
+            </div>
+
+            <div className="contact-item-group">
+              <span className="contact-label">Timezone & Base</span>
+              <p className="contact-location">
+                <FaMapMarkerAlt aria-hidden="true" /> India / Nepal (IST · UTC +5:30)
+              </p>
             </div>
           </div>
 
           <div className="contact-socials-section">
-            <span className="contact-label">Social Channels</span>
+            <span className="contact-label">Verified Profiles</span>
             <div className="contact-socials">
               {socials.map((social) => (
                 <MagneticButton key={social.label} strength={0.2}>
@@ -129,6 +216,7 @@ const Contact = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     data-cursor="link"
+                    onClick={() => sound.playClick()}
                   >
                     <motion.span
                       className="icon-circle"
@@ -154,14 +242,14 @@ const Contact = () => {
         >
           <h2>Send a Quick Note</h2>
           <p className="contact-panel-copy">
-            Prefill your note below to send a direct email with all context included.
+            Prefill your note below to compose an email with all your context structured.
           </p>
 
           {isSent ? (
             <div className="contact-success-state">
               <div className="success-icon-wrap"><FaEnvelope /></div>
               <h3>Opening Email Client...</h3>
-              <p>Your draft has been composed! Looking forward to connecting.</p>
+              <p>Your draft has been composed with full context! Looking forward to connecting.</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="contact-form">
@@ -194,7 +282,7 @@ const Contact = () => {
                 <input
                   id="contact-subject"
                   type="text"
-                  placeholder="e.g. Engineering collaboration / Role discussion"
+                  placeholder="e.g. Senior Full-Stack / Staff Role Discussion"
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                 />
@@ -214,9 +302,45 @@ const Contact = () => {
                 <span className="char-count">{formData.message.length} / 500</span>
               </div>
 
-              <button type="submit" className="contact-submit-btn" data-cursor="link">
-                <FaPaperPlane /> Send Message
-              </button>
+              <div className="form-actions-stack">
+                <button type="submit" className="contact-submit-btn" data-cursor="link">
+                  <FaPaperPlane aria-hidden="true" />
+                  <span>Send via Default Email App</span>
+                </button>
+
+                <div className="form-secondary-actions">
+                  <button
+                    type="button"
+                    className="contact-alt-btn"
+                    onClick={handleOpenGmail}
+                    data-cursor="link"
+                    title="Send using Gmail in browser"
+                  >
+                    <FaGoogle aria-hidden="true" />
+                    <span>Open in Gmail</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    className="contact-alt-btn"
+                    onClick={handleCopyFormattedDraft}
+                    data-cursor="link"
+                    title="Copy this drafted message to clipboard"
+                  >
+                    {copiedMessage ? (
+                      <>
+                        <FaCheck className="copied-check" aria-hidden="true" />
+                        <span>Draft Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <FaCopy aria-hidden="true" />
+                        <span>Copy Draft</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
             </form>
           )}
         </motion.div>
@@ -226,3 +350,4 @@ const Contact = () => {
 };
 
 export default Contact;
+

@@ -7,7 +7,7 @@
   --accent-400: #9f87ff;
   --accent-300: #c8bbff;
   --text-primary: #f4f5ff;
-  --text-muted: rgba(227, 229, 255, 0.7);
+  --text-muted: rgba(235, 238, 255, 0.78);
   --border-glow: rgba(123, 92, 255, 0.45);
   --shadow-lg: 0 28px 80px rgba(20, 18, 47, 0.65);
   --shadow-md: 0 18px 50px rgba(14, 12, 34, 0.45);
@@ -131,6 +131,24 @@ a {
 a:hover,
 a:focus {
   color: var(--accent-300);
+}
+
+/* --- Universal High-Contrast Accessible Focus-Visible Styling --- */
+:focus-visible {
+  outline: 2px solid #00c4ff !important;
+  outline-offset: 3px !important;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[role="button"]:focus-visible,
+[role="tab"]:focus-visible,
+[tabindex="0"]:focus-visible {
+  outline: 2px solid #00c4ff !important;
+  outline-offset: 3px !important;
 }
 
 ::selection {
