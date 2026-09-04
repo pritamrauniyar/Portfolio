@@ -80,6 +80,7 @@ export default function DevToolsHUD({ isOpen, onClose }) {
     <AnimatePresence>
       <motion.div
         className="hud-panel"
+        data-lenis-prevent="true"
         initial={{ opacity: 0, y: 30, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 30, scale: 0.95 }}

@@ -203,16 +203,39 @@ export default function ArchitectureModal({ isOpen, onClose, initialSystemId = "
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
 
+  // Lock background scroll and pause Lenis while modal is open
+  useEffect(() => {
+    if (!isOpen) return;
+
+    if (typeof window !== "undefined" && window.__lenis) {
+      window.__lenis.stop();
+    }
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      if (typeof window !== "undefined" && window.__lenis) {
+        window.__lenis.start();
+      }
+    };
+  }, [isOpen]);
+
   const activeSystem = SYSTEMS.find((s) => s.id === activeSystemId) || SYSTEMS[0];
 
   if (!isOpen) return null;
 
   return (
     <AnimatePresence>
-      <div className="arch-modal-overlay" onClick={onClose}>
+      <div
+        className="arch-modal-overlay"
+        onClick={onClose}
+        data-lenis-prevent="true"
+      >
         <motion.div
           className="arch-modal-container"
           onClick={(e) => e.stopPropagation()}
+          data-lenis-prevent="true"
           initial={{ opacity: 0, scale: 0.94, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.94, y: 20 }}

@@ -14,8 +14,12 @@ const SmoothScroll = ({ children }) => {
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       touchMultiplier: 1.5,
+      prevent: (node) => !!node.closest?.("[data-lenis-prevent]"),
     });
     lenisRef.current = lenis;
+    if (typeof window !== "undefined") {
+      window.__lenis = lenis;
+    }
 
     function raf(time) {
       lenis.raf(time);
@@ -26,6 +30,9 @@ const SmoothScroll = ({ children }) => {
     return () => {
       lenis.destroy();
       lenisRef.current = null;
+      if (typeof window !== "undefined") {
+        window.__lenis = null;
+      }
     };
   }, []);
 

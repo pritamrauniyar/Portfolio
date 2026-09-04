@@ -313,6 +313,7 @@ export default function InteractiveTerminal({ isEmbedded = false, onOpenArch, on
         className="terminal-body"
         ref={terminalBodyRef}
         onClick={() => inputRef.current?.focus()}
+        data-lenis-prevent="true"
       >
         {history.map((item, idx) => {
           if (item.type === "prompt") {

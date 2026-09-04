@@ -82,12 +82,25 @@ const CommandPalette = ({ isOpen, onClose, onOpenHud }) => {
     setSelectedIndex(0);
   }, [filteredCommands]);
 
-  // Focus input on open
+  // Focus input and lock scroll on open
   useEffect(() => {
     if (isOpen) {
       setQuery("");
       setSelectedIndex(0);
       setTimeout(() => inputRef.current?.focus(), 50);
+
+      if (typeof window !== "undefined" && window.__lenis) {
+        window.__lenis.stop();
+      }
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+
+      return () => {
+        document.body.style.overflow = originalOverflow;
+        if (typeof window !== "undefined" && window.__lenis) {
+          window.__lenis.start();
+        }
+      };
     }
   }, [isOpen]);
 
@@ -170,13 +183,19 @@ const CommandPalette = ({ isOpen, onClose, onOpenHud }) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="cmd-backdrop" onClick={onClose} role="presentation">
+        <div
+          className="cmd-backdrop"
+          onClick={onClose}
+          role="presentation"
+          data-lenis-prevent="true"
+        >
           <motion.div
             className="cmd-dialog"
             role="dialog"
             aria-modal="true"
             aria-label="Command Palette"
             onClick={(e) => e.stopPropagation()}
+            data-lenis-prevent="true"
             initial={{ opacity: 0, scale: 0.95, y: -20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -20 }}
@@ -205,7 +224,7 @@ const CommandPalette = ({ isOpen, onClose, onOpenHud }) => {
               </div>
             )}
 
-            <div className="cmd-list" ref={listRef} role="listbox">
+            <div className="cmd-list" ref={listRef} role="listbox" data-lenis-prevent="true">
               {filteredCommands.length === 0 ? (
                 <div className="cmd-empty">No results found for &ldquo;{query}&rdquo;</div>
               ) : (

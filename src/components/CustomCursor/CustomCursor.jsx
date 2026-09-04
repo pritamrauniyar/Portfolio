@@ -31,14 +31,20 @@ const CustomCursor = () => {
     document.addEventListener("mouseenter", handleMouseEnter);
 
     const handleOver = (e) => {
-      const target = e.target.closest("[data-cursor]");
-      if (target) {
-        setCursorVariant(target.dataset.cursor);
-        setCursorText(target.dataset.cursorText || "");
+      const explicit = e.target.closest("[data-cursor]");
+      if (explicit) {
+        setCursorVariant(explicit.dataset.cursor);
+        setCursorText(explicit.dataset.cursorText || "");
+        return;
+      }
+      const interactive = e.target.closest("button, a, input, [role='button'], .arch-node-card, .traffic-light");
+      if (interactive) {
+        setCursorVariant("link");
+        setCursorText("");
       }
     };
     const handleOut = (e) => {
-      const target = e.target.closest("[data-cursor]");
+      const target = e.target.closest("[data-cursor], button, a, input, [role='button'], .arch-node-card, .traffic-light");
       if (target) {
         setCursorVariant("default");
         setCursorText("");
