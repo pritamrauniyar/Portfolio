@@ -1,6 +1,9 @@
 .tilt-card {
   position: relative;
   will-change: transform;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .tilt-glare {

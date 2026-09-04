@@ -87,7 +87,7 @@ const ProjectCard = ({ data, index }) => {
             <span className="project-index">0{index + 1}</span>
             <h3>{data.title}</h3>
           </div>
-          <p>{data.description}</p>
+          <p title={data.description}>{data.description}</p>
 
           {data.tags && (
             <div className="project-tags">
@@ -263,11 +263,23 @@ const Project = () => {
         <AnimatePresence mode="popLayout">
           {isLoading ? (
             Array.from({ length: 6 }).map((_, index) => (
-              <div key={`skeleton-${index}`} className="project-card skeleton">
-                <div className="project-visual"><span /></div>
-                <div className="project-copy">
-                  <h3>Loading project</h3>
-                  <p>Curating something special...</p>
+              <div key={`skeleton-${index}`} className="project-card-wrapper">
+                <div className="project-card skeleton">
+                  <div className="project-visual"><span /></div>
+                  <div className="project-copy">
+                    <div className="project-title-row">
+                      <span className="project-index">0{index + 1}</span>
+                      <h3>Loading project</h3>
+                    </div>
+                    <p>Curating something special...</p>
+                    <div className="project-tags">
+                      <span className="project-tag" style={{ width: "64px", height: "24px" }} />
+                      <span className="project-tag" style={{ width: "84px", height: "24px" }} />
+                    </div>
+                    <div className="project-actions">
+                      <span className="project-btn primary" style={{ width: "105px", height: "36px" }} />
+                    </div>
+                  </div>
                 </div>
               </div>
             ))

@@ -235,6 +235,7 @@ const Certificates = () => {
               initial="hidden"
               animate="visible"
               exit="exit"
+              className="cert-card-wrapper"
             >
               <TiltCard tiltMax={4} scale={1.02}>
                 <article
