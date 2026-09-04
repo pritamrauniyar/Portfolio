@@ -1,70 +1,136 @@
-# Getting Started with Create React App
+# 🚀 Pritam Rauniyar — Developer Portfolio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[![React](https://img.shields.io/badge/React-18.2.0-61DAFB?logo=react&logoColor=black)](https://reactjs.org/)
+[![Framer Motion](https://img.shields.io/badge/Framer_Motion-11.0.0-black?logo=framer&logoColor=white)](https://www.framer.com/motion/)
+[![Lenis Scroll](https://img.shields.io/badge/Lenis-Smooth_Scroll-blueviolet)](https://github.com/darkroomengineering/lenis)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## Available Scripts
+A modern, interactive developer portfolio website built for **Pritam Rauniyar** (Software Engineer II @ Uber / AI Engineer). Featuring ultra-smooth physics-based animations, fluid page transitions, glassmorphic UI design, and responsive design across all devices.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## ✨ Features & Highlights
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- 🎭 **Physics & Motion**: Smooth page transitions and element reveals powered by **Framer Motion 11**.
+- 🧈 **Inertia Scrolling**: Silky-smooth scrolling experience integrated via **Lenis Smooth Scroll**.
+- 🖱️ **Interactive Custom Cursor & Magnetic Elements**: Reactive custom cursor with magnetic pull effect on buttons and links.
+- 🌌 **Animated Canvas Background**: Dynamic, subtle particle/gradient background effect with noise texture overlay.
+- 📊 **Dynamic Impact Counters**: Animated counters that count up on scroll to highlight engineering impact metrics.
+- ⏳ **Interactive Journey & Career Timeline**: Visual timeline showcasing experience across Uber, Ola, Elevate K-12, and education at MNNIT.
+- 🗂️ **Showcase Pages**:
+  - **Home**: Hero section with Typed.js dynamic text, impact metrics, tech marquee, and career journey.
+  - **About**: Personal background, engineering philosophy, and technical skillset breakdown.
+  - **Projects**: Live demos and repositories for AI and web applications.
+  - **Certificates**: Cloud and software engineering certifications (Azure, AWS, C++, Generative AI).
+  - **Blogs**: Engineering thoughts, tech articles, and tutorials.
+  - **Contact**: Fast communication form and direct reach-out options.
+- 📈 **Analytics**: Integrated with **Google Analytics 4 (React-GA4)**.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## 🛠️ Tech Stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### **Frontend & Framework**
+- **React 18** (`react`, `react-dom`)
+- **React Router v6** (`react-router-dom`)
+- **Redux & Redux-Thunk** (`redux`, `react-redux`, `redux-thunk`)
 
-### `npm run build`
+### **Styling & Motion**
+- **Framer Motion 11** — Declarative animations and route transitions
+- **Lenis** — Ultra-smooth inertia scrolling
+- **Typed.js** — Typing effect in the hero header
+- **CSS3 / Glassmorphism** — Modern glass cards, backdrop filters, CSS custom properties, and responsive grid layouts
+- **React Icons** — High-quality SVG icon sets
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 📁 Project Structure
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```text
+my_portfolio/
+├── public/
+│   ├── data/
+│   │   ├── journeyData.json       # Career & education milestones
+│   │   └── projectsData.json      # Projects data & links
+│   ├── images/                    # Logos, avatars, and assets
+│   └── PritamRauniyarResume.pdf   # Downloadable resume
+├── src/
+│   ├── components/
+│   │   ├── AnimatedBackground/    # Canvas/particle background
+│   │   ├── AnimatedCounter/       # Animated count-up component
+│   │   ├── CollaborateTransition/ # Smooth transition effects
+│   │   ├── CustomCursor/          # Interactive cursor tracking
+│   │   ├── Footer/                # Site footer and links
+│   │   ├── HeroSection/           # Hero banner with typed headlines
+│   │   ├── ImpactMetrics/         # Key metrics showcase
+│   │   ├── Journey/               # Career timeline & milestones
+│   │   ├── MagneticButton/        # Magnetic physics button component
+│   │   ├── Navbar/                # Navigation header
+│   │   ├── PageTransition/        # Animated page router wrappers
+│   │   ├── ResumeDownload/        # Resume preview and download modal
+│   │   ├── SmoothScroll/          # Lenis scroll provider & hooks
+│   │   ├── SvgIcons/              # Tech and company SVG icons
+│   │   ├── TechMarquee/           # Infinite animated tech stack loop
+│   │   ├── TextReveal/            # Kinetic typography text reveal
+│   │   └── TiltCard/              # 3D interactive tilt cards
+│   ├── pages/
+│   │   ├── About/                 # Bio, skillset, and engineering values
+│   │   ├── Blogs/                 # Technical articles
+│   │   ├── Certificates/          # Cloud certifications showcase
+│   │   ├── Contact/               # Contact form and direct links
+│   │   ├── Home/                  # Landing page
+│   │   └── Project/               # Featured projects gallery
+│   ├── App.js                     # Root router and global providers
+│   └── index.js                   # Entry point
+├── package.json
+└── README.md
+```
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 🚀 Getting Started
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Prerequisites
+Make sure you have [Node.js](https://nodejs.org/) installed (v16 or higher recommended) and `npm`.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Installation
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/pritamrauniyar/Portfolio.git
+   cd Portfolio
+   ```
 
-## Learn More
+2. **Install dependencies**:
+   ```bash
+   npm install --legacy-peer-deps
+   ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. **Run the development server**:
+   ```bash
+   npm start
+   ```
+   Open [http://localhost:3000](http://localhost:3000) in your browser to view the site.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+4. **Build for production**:
+   ```bash
+   npm run build
+   ```
+   The optimized production bundle will be generated in the `build/` folder.
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 📬 Contact & Connect
 
-### Analyzing the Bundle Size
+- **Website**: [pritamrauniyar.com.np](https://pritamrauniyar.com.np/)
+- **Email**: [pritamrauniyar.np@gmail.com](mailto:pritamrauniyar.np@gmail.com) | [contact@pritamrauniyar.com.np](mailto:contact@pritamrauniyar.com.np)
+- **LinkedIn**: [linkedin.com/in/pritamrauniyar](https://www.linkedin.com/in/pritamrauniyar/)
+- **GitHub**: [github.com/pritamrauniyar](https://github.com/pritamrauniyar/)
+- **Facebook**: [facebook.com/pritamrauniyar.np](https://facebook.com/pritamrauniyar.np/)
+- **Instagram**: [instagram.com/pritamrauniyar.np](https://www.instagram.com/pritamrauniyar.np/)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
+## 📄 License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This project is licensed under the [MIT License](LICENSE).
