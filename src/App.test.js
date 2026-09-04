@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, act } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { sound } from "./utils/soundEngine";
 import ResumeDownload from "./components/ResumeDownload/ResumeDownload";
@@ -36,9 +36,7 @@ describe("Portfolio Application Smoke Tests", () => {
     expect(screen.getByText(/download resume/i)).toBeInTheDocument();
 
     // Click triggers packaging
-    act(() => {
-      fireEvent.click(button);
-    });
+    fireEvent.click(button);
 
     expect(screen.getByText("49KB")).toBeInTheDocument();
     expect(button.classList.contains("packaging")).toBe(true);
@@ -56,9 +54,7 @@ describe("Portfolio Application Smoke Tests", () => {
     expect(button).toBeInTheDocument();
 
     // Click triggers warp overlay
-    act(() => {
-      fireEvent.click(button);
-    });
+    fireEvent.click(button);
 
     const overlay = screen.getByRole("dialog", { name: /quantum hyperspace transition/i });
     expect(overlay).toBeInTheDocument();
@@ -139,18 +135,14 @@ describe("Portfolio Application Smoke Tests", () => {
 
     // Click on a node card to open inspector
     const nodeCard = screen.getByText(/React Native Mobile Client/i);
-    act(() => {
-      fireEvent.click(nodeCard);
-    });
+    fireEvent.click(nodeCard);
 
     // Inspector should open with Specification and Contract tab
     expect(screen.getByText(/Protocol & Schema Contract ⚡/i)).toBeInTheDocument();
 
     // Switch to Schema tab
     const contractTab = screen.getByText(/Protocol & Schema Contract ⚡/i);
-    act(() => {
-      fireEvent.click(contractTab);
-    });
+    fireEvent.click(contractTab);
 
     // Contract code block should be rendered
     expect(screen.getByText(/payload-contract.ts/i)).toBeInTheDocument();

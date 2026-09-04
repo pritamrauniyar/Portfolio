@@ -86,11 +86,12 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  *:not(input):not(textarea) {
+  body.has-custom-cursor *:not(input):not(textarea):not(select):not([data-native-cursor]) {
     cursor: none !important;
   }
   input,
-  textarea {
+  textarea,
+  select {
     cursor: text !important;
   }
 }

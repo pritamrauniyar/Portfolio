@@ -105,7 +105,7 @@ const Contact = () => {
       >
         <div className="contact-status-pill">
           <span className="contact-status-dot" />
-          <span>Available for Senior / Staff Engineering Roles (Q1/Q2)</span>
+          <span>Available for SDE2 / Senior Software Engineer Roles</span>
         </div>
         <TextReveal as="h1" mode="words" className="gradient-text">
           Let&apos;s build the next thing together.
