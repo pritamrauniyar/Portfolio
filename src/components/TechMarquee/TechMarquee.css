@@ -98,8 +98,8 @@
    ══════════════════════════════════════════ */
 .tb-arena {
   position: relative;
-  height: 560px;
-  max-width: 1060px; /* Generous spread on laptop & desktop */
+  height: 580px;
+  max-width: 1080px; /* Generous spread on laptop & desktop */
   margin: 0 auto;
   overflow: visible; /* Prevents edge balls from clipping */
   padding: 0 1rem;
@@ -352,15 +352,15 @@
    ══════════════════════════════════════════ */
 @media (max-width: 1100px) {
   .tb-arena {
-    height: 540px;
-    max-width: 960px;
+    height: 550px;
+    max-width: 980px;
   }
 }
 
 @media (max-width: 960px) {
   .tb-arena {
-    height: 510px;
-    max-width: 740px;
+    height: 530px;
+    max-width: 760px;
     padding: 0 0.8rem;
   }
 
@@ -377,7 +377,7 @@
 
 @media (max-width: 768px) {
   .tb-arena {
-    height: 480px;
+    height: 500px;
     max-width: 100%;
     padding: 0 0.5rem;
   }
@@ -412,7 +412,7 @@
   }
 
   .tb-arena {
-    height: 440px;
+    height: 470px;
     padding: 0;
   }
 

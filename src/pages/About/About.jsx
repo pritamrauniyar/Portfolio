@@ -7,19 +7,23 @@ import TextReveal from "../../components/TextReveal/TextReveal";
 const skillColumns = [
   {
     heading: "Languages",
-    items: ["JavaScript", "TypeScript", "Go (Golang)", "C++", "Java", "SQL"],
+    items: ["TypeScript", "JavaScript", "Go (Golang)", "C++", "Java", "C", "SQL"],
   },
   {
     heading: "Frameworks",
-    items: ["React", "Fusion.js", "Angular", "Node.js", "Next.js", "RxJS"],
+    items: ["React", "Angular", "Node.js", "Fusion.js", "RxJS", "Next.js"],
   },
   {
-    heading: "Platforms",
-    items: ["Azure AD B2C", "Azure DevOps", "AWS Cloud"],
+    heading: "Generative AI",
+    items: ["LangGraph", "LangChain", "MCP", "Claude Code", "OpenAI Whisper"],
   },
   {
-    heading: "Tooling",
-    items: ["Jira", "UMonitor", "Postman", "Git/GitLab", "DynamoDB"],
+    heading: "Cloud & Data",
+    items: ["AWS Cloud", "Azure AD B2C", "Kafka", "gRPC", "MySQL", "DynamoDB"],
+  },
+  {
+    heading: "Tooling & CI/CD",
+    items: ["Git/GitLab", "CI/CD", "Postman", "Jira", "Playwright", "uGrafana"],
   },
 ];
 

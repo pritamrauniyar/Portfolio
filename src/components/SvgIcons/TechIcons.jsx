@@ -230,37 +230,135 @@ export const RESTIcon = ({ size = 40, className = "" }) => (
   </svg>
 );
 
+export const LangGraphIcon = ({ size = 40, className = "" }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} className={className}>
+    <rect x="2" y="2" width="20" height="20" rx="4" fill="#1C3C3C" />
+    <circle cx="7" cy="8" r="2.2" fill="#FF5722" />
+    <circle cx="17" cy="8" r="2.2" fill="#00D084" />
+    <circle cx="12" cy="16.5" r="2.2" fill="#61DAFB" />
+    <path d="M9.2 8h5.6M15.5 9.8l-2.4 4.8M8.5 9.8l2.4 4.8" stroke="#fff" strokeWidth="1.2" strokeLinecap="round" opacity="0.85" />
+  </svg>
+);
+
+export const LangChainIcon = ({ size = 40, className = "" }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} className={className}>
+    <rect x="2" y="2" width="20" height="20" rx="4" fill="#0E2A1E" />
+    <rect x="5.5" y="8.5" width="8" height="7" rx="3.5" fill="none" stroke="#22C55E" strokeWidth="1.6" />
+    <rect x="10.5" y="8.5" width="8" height="7" rx="3.5" fill="none" stroke="#EAB308" strokeWidth="1.6" />
+  </svg>
+);
+
+export const MCPIcon = ({ size = 40, className = "" }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} className={className}>
+    <rect x="2" y="2" width="20" height="20" rx="4" fill="#241B35" />
+    <circle cx="12" cy="12" r="3" fill="#A855F7" />
+    <circle cx="6" cy="7" r="1.8" fill="#C084FC" />
+    <circle cx="18" cy="7" r="1.8" fill="#C084FC" />
+    <circle cx="6" cy="17" r="1.8" fill="#C084FC" />
+    <circle cx="18" cy="17" r="1.8" fill="#C084FC" />
+    <path d="M7.4 8.2l3 2.5M16.6 8.2l-3 2.5M7.4 15.8l3-2.5M16.6 15.8l-3-2.5" stroke="#A855F7" strokeWidth="1.2" strokeLinecap="round" />
+  </svg>
+);
+
+export const KafkaIcon = ({ size = 40, className = "" }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} className={className}>
+    <rect x="2" y="2" width="20" height="20" rx="4" fill="#231F20" />
+    <circle cx="15.5" cy="7.5" r="2.2" fill="#fff" />
+    <circle cx="8" cy="12" r="2.2" fill="#fff" />
+    <circle cx="15.5" cy="16.5" r="2.2" fill="#fff" />
+    <path d="M10 11l3.5-2.2M10 13l3.5 2.2" stroke="#fff" strokeWidth="1.4" strokeLinecap="round" />
+  </svg>
+);
+
+export const GRPCIcon = ({ size = 40, className = "" }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} className={className}>
+    <rect x="2" y="2" width="20" height="20" rx="4" fill="#244C5A" />
+    <text x="12" y="15.5" textAnchor="middle" fontFamily="Arial,sans-serif" fontWeight="bold" fontSize="7" fill="#00D4AA">gRPC</text>
+  </svg>
+);
+
+export const MySQLIcon = ({ size = 40, className = "" }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} className={className}>
+    <rect x="2" y="2" width="20" height="20" rx="4" fill="#00618A" />
+    <ellipse cx="12" cy="7" rx="6" ry="2.2" fill="none" stroke="#F29111" strokeWidth="1.3" />
+    <path d="M6 7v4.5c0 1.2 2.7 2.2 6 2.2s6-1 6-2.2V7M6 11.5V16c0 1.2 2.7 2.2 6 2.2s6-1 6-2.2v-4.5" fill="none" stroke="#fff" strokeWidth="1.2" />
+  </svg>
+);
+
+export const WhisperIcon = ({ size = 40, className = "" }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} className={className}>
+    <rect x="2" y="2" width="20" height="20" rx="4" fill="#10A37F" />
+    <path d="M5 12h2M8 9v6M11 6v12M14 8v8M17 10v4M19 12h1" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" />
+  </svg>
+);
+
+export const CICDIcon = ({ size = 40, className = "" }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} className={className}>
+    <rect x="2" y="2" width="20" height="20" rx="4" fill="#1F2937" />
+    <path d="M8 12a3 3 0 105.5 1.5" fill="none" stroke="#FC6D26" strokeWidth="1.4" />
+    <path d="M16 12a3 3 0 10-5.5-1.5" fill="none" stroke="#3B82F6" strokeWidth="1.4" />
+    <circle cx="8" cy="12" r="1" fill="#FC6D26" />
+    <circle cx="16" cy="12" r="1" fill="#3B82F6" />
+  </svg>
+);
+
+export const JitsiIcon = ({ size = 40, className = "" }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} className={className}>
+    <rect x="2" y="2" width="20" height="20" rx="4" fill="#17A0DB" />
+    <path d="M6 8.5h7a1.5 1.5 0 011.5 1.5v4a1.5 1.5 0 01-1.5 1.5H6A1.5 1.5 0 014.5 14v-4A1.5 1.5 0 016 8.5z" fill="#fff" />
+    <path d="M14.5 10.5l4-2.5v8l-4-2.5v-3z" fill="#fff" opacity="0.9" />
+  </svg>
+);
+
 const iconMap = {
   React: ReactIcon,
   Angular: AngularIcon,
   JavaScript: JavaScriptIcon,
   TypeScript: TypeScriptIcon,
   "Go (Golang)": GoIcon,
+  Go: GoIcon,
   "Node.js": NodeIcon,
   "Fusion.js": FusionIcon,
   "Next.js": NextJSIcon,
   RxJS: RxJSIcon,
   "Azure AD B2C": AzureIcon,
+  Azure: AzureIcon,
   "Azure DevOps": AzureIcon,
   "AWS Cloud": AWSIcon,
+  AWS: AWSIcon,
   "Git/GitLab": GitIcon,
+  Git: GitIcon,
   SQL: SQLIcon,
   DynamoDB: DynamoDBIcon,
   Postman: PostmanIcon,
   Jira: JiraIcon,
   UMonitor: ReactIcon,
   "RESTful APIs": RESTIcon,
+  "REST APIs": RESTIcon,
   "C++": CppIcon,
   Java: JavaIcon,
   "HTML/CSS": HTMLCSSIcon,
   C: CIcon,
   Docstore: DocstoreIcon,
   uGrafana: GrafanaIcon,
+  Grafana: GrafanaIcon,
   "Studio API": StudioAPIIcon,
   Playwright: PlaywrightIcon,
   Codex: CodexIcon,
   Claude: ClaudeIcon,
+  "Claude Code": ClaudeIcon,
   Cursor: CursorIcon,
+  LangGraph: LangGraphIcon,
+  LangChain: LangChainIcon,
+  MCP: MCPIcon,
+  Kafka: KafkaIcon,
+  gRPC: GRPCIcon,
+  MySQL: MySQLIcon,
+  Whisper: WhisperIcon,
+  "OpenAI Whisper": WhisperIcon,
+  "CI/CD": CICDIcon,
+  Jitsi: JitsiIcon,
+  "Jitsi Web SDK": JitsiIcon,
 };
 
 export const getTechIcon = (name) => iconMap[name] || null;
