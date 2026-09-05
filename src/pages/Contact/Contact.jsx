@@ -282,7 +282,7 @@ const Contact = () => {
                 <input
                   id="contact-subject"
                   type="text"
-                  placeholder="e.g. Senior Full-Stack / Staff Role Discussion"
+                  placeholder="e.g. SDE2 / Senior Software Engineer Role Discussion"
                   value={formData.subject}
                   onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                 />

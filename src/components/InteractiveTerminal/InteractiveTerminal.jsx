@@ -147,7 +147,7 @@ export default function InteractiveTerminal({ isEmbedded = false, onOpenArch, on
                     github: "https://github.com/pritamrauniyar",
                     linkedin: "https://www.linkedin.com/in/pritam-rauniyar/",
                     location: "Bangalore, India",
-                    status: "Open to Staff/Senior Engineering opportunities",
+                    status: "Available for SDE2 / Senior Software Engineer roles",
                   },
                   null,
                   2
