@@ -127,6 +127,8 @@
   padding: 16px;
   overflow-y: auto;
   max-height: 420px;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   cursor: text;
   display: flex;
   flex-direction: column;

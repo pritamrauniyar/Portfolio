@@ -14,7 +14,19 @@ const SmoothScroll = ({ children }) => {
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       touchMultiplier: 1.0,
-      prevent: (node) => !!node.closest?.("[data-lenis-prevent]"),
+      prevent: (node) => {
+        const target = node?.closest?.("[data-lenis-prevent]");
+        if (!target) return false;
+        // Always prevent for modals/overlays
+        if (typeof window !== "undefined") {
+          try {
+            const pos = window.getComputedStyle(target).position;
+            if (pos === "fixed" || pos === "sticky") return true;
+          } catch (e) {}
+        }
+        // Only prevent in-flow elements if there is genuine scrollable overflow
+        return target.scrollHeight > target.clientHeight;
+      },
     });
     lenisRef.current = lenis;
     if (typeof window !== "undefined") {

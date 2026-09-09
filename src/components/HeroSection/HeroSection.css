@@ -141,7 +141,8 @@
   font-size: 1.05rem;
   color: var(--text-muted);
   line-height: 1.7;
-  min-height: 3.2em;
+  min-height: 5.4rem;
+  contain: layout;
 }
 
 /* Architecture pill triggers */
@@ -415,6 +416,7 @@
   padding: 0;
   border: none;
   background: transparent;
+  contain: layout;
 }
 
 /* Metric cells */

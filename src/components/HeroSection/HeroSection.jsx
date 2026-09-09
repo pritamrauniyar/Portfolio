@@ -127,13 +127,16 @@ const subcopyStrings = [
   "Obsessed with shaving milliseconds off INP/LCP and building tactile, zero-stutter web experiences.",
 ];
 
+const HERO_IMPRESSION_META = {};
+
 const HeroSection = () => {
   const heroAnimation = useRef(null);
   const subcopyAnimation = useRef(null);
   const heroRef = useRef(null);
+  const rafMoveRef = useRef(null);
   const [istTime, setIstTime] = useState("");
 
-  useComponentImpression("hero_section", {}, 0.2, heroRef);
+  useComponentImpression("hero_section", HERO_IMPRESSION_META, 0.2, heroRef);
 
   // Live Bangalore (IST) timezone presence clock
   useEffect(() => {
@@ -196,13 +199,26 @@ const HeroSection = () => {
     return () => typed.destroy();
   }, [subcopyOptions]);
 
+  useEffect(() => {
+    return () => {
+      if (rafMoveRef.current) cancelAnimationFrame(rafMoveRef.current);
+    };
+  }, []);
+
   const handleMouseMove = useCallback((e) => {
-    if (!heroRef.current) return;
-    const rect = heroRef.current.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    heroRef.current.style.setProperty("--spotlight-x", `${x.toFixed(1)}%`);
-    heroRef.current.style.setProperty("--spotlight-y", `${y.toFixed(1)}%`);
+    if (rafMoveRef.current) return;
+    const clientX = e.clientX;
+    const clientY = e.clientY;
+    rafMoveRef.current = requestAnimationFrame(() => {
+      rafMoveRef.current = null;
+      if (!heroRef.current) return;
+      const rect = heroRef.current.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      const x = ((clientX - rect.left) / rect.width) * 100;
+      const y = ((clientY - rect.top) / rect.height) * 100;
+      heroRef.current.style.setProperty("--spotlight-x", `${x.toFixed(1)}%`);
+      heroRef.current.style.setProperty("--spotlight-y", `${y.toFixed(1)}%`);
+    });
   }, []);
 
   const openArchitecture = (id = "splithive") => {

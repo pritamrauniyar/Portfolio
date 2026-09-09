@@ -277,6 +277,23 @@ export default function InteractiveTerminal({ isEmbedded = false, onOpenArch, on
     }
   };
 
+  const handleBodyWheel = (e) => {
+    const el = terminalBodyRef.current;
+    if (!el) return;
+    const hasOverflow = el.scrollHeight > el.clientHeight;
+    if (!hasOverflow) return;
+
+    const isScrollingUp = e.deltaY < 0;
+    const isScrollingDown = e.deltaY > 0;
+    const canScrollUp = el.scrollTop > 0;
+    const canScrollDown = el.scrollTop + el.clientHeight < el.scrollHeight - 1;
+
+    if ((isScrollingDown && canScrollDown) || (isScrollingUp && canScrollUp)) {
+      // Only stop propagation to the page when the terminal itself has room to scroll
+      e.stopPropagation();
+    }
+  };
+
   const chips = ["help", "bio", "skills", "projects", "arch splithive", "arch ai-transcription", "sudo hire"];
 
   return (
@@ -324,7 +341,7 @@ export default function InteractiveTerminal({ isEmbedded = false, onOpenArch, on
         className="terminal-body"
         ref={terminalBodyRef}
         onClick={() => inputRef.current?.focus()}
-        data-lenis-prevent="true"
+        onWheel={handleBodyWheel}
       >
         {history.map((item, idx) => {
           if (item.type === "prompt") {
