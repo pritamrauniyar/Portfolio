@@ -15,6 +15,8 @@ import {
   FaChevronUp,
 } from "react-icons/fa";
 import sound from "../../utils/soundEngine";
+import analytics from "../../utils/analytics";
+import useComponentImpression from "../../hooks/useComponentImpression";
 
 const CATEGORIES = [
   "All",
@@ -76,11 +78,14 @@ const FlagshipCard = ({ data, index }) => {
   const handleOpenArch = useCallback(() => {
     sound.playSuccess();
     if (archTarget) {
+      analytics.trackAction("project_architecture_inspect_clicked", "Projects", archTarget, null, {
+        project_title: data.title,
+      });
       window.dispatchEvent(
         new CustomEvent("open-arch-modal", { detail: archTarget })
       );
     }
-  }, [archTarget]);
+  }, [archTarget, data.title]);
 
   return (
     <motion.article
@@ -258,7 +263,10 @@ const FlagshipCard = ({ data, index }) => {
                 rel="noopener noreferrer"
                 className="project-btn primary"
                 data-cursor="link"
-                onClick={() => sound.playClick()}
+                onClick={() => {
+                  sound.playClick();
+                  analytics.trackAction("project_demo_clicked", "Projects", data.title, null, { url: data.link });
+                }}
                 onMouseEnter={() => sound.playHover()}
               >
                 <FaExternalLinkAlt aria-hidden="true" />
@@ -271,7 +279,10 @@ const FlagshipCard = ({ data, index }) => {
                   rel="noopener noreferrer"
                   className="project-btn secondary"
                   data-cursor="link"
-                  onClick={() => sound.playClick()}
+                  onClick={() => {
+                    sound.playClick();
+                    analytics.trackAction("project_source_clicked", "Projects", data.title, null, { url: data.github });
+                  }}
                   onMouseEnter={() => sound.playHover()}
                 >
                   <FaGithub aria-hidden="true" /> Source
@@ -380,7 +391,10 @@ const UtilityCard = ({ data, index }) => {
               rel="noopener noreferrer"
               className="project-btn primary"
               data-cursor="link"
-              onClick={() => sound.playClick()}
+              onClick={() => {
+                sound.playClick();
+                analytics.trackAction("project_demo_clicked", "Projects", data.title, null, { url: data.link });
+              }}
               onMouseEnter={() => sound.playHover()}
             >
               <FaExternalLinkAlt aria-hidden="true" />
@@ -393,7 +407,10 @@ const UtilityCard = ({ data, index }) => {
                 rel="noopener noreferrer"
                 className="project-btn secondary"
                 data-cursor="link"
-                onClick={() => sound.playClick()}
+                onClick={() => {
+                  sound.playClick();
+                  analytics.trackAction("project_source_clicked", "Projects", data.title, null, { url: data.github });
+                }}
                 onMouseEnter={() => sound.playHover()}
               >
                 <FaGithub aria-hidden="true" /> Source
@@ -459,9 +476,10 @@ const Project = () => {
   );
 
   const isDefaultView = selectedCategory === "All" && !searchQuery.trim();
+  const impressionRef = useComponentImpression("projects_gallery");
 
   return (
-    <section className="projects section-wrapper">
+    <section className="projects section-wrapper" ref={impressionRef}>
       <motion.header
         className="projects-header"
         initial={{ y: 24, opacity: 0 }}
@@ -487,6 +505,7 @@ const Project = () => {
               className={`projects-tab ${selectedCategory === category ? "active" : ""}`}
               onClick={() => {
                 sound.playTab();
+                analytics.trackAction("project_category_filtered", "Projects", category);
                 setSelectedCategory(category);
               }}
               role="tab"

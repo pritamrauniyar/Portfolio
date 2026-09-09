@@ -22,6 +22,7 @@ import {
 } from "react-icons/fa";
 import { useTheme } from "../../context/ThemeContext";
 import sound from "../../utils/soundEngine";
+import analytics from "../../utils/analytics";
 import "./CommandPalette.css";
 
 const BASE_COMMANDS = [
@@ -87,6 +88,7 @@ const CommandPalette = ({ isOpen, onClose, onOpenHud }) => {
   // Focus input and lock scroll on open
   useEffect(() => {
     if (isOpen) {
+      analytics.trackAction("command_palette_opened", "CommandPalette", "dialog");
       setQuery("");
       setSelectedIndex(0);
       setTimeout(() => inputRef.current?.focus(), 50);
@@ -110,6 +112,10 @@ const CommandPalette = ({ isOpen, onClose, onOpenHud }) => {
     (cmd) => {
       if (!cmd) return;
       sound.playClick();
+      analytics.trackAction("command_executed", "CommandPalette", cmd.id, null, {
+        action_type: cmd.action,
+        title: cmd.title,
+      });
 
       if (cmd.action === "navigate") {
         navigate(cmd.path);

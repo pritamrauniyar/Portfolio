@@ -16,6 +16,8 @@ import {
 import TextReveal from "../../components/TextReveal/TextReveal";
 import MagneticButton from "../../components/MagneticButton/MagneticButton";
 import sound from "../../utils/soundEngine";
+import analytics from "../../utils/analytics";
+import useComponentImpression from "../../hooks/useComponentImpression";
 
 const socials = [
   {
@@ -38,6 +40,7 @@ const socials = [
 const TARGET_EMAIL = "pritamrauniyar.np@gmail.com";
 
 const Contact = () => {
+  const impressionRef = useComponentImpression("contact_section");
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedMessage, setCopiedMessage] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "", subject: "", message: "" });
@@ -45,6 +48,7 @@ const Contact = () => {
 
   const handleCopyEmail = () => {
     sound.playSuccess();
+    analytics.trackAction("contact_copy_email", "Contact", TARGET_EMAIL);
     navigator.clipboard.writeText(TARGET_EMAIL);
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2200);
@@ -60,6 +64,7 @@ const Contact = () => {
 
   const handleCopyFormattedDraft = () => {
     sound.playSuccess();
+    analytics.trackAction("contact_copy_draft", "Contact", "formatted_email_draft");
     const fullDraft = `To: ${TARGET_EMAIL}\nSubject: ${getSubject()}\n\n${getComposedBody()}`;
     navigator.clipboard.writeText(fullDraft);
     setCopiedMessage(true);
@@ -68,12 +73,14 @@ const Contact = () => {
 
   const handleOpenGmail = () => {
     sound.playClick();
+    analytics.trackAction("contact_webmail_gmail", "Contact", "gmail_web_compose");
     const url = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(TARGET_EMAIL)}&su=${encodeURIComponent(getSubject())}&body=${encodeURIComponent(getComposedBody())}`;
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
   const handleOpenOutlook = () => {
     sound.playClick();
+    analytics.trackAction("contact_webmail_outlook", "Contact", "outlook_web_compose");
     const url = `https://outlook.live.com/mail/0/deeplink/compose?to=${encodeURIComponent(TARGET_EMAIL)}&subject=${encodeURIComponent(getSubject())}&body=${encodeURIComponent(getComposedBody())}`;
     window.open(url, "_blank", "noopener,noreferrer");
   };
@@ -83,6 +90,9 @@ const Contact = () => {
     if (!formData.name || !formData.email || !formData.message) return;
 
     sound.playSuccess();
+    analytics.trackAction("contact_form_submitted", "Contact", "mailto_pipeline", null, {
+      has_subject: !!formData.subject,
+    });
     const mailtoUrl = `mailto:${TARGET_EMAIL}?subject=${encodeURIComponent(
       getSubject()
     )}&body=${encodeURIComponent(getComposedBody())}`;
@@ -96,7 +106,7 @@ const Contact = () => {
   };
 
   return (
-    <section className="contact section-wrapper">
+    <section className="contact section-wrapper" ref={impressionRef}>
       <motion.header
         className="contact-header"
         initial={{ y: 28, opacity: 0 }}

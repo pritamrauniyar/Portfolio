@@ -8,6 +8,7 @@ import ResumeDownload from "../ResumeDownload/ResumeDownload";
 import CollaborateTransition from "../CollaborateTransition/CollaborateTransition";
 import InteractiveTerminal from "../InteractiveTerminal/InteractiveTerminal";
 import sound from "../../utils/soundEngine";
+import useComponentImpression from "../../hooks/useComponentImpression";
 
 const impactMetrics = [
   {
@@ -131,6 +132,8 @@ const HeroSection = () => {
   const subcopyAnimation = useRef(null);
   const heroRef = useRef(null);
   const [istTime, setIstTime] = useState("");
+
+  useComponentImpression("hero_section", {}, 0.2, heroRef);
 
   // Live Bangalore (IST) timezone presence clock
   useEffect(() => {

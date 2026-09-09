@@ -1,3 +1,5 @@
+import analytics from "./analytics";
+
 // Zero-asset procedural Web Audio API sound synthesizer for tactile UI micro-haptics
 class SoundEngine {
   constructor() {
@@ -31,6 +33,7 @@ class SoundEngine {
     if (!this.muted) {
       this.playSuccess();
     }
+    analytics.trackAction("sound_toggled", "Audio", this.muted ? "muted" : "unmuted");
     return this.muted;
   }
 

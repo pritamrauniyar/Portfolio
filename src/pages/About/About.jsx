@@ -3,6 +3,7 @@ import "./About.css";
 import { motion } from "framer-motion";
 import { getTechIcon } from "../../components/SvgIcons/TechIcons";
 import TextReveal from "../../components/TextReveal/TextReveal";
+import useComponentImpression from "../../hooks/useComponentImpression";
 
 const skillColumns = [
   {
@@ -42,8 +43,10 @@ const iconItemVariants = {
 };
 
 const About = () => {
+  const impressionRef = useComponentImpression("about_section");
+
   return (
-    <section className="about section-wrapper">
+    <section className="about section-wrapper" ref={impressionRef}>
       <motion.header
         className="about-header"
         initial={{ y: 24, opacity: 0 }}

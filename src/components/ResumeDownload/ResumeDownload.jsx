@@ -2,6 +2,7 @@ import { useState, useCallback, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import sound from "../../utils/soundEngine";
+import analytics from "../../utils/analytics";
 import "./ResumeDownload.css";
 
 const STATUS = {
@@ -25,6 +26,7 @@ const ResumeDownload = ({ resumeUrl = "/PritamRauniyarResume.pdf" }) => {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+    analytics.trackAction("resume_download_completed", "Resume", "Pritam_Rauniyar_Resume.pdf");
   }, [resumeUrl]);
 
   // Generate particle burst on click
@@ -59,6 +61,9 @@ const ResumeDownload = ({ resumeUrl = "/PritamRauniyarResume.pdf" }) => {
     if (status !== STATUS.IDLE && !isRetry) return;
 
     sound.playSuccess();
+    analytics.trackAction("resume_download_click", "Resume", isRetry ? "retry" : "initial", null, {
+      file_name: "Pritam_Rauniyar_Resume.pdf",
+    });
     if (e && e.currentTarget) spawnParticles(e);
     setStatus(STATUS.PACKAGING);
 

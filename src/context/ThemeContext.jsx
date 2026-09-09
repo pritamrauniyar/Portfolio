@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import sound from "../utils/soundEngine";
+import analytics from "../utils/analytics";
 
 export const THEMES = [
   { id: "obsidian", label: "Obsidian", icon: "🌌", description: "Deep cosmic violet & electric cyan" },
@@ -37,6 +38,7 @@ export const ThemeProvider = ({ children }) => {
     if (THEMES.some((t) => t.id === newTheme)) {
       setThemeState(newTheme);
       sound.playToggle();
+      analytics.trackAction("theme_changed", "Appearance", newTheme);
     }
   }, []);
 
@@ -45,6 +47,7 @@ export const ThemeProvider = ({ children }) => {
       const currentIndex = THEMES.findIndex((t) => t.id === prev);
       const nextTheme = THEMES[(currentIndex + 1) % THEMES.length].id;
       sound.playToggle();
+      analytics.trackAction("theme_changed", "Appearance", nextTheme);
       return nextTheme;
     });
   }, []);

@@ -2,6 +2,8 @@ import "./Blogs.css";
 import { motion } from "framer-motion";
 import TextReveal from "../../components/TextReveal/TextReveal";
 import { FaClock, FaLinkedin, FaBookOpen } from "react-icons/fa";
+import analytics from "../../utils/analytics";
+import useComponentImpression from "../../hooks/useComponentImpression";
 
 const upcomingArticles = [
   {
@@ -57,8 +59,10 @@ const cardVariants = {
 };
 
 const Blogs = () => {
+  const impressionRef = useComponentImpression("blogs_section");
+
   return (
-    <section className="blogs section-wrapper">
+    <section className="blogs section-wrapper" ref={impressionRef}>
       <motion.header
         className="blogs-header"
         initial={{ y: 24, opacity: 0 }}
@@ -116,6 +120,9 @@ const Blogs = () => {
                 rel="noopener noreferrer"
                 className="blog-notify-link"
                 data-cursor="link"
+                onClick={() => {
+                  analytics.trackAction("blogs_linkedin_followed", "Blogs", article.title);
+                }}
               >
                 <FaLinkedin /> Follow on LinkedIn
               </a>

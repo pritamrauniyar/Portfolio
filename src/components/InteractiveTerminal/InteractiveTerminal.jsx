@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import sound from "../../utils/soundEngine";
+import analytics from "../../utils/analytics";
 import { useTheme } from "../../context/ThemeContext";
 import "./InteractiveTerminal.css";
 
@@ -56,6 +57,12 @@ export default function InteractiveTerminal({ isEmbedded = false, onOpenArch, on
       const parts = trimmed.split(" ");
       const root = parts[0].toLowerCase();
       const arg = parts.slice(1).join(" ").toLowerCase();
+
+      analytics.trackAction("terminal_command_executed", "Terminal", root, null, {
+        full_command: trimmed,
+        root,
+        arg,
+      });
 
       const newEntries = [{ type: "prompt", text: `$ ${trimmed}` }];
 
@@ -196,6 +203,7 @@ export default function InteractiveTerminal({ isEmbedded = false, onOpenArch, on
         case "sudo":
           if (arg.includes("hire")) {
             sound.playSuccess();
+            analytics.trackAction("terminal_sudo_hire_executed", "Terminal", "authenticated_root");
             newEntries.push(
               { type: "highlight", text: "🌟 [AUTHENTICATED: ROOT PRIVILEGES GRANTED]" },
               { type: "system", text: "Redirecting to high-priority candidate pipeline..." },

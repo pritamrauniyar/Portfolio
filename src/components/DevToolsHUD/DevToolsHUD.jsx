@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import sound from "../../utils/soundEngine";
+import analytics from "../../utils/analytics";
 import "./DevToolsHUD.css";
 
 export default function DevToolsHUD({ isOpen, onClose }) {
@@ -8,7 +9,19 @@ export default function DevToolsHUD({ isOpen, onClose }) {
   const [fpsHistory, setFpsHistory] = useState(() => new Array(24).fill(60));
   const [domCount, setDomCount] = useState(0);
   const [memoryUsage, setMemoryUsage] = useState(null);
-  const [activeTab, setActiveTab] = useState("metrics"); // 'metrics' | 'spring'
+  const [activeTab, setActiveTab] = useState("metrics"); // 'metrics' | 'spring' | 'telemetry'
+  const [telemetry, setTelemetry] = useState(() => analytics.getSnapshot());
+  const [copiedUid, setCopiedUid] = useState(false);
+
+  // Subscribe to live telemetry feed when HUD is open
+  useEffect(() => {
+    if (!isOpen) return;
+    setTelemetry(analytics.getSnapshot());
+    const unsub = analytics.subscribe(() => {
+      setTelemetry(analytics.getSnapshot());
+    });
+    return unsub;
+  }, [isOpen]);
 
   // Interactive Spring Physics Simulator State
   const [stiffness, setStiffness] = useState(300);
@@ -78,6 +91,15 @@ export default function DevToolsHUD({ isOpen, onClose }) {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const copyUid = () => {
+    sound.playSuccess();
+    if (telemetry?.clientId) {
+      navigator.clipboard.writeText(telemetry.clientId);
+      setCopiedUid(true);
+      setTimeout(() => setCopiedUid(false), 2000);
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -116,6 +138,15 @@ export default function DevToolsHUD({ isOpen, onClose }) {
               Spring Lab
             </button>
             <button
+              className={`hud-tab-btn ${activeTab === "telemetry" ? "active" : ""}`}
+              onClick={() => {
+                sound.playClick();
+                setActiveTab("telemetry");
+              }}
+            >
+              Telemetry
+            </button>
+            <button
               className="hud-close-btn"
               onClick={() => {
                 sound.playClick();
@@ -127,7 +158,7 @@ export default function DevToolsHUD({ isOpen, onClose }) {
           </div>
         </div>
 
-        {activeTab === "metrics" ? (
+        {activeTab === "metrics" && (
           <div className="hud-body">
             {/* FPS and Sparkline */}
             <div className="hud-metric-row">
@@ -190,7 +221,9 @@ export default function DevToolsHUD({ isOpen, onClose }) {
               </div>
             </div>
           </div>
-        ) : (
+        )}
+
+        {activeTab === "spring" && (
           <div className="hud-body spring-lab">
             <div className="spring-controls">
               <div className="spring-slider-group">
@@ -269,6 +302,138 @@ export default function DevToolsHUD({ isOpen, onClose }) {
             <button className="spring-copy-btn" onClick={copySpringSnippet}>
               {copied ? "✓ Copied to Clipboard!" : "Copy Spring Config"}
             </button>
+          </div>
+        )}
+
+        {activeTab === "telemetry" && (
+          <div className="hud-body hud-telemetry-body">
+            {/* Identity & Session */}
+            <div className="telemetry-section">
+              <div className="telemetry-header-row">
+                <span className="telemetry-section-title">IDENTITY & SESSION</span>
+                <span className={`telemetry-badge ${telemetry.isReturningVisitor ? "badge-return" : "badge-new"}`}>
+                  {telemetry.isReturningVisitor ? `RETURNING (Visit #${telemetry.visitCount})` : "NEW VISITOR"}
+                </span>
+              </div>
+              <div className="telemetry-card">
+                <div className="telemetry-row">
+                  <span className="telemetry-label">Client UID:</span>
+                  <div className="telemetry-uid-val">
+                    <span className="uid-text" title={telemetry.clientId}>{telemetry.clientId}</span>
+                    <button className="telemetry-copy-btn" onClick={copyUid} title="Copy Client UID">
+                      {copiedUid ? "✓" : "Copy"}
+                    </button>
+                  </div>
+                </div>
+                <div className="telemetry-row">
+                  <span className="telemetry-label">Session ID:</span>
+                  <span className="telemetry-val" title={telemetry.sessionId}>{telemetry.sessionId}</span>
+                </div>
+                <div className="telemetry-row">
+                  <span className="telemetry-label">Impressions:</span>
+                  <span className="telemetry-val accent-val">{telemetry.impressionsCount} sections viewed</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Acquisition & Referrer */}
+            <div className="telemetry-section">
+              <span className="telemetry-section-title">TRAFFIC ORIGIN & ACQUISITION</span>
+              <div className="telemetry-card">
+                <div className="telemetry-row">
+                  <span className="telemetry-label">Referrer:</span>
+                  <span className="telemetry-val">
+                    {telemetry.acquisition?.referrerDomain || "Direct"}
+                    {telemetry.acquisition?.referrerType && ` (${telemetry.acquisition.referrerType})`}
+                  </span>
+                </div>
+                <div className="telemetry-row">
+                  <span className="telemetry-label">Landing:</span>
+                  <span className="telemetry-val">{telemetry.acquisition?.landingPath || "/"}</span>
+                </div>
+                {telemetry.acquisition?.utmSource && (
+                  <div className="telemetry-row">
+                    <span className="telemetry-label">UTM Source:</span>
+                    <span className="telemetry-val accent-val">{telemetry.acquisition.utmSource}</span>
+                  </div>
+                )}
+                {telemetry.acquisition?.utmCampaign && (
+                  <div className="telemetry-row">
+                    <span className="telemetry-label">Campaign:</span>
+                    <span className="telemetry-val">{telemetry.acquisition.utmCampaign}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Machine & Hardware Profile */}
+            <div className="telemetry-section">
+              <span className="telemetry-section-title">MACHINE & ENVIRONMENT</span>
+              <div className="telemetry-card">
+                <div className="telemetry-grid">
+                  <div>
+                    <span className="telemetry-sublabel">OS</span>
+                    <p className="telemetry-grid-val">{telemetry.machineProfile?.os || "N/A"}</p>
+                  </div>
+                  <div>
+                    <span className="telemetry-sublabel">Browser</span>
+                    <p className="telemetry-grid-val">{telemetry.machineProfile?.browser || "N/A"}</p>
+                  </div>
+                  <div>
+                    <span className="telemetry-sublabel">Screen</span>
+                    <p className="telemetry-grid-val">{telemetry.machineProfile?.screenRes || "N/A"}</p>
+                  </div>
+                  <div>
+                    <span className="telemetry-sublabel">Viewport</span>
+                    <p className="telemetry-grid-val">{telemetry.machineProfile?.viewport || "N/A"}</p>
+                  </div>
+                  <div>
+                    <span className="telemetry-sublabel">CPU Cores</span>
+                    <p className="telemetry-grid-val">{telemetry.machineProfile?.cores || 1}</p>
+                  </div>
+                  <div>
+                    <span className="telemetry-sublabel">Memory</span>
+                    <p className="telemetry-grid-val">{telemetry.machineProfile?.memoryGB || "N/A"}</p>
+                  </div>
+                  <div>
+                    <span className="telemetry-sublabel">Network</span>
+                    <p className="telemetry-grid-val">{telemetry.machineProfile?.networkType || "unknown"}</p>
+                  </div>
+                  <div>
+                    <span className="telemetry-sublabel">Timezone</span>
+                    <p className="telemetry-grid-val">{telemetry.machineProfile?.timezone || "UTC"}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Live Event Stream */}
+            <div className="telemetry-section">
+              <div className="telemetry-header-row">
+                <span className="telemetry-section-title">LIVE EVENT STREAM</span>
+                <span className="telemetry-event-count">{telemetry.events?.length || 0} buffered</span>
+              </div>
+              <div className="telemetry-event-feed">
+                {(!telemetry.events || telemetry.events.length === 0) ? (
+                  <p className="telemetry-no-events">No interactions recorded yet. Click or scroll to emit telemetry.</p>
+                ) : (
+                  telemetry.events.slice(0, 15).map((evt) => (
+                    <div key={evt.id} className="telemetry-event-item">
+                      <div className="event-item-top">
+                        <span className={`event-type-badge type-${evt.type?.toLowerCase() || "action"}`}>
+                          {evt.type}
+                        </span>
+                        <span className="event-time">{evt.timestamp}</span>
+                      </div>
+                      <div className="event-item-desc">
+                        <strong className="event-action">{evt.action}</strong>
+                        {evt.label && <span className="event-label"> — {evt.label}</span>}
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
           </div>
         )}
       </motion.div>

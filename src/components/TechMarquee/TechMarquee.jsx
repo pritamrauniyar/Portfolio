@@ -11,6 +11,8 @@ import {
   MySQLIcon, WhisperIcon, CICDIcon, JitsiIcon,
 } from "../SvgIcons/TechIcons";
 import sound from "../../utils/soundEngine";
+import analytics from "../../utils/analytics";
+import useComponentImpression from "../../hooks/useComponentImpression";
 import "./TechMarquee.css";
 
 const TECH = [
@@ -266,6 +268,8 @@ const TechMarquee = () => {
   const inactivityTimerRef = useRef(null);
   const isInView = useInView(sectionRef, { amount: 0.25 });
 
+  useComponentImpression("tech_marquee", {}, 0.25, sectionRef);
+
   // Dynamically listen to viewport width to adapt slots
   useEffect(() => {
     const handleResize = () => {
@@ -319,6 +323,9 @@ const TechMarquee = () => {
   const handleClick = useCallback(
     (idx) => {
       sound.playClick();
+      if (TECH[idx]) {
+        analytics.trackAction("tech_marquee_item_clicked", "TechMarquee", TECH[idx].name);
+      }
       handleUserActivity();
       setFocusedIdx(idx);
       setSlotMap(fisherYates(TECH.map((_, i) => i)));
@@ -334,6 +341,7 @@ const TechMarquee = () => {
       );
       if (matchIdx !== -1) {
         sound.playClick();
+        analytics.trackAction("tech_marquee_tag_clicked", "TechMarquee", tag);
         setFocusedIdx(matchIdx);
         setSlotMap(fisherYates(TECH.map((_, i) => i)));
       }
@@ -343,6 +351,7 @@ const TechMarquee = () => {
 
   const toggleAutoPlay = useCallback(() => {
     sound.playToggle();
+    analytics.trackAction("tech_marquee_autoplay_toggled", "TechMarquee", isAutoPlaying ? "pause" : "play");
     if (isAutoPlaying) {
       handleUserActivity();
     } else {

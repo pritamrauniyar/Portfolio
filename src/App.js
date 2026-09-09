@@ -14,7 +14,7 @@ import CommandPalette from "./components/CommandPalette/CommandPalette";
 import ArchitectureModal from "./components/ArchitectureModal/ArchitectureModal";
 import DevToolsHUD from "./components/DevToolsHUD/DevToolsHUD";
 import RouteLoader from "./components/RouteLoader/RouteLoader";
-import ReactGA from "react-ga4";
+import analytics from "./utils/analytics";
 
 // Route code-splitting for optimal bundle performance
 const Home = lazy(() => import("./pages/Home/Home"));
@@ -24,12 +24,30 @@ const Contact = lazy(() => import("./pages/Contact/Contact"));
 const Certificates = lazy(() => import("./pages/Certificates/Certificates"));
 const Blogs = lazy(() => import("./pages/Blogs/Blogs"));
 
-ReactGA.initialize("G-1SJ51YJ4NT");
-
 function App() {
   const [isCmdOpen, setIsCmdOpen] = useState(false);
   const [isHudOpen, setIsHudOpen] = useState(false);
   const [archModal, setArchModal] = useState({ isOpen: false, systemId: "splithive" });
+
+  // Initialize Analytics Engine & Global Error Observers
+  useEffect(() => {
+    analytics.init();
+
+    const handleError = (event) => {
+      analytics.trackError(event.error || event.message, "window.onerror");
+    };
+    const handleRejection = (event) => {
+      analytics.trackError(event.reason, "unhandled_promise_rejection");
+    };
+
+    window.addEventListener("error", handleError);
+    window.addEventListener("unhandledrejection", handleRejection);
+
+    return () => {
+      window.removeEventListener("error", handleError);
+      window.removeEventListener("unhandledrejection", handleRejection);
+    };
+  }, []);
 
   // Global Keyboard Shortcuts (Cmd+K for Command Palette, Cmd+I for HUD)
   useEffect(() => {
@@ -37,10 +55,18 @@ function App() {
       const isMeta = e.metaKey || e.ctrlKey;
       if (isMeta && e.key.toLowerCase() === "k") {
         e.preventDefault();
-        setIsCmdOpen((prev) => !prev);
+        setIsCmdOpen((prev) => {
+          const next = !prev;
+          analytics.trackAction(next ? "open_command_palette" : "close_command_palette", "Navigation", "Shortcut: Cmd+K");
+          return next;
+        });
       } else if (isMeta && e.key.toLowerCase() === "i") {
         e.preventDefault();
-        setIsHudOpen((prev) => !prev);
+        setIsHudOpen((prev) => {
+          const next = !prev;
+          analytics.trackAction(next ? "open_hud" : "close_hud", "DevTools", "Shortcut: Cmd+I");
+          return next;
+        });
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -50,9 +76,11 @@ function App() {
   // Global event listener for opening architecture deep-dive
   useEffect(() => {
     const handleOpenArch = (e) => {
+      const systemId = e.detail || "splithive";
+      analytics.trackAction("open_architecture_modal", "Architecture", systemId);
       setArchModal({
         isOpen: true,
-        systemId: e.detail || "splithive",
+        systemId,
       });
     };
     window.addEventListener("open-arch-modal", handleOpenArch);
@@ -107,7 +135,7 @@ function AnimatedRoutes() {
   const lenisRef = useLenis();
 
   useEffect(() => {
-    ReactGA.send({ hitType: "pageview", page: location.pathname });
+    analytics.trackPageView(location.pathname);
     if (lenisRef?.current) {
       lenisRef.current.scrollTo(0, { immediate: true });
     } else {

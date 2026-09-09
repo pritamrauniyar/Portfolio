@@ -2,6 +2,8 @@ import { useRef, useEffect, useState, useCallback } from "react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import TextReveal from "../TextReveal/TextReveal";
 import sound from "../../utils/soundEngine";
+import analytics from "../../utils/analytics";
+import useComponentImpression from "../../hooks/useComponentImpression";
 import "./ImpactMetrics.css";
 
 const PRODUCTION_METRICS = [
@@ -227,7 +229,13 @@ const ImpactCard = ({ metric, delay }) => {
       whileHover={{ y: -6, scale: 1.015 }}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => sound.playHover()}
-      onClick={() => sound.playClick()}
+      onClick={() => {
+        sound.playClick();
+        analytics.trackAction("impact_metric_clicked", "Impact", metric.id, null, {
+          title: metric.title,
+          value: `${metric.prefix || ""}${metric.value}${metric.suffix || ""}`,
+        });
+      }}
       data-cursor="link"
     >
       {/* Dynamic Cursor Spotlight */}
@@ -273,12 +281,15 @@ const ImpactCard = ({ metric, delay }) => {
   );
 };
 
-const ImpactMetrics = () => (
-  <section className="impact-section section-wrapper" id="impact">
-    <motion.div
-      className="impact-header"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
+const ImpactMetrics = () => {
+  const impressionRef = useComponentImpression("impact_metrics");
+
+  return (
+    <section className="impact-section section-wrapper" id="impact" ref={impressionRef}>
+      <motion.div
+        className="impact-header"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.5 }}
       transition={{ duration: 0.6 }}
     >
@@ -306,7 +317,8 @@ const ImpactMetrics = () => (
       ))}
     </div>
   </section>
-);
+  );
+};
 
 export default ImpactMetrics;
 

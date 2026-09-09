@@ -4,6 +4,8 @@ import "./Certificates.css";
 import TiltCard from "../../components/TiltCard/TiltCard";
 import TextReveal from "../../components/TextReveal/TextReveal";
 import { FaExternalLinkAlt, FaTimes, FaAward, FaSearch } from "react-icons/fa";
+import analytics from "../../utils/analytics";
+import useComponentImpression from "../../hooks/useComponentImpression";
 
 const CERT_CATEGORIES = [
   "All",
@@ -138,6 +140,7 @@ const chipVariants = {
 };
 
 const Certificates = () => {
+  const impressionRef = useComponentImpression("certificates_section");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [activeModalCert, setActiveModalCert] = useState(null);
@@ -165,8 +168,16 @@ const Certificates = () => {
     });
   }, [selectedCategory, searchQuery]);
 
+  const handleOpenCert = (cert) => {
+    setActiveModalCert(cert);
+    analytics.trackAction("certificate_inspected", "Certificates", cert.name, null, {
+      category: cert.category,
+      issuer: cert.issuingOrganization,
+    });
+  };
+
   return (
-    <section className="certifications section-wrapper">
+    <section className="certifications section-wrapper" ref={impressionRef}>
       <motion.header
         className="certifications-header"
         initial={{ y: 24, opacity: 0 }}
@@ -190,7 +201,10 @@ const Certificates = () => {
             <button
               key={category}
               className={`certs-tab ${selectedCategory === category ? "active" : ""}`}
-              onClick={() => setSelectedCategory(category)}
+              onClick={() => {
+                setSelectedCategory(category);
+                analytics.trackAction("certificate_category_filtered", "Certificates", category);
+              }}
               role="tab"
               aria-selected={selectedCategory === category}
               type="button"
@@ -240,7 +254,7 @@ const Certificates = () => {
               <TiltCard tiltMax={4} scale={1.02}>
                 <article
                   className="cert-card"
-                  onClick={() => setActiveModalCert(cert)}
+                  onClick={() => handleOpenCert(cert)}
                   data-cursor="project"
                   data-cursor-text="Preview"
                 >
@@ -259,7 +273,7 @@ const Certificates = () => {
                         className="cert-preview-btn"
                         onClick={(e) => {
                           e.stopPropagation();
-                          setActiveModalCert(cert);
+                          handleOpenCert(cert);
                         }}
                       >
                         <FaAward /> Inspect Credential
@@ -341,6 +355,12 @@ const Certificates = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="cert-modal-verify-btn"
+                    onClick={() => {
+                      analytics.trackAction("certificate_verify_clicked", "Certificates", activeModalCert.name, null, {
+                        url: activeModalCert.credentialUrl,
+                        issuer: activeModalCert.issuingOrganization,
+                      });
+                    }}
                   >
                     <FaExternalLinkAlt /> Verify on Issuer Website
                   </a>

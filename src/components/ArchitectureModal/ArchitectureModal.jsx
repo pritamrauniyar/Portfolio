@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import sound from "../../utils/soundEngine";
+import analytics from "../../utils/analytics";
 import "./ArchitectureModal.css";
 
 const SYSTEMS = [
@@ -487,6 +488,7 @@ export default function ArchitectureModal({ isOpen, onClose, initialSystemId = "
 
   const handleCopyContract = (code) => {
     sound.playSuccess();
+    analytics.trackAction("architecture_contract_copied", "Architecture", selectedNode?.id);
     navigator.clipboard.writeText(code);
     setCopiedContract(true);
     setTimeout(() => setCopiedContract(false), 2000);
@@ -537,6 +539,7 @@ export default function ArchitectureModal({ isOpen, onClose, initialSystemId = "
                 className={`arch-tab-btn ${sys.id === activeSystem.id ? "active" : ""}`}
                 onClick={() => {
                   sound.playToggle();
+                  analytics.trackAction("architecture_system_switched", "Architecture", sys.id);
                   setActiveSystemId(sys.id);
                   setSelectedNode(null);
                 }}
@@ -573,6 +576,11 @@ export default function ArchitectureModal({ isOpen, onClose, initialSystemId = "
                     whileTap={{ scale: 0.98 }}
                     onClick={() => {
                       sound.playClick();
+                      analytics.trackAction("architecture_node_inspected", "Architecture", node.id, null, {
+                        system: activeSystem.id,
+                        title: node.title,
+                        type: node.type,
+                      });
                       setSelectedNode(node);
                       if (!node.contractSample && inspectorTab === "contract") {
                         setInspectorTab("detail");
@@ -637,6 +645,7 @@ export default function ArchitectureModal({ isOpen, onClose, initialSystemId = "
                     className={`arch-insp-tab ${inspectorTab === "detail" ? "active" : ""}`}
                     onClick={() => {
                       sound.playTab();
+                      analytics.trackAction("architecture_tab_switched", "Architecture", "detail");
                       setInspectorTab("detail");
                     }}
                   >
@@ -648,6 +657,7 @@ export default function ArchitectureModal({ isOpen, onClose, initialSystemId = "
                       className={`arch-insp-tab ${inspectorTab === "contract" ? "active" : ""}`}
                       onClick={() => {
                         sound.playTab();
+                        analytics.trackAction("architecture_tab_switched", "Architecture", "contract");
                         setInspectorTab("contract");
                       }}
                     >

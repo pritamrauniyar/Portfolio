@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import sound from "../../utils/soundEngine";
+import analytics from "../../utils/analytics";
 import "./CollaborateTransition.css";
 
 // Generate 24 radial warp rays
@@ -29,11 +30,14 @@ const CollaborateTransition = () => {
   const executeNavigation = useCallback(() => {
     clearTimers();
     setIsWarping(false);
+    analytics.trackAction("collaborate_warp_navigated", "CTA", "/contact");
     navigate("/contact");
   }, [clearTimers, navigate]);
 
   const startWarp = useCallback(() => {
     if (isWarping) return;
+
+    analytics.trackAction("collaborate_warp_clicked", "CTA", "hyperspace_transition");
 
     // Accessibility check: skip transition if user prefers reduced motion
     if (

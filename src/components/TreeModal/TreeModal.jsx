@@ -4,6 +4,8 @@ import { useContext, useMemo, useRef, useState, useCallback } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { getCompanyIcon } from "../SvgIcons/CompanyIcons";
 import sound from "../../utils/soundEngine";
+import analytics from "../../utils/analytics";
+import useComponentImpression from "../../hooks/useComponentImpression";
 
 const EXECUTIVE_STATS = [
   { label: "Technical Ownership", value: "4+ Yrs", detail: "Enterprise & High-Growth" },
@@ -56,21 +58,30 @@ const TreeModal = ({
     return timelineItems.filter((item) => item.category === activeFilter);
   }, [timelineItems, activeFilter]);
 
+  const impressionRef = useComponentImpression("career_timeline");
+
   const handleFilterChange = useCallback((filterId) => {
     sound.playClick();
+    analytics.trackAction("timeline_filtered", "Timeline", filterId);
     setActiveFilter(filterId);
   }, []);
 
   const toggleExpand = useCallback((id) => {
     sound.playToggle();
-    setExpandedIds((prev) => ({
-      ...prev,
-      [id]: !prev[id],
-    }));
+    setExpandedIds((prev) => {
+      const willBeExpanded = !prev[id];
+      analytics.trackAction("timeline_milestone_toggled", "Timeline", id, null, {
+        expanded: willBeExpanded,
+      });
+      return {
+        ...prev,
+        [id]: willBeExpanded,
+      };
+    });
   }, []);
 
   return (
-    <section className="timeline">
+    <section className="timeline" ref={impressionRef}>
       <motion.header
         className="timeline-header"
         initial={{ y: 24, opacity: 0 }}
