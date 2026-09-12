@@ -1,6 +1,29 @@
 [
   {
     "id": 1,
+    "title": "ApplyPilot AI",
+    "tier": "flagship",
+    "headline": "Autonomous Job Application Engine & Career Copilot",
+    "category": "AI & Machine Learning",
+    "description": "A universal, privacy-first Chrome extension (Manifest V3) that deterministically autofills complex job applications in < 50ms, powered by a local-first memory store and an asynchronous Gemini AI feedback loop.",
+    "problem": "Job candidates spend hundreds of hours filling repetitive, fragile ATS forms where generic autofillers leak private data, break frontend framework states (React/Vue/Angular), and stall on synchronous LLM latency.",
+    "architecture": "Decoupled Manifest V3 architecture combining an in-page DOM scanner, multi-signal fuzzy heuristic matcher, synthetic event dispatcher, and background Service Worker running async Google Gemini model discovery and self-repairing JSON pipelines.",
+    "impact": "Achieves sub-50ms deterministic form fills across 15+ major ATS platforms (Greenhouse, Lever, Workday, Ashby) with 95.98% unit test coverage, zero cloud data exfiltration, and 0-dependency native execution.",
+    "highlights": [
+      "Sub-50ms Multi-Signal DOM Heuristics",
+      "Async Gemini AI Self-Learning Feedback Loop",
+      "Synthetic Event Dispatcher (React/Vue/Angular)",
+      "Local-First Sandbox (Zero Cloud Exfiltration)",
+      "73/73 Tests Passed (95.98% Coverage)"
+    ],
+    "archSystemId": "applypilot-ai",
+    "link": "https://github.com/pritamrauniyar/applypilot-ai",
+    "github": "https://github.com/pritamrauniyar/applypilot-ai",
+    "image": "/applypilot-ai.png",
+    "tags": ["Chrome Extension (MV3)", "Google Gemini API", "JavaScript (ES2024)", "DOM Heuristics", "Local-First", "Test Automation"]
+  },
+  {
+    "id": 2,
     "title": "SplitHive",
     "tier": "flagship",
     "headline": "Distributed Real-Time Expense Ledger & Graph Simplifier",
@@ -22,7 +45,7 @@
     "tags": ["React Native", "Node.js", "Socket.IO", "MySQL", "Expo SDK 54", "ACID Transactions"]
   },
   {
-    "id": 2,
+    "id": 3,
     "title": "AI Transcription",
     "tier": "flagship",
     "headline": "Sub-200ms Streaming Speech Recognition & Audio Pipeline",
@@ -44,7 +67,7 @@
     "tags": ["AI / ASR", "Whisper", "React 19", "AudioWorklet API", "Web Audio", "Streaming"]
   },
   {
-    "id": 3,
+    "id": 4,
     "title": "Net Inspector",
     "tier": "flagship",
     "headline": "Zero-GC Real-Time Network & Latency Diagnostic Telemetry",
@@ -66,7 +89,7 @@
     "tags": ["Networking", "Web Workers", "Diagnostics", "Zero-GC Buffers", "Canvas WebGL", "Telemetry"]
   },
   {
-    "id": 4,
+    "id": 5,
     "title": "Random Password Generator",
     "tier": "utility",
     "category": "Productivity & Tools",
@@ -77,7 +100,7 @@
     "tags": ["Security", "Web Crypto API", "JavaScript", "Entropy Analysis"]
   },
   {
-    "id": 5,
+    "id": 6,
     "title": "Daily To-Do Application",
     "tier": "utility",
     "category": "Productivity & Tools",
@@ -88,7 +111,7 @@
     "tags": ["React", "LocalStorage", "State Management", "Keyboard Navigation"]
   },
   {
-    "id": 6,
+    "id": 7,
     "title": "Countdown & Stopwatch Timer",
     "tier": "utility",
     "category": "Productivity & Tools",
@@ -99,7 +122,7 @@
     "tags": ["JavaScript", "High-Precision Timers", "Web Audio API", "CSS Animation"]
   },
   {
-    "id": 7,
+    "id": 8,
     "title": "Simple Calculator",
     "tier": "utility",
     "category": "Productivity & Tools",
@@ -110,7 +133,7 @@
     "tags": ["JavaScript", "Arithmetic Parser", "Responsive Design", "Tactile UI"]
   },
   {
-    "id": 8,
+    "id": 9,
     "title": "Evergreen Impex",
     "tier": "utility",
     "category": "Web Applications",
@@ -121,7 +144,7 @@
     "tags": ["Web Design", "SEO Architecture", "Responsive Layout", "Corporate UI"]
   },
   {
-    "id": 9,
+    "id": 10,
     "title": "Analog Clock",
     "tier": "utility",
     "category": "Web Applications",

@@ -184,6 +184,31 @@ describe("Portfolio Application Smoke Tests", () => {
     expect(expandButtons.length).toBeGreaterThan(0);
     expect(expandButtons[0]).toHaveAttribute("aria-expanded");
   });
+
+  test("ArchitectureModal supports ApplyPilot AI blueprint and schema contract", () => {
+    const ArchitectureModal = require("./components/ArchitectureModal/ArchitectureModal").default;
+    render(
+      <ArchitectureModal
+        isOpen={true}
+        initialSystemId="applypilot-ai"
+        onClose={() => {}}
+      />
+    );
+
+    expect(screen.getByText(/ApplyPilot AI — Autonomous Job Application Engine & Copilot/i)).toBeInTheDocument();
+    expect(screen.getByText(/ZERO CLOUD EXFIL/i)).toBeInTheDocument();
+    expect(screen.getByText(/In-Page Floating Companion Hub/i)).toBeInTheDocument();
+    expect(screen.getByText(/DOM Scanner & A11y Tree Parser/i)).toBeInTheDocument();
+
+    const nodeCard = screen.getByText(/In-Page Floating Companion Hub/i);
+    fireEvent.click(nodeCard);
+
+    expect(screen.getByText(/Protocol & Schema Contract ⚡/i)).toBeInTheDocument();
+    const contractTab = screen.getByText(/Protocol & Schema Contract ⚡/i);
+    fireEvent.click(contractTab);
+
+    expect(screen.getByText(/InPageCompanionHost/i)).toBeInTheDocument();
+  });
 });
 
 

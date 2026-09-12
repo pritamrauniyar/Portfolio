@@ -274,6 +274,16 @@ const HeroSection = () => {
             <button
               type="button"
               className="arch-pill-btn"
+              onClick={() => openArchitecture("applypilot-ai")}
+              onMouseEnter={() => sound.playHover()}
+            >
+              <span className="pill-dot" style={{ background: "#00c4ff" }} />
+              <span>ApplyPilot AI (Autonomous Copilot)</span>
+              <span className="pill-arrow">↗</span>
+            </button>
+            <button
+              type="button"
+              className="arch-pill-btn"
               onClick={() => openArchitecture("splithive")}
               onMouseEnter={() => sound.playHover()}
             >

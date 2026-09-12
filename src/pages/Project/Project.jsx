@@ -49,6 +49,7 @@ const FlagshipCard = ({ data, index }) => {
   const archTarget = useMemo(() => {
     if (data.archSystemId) return data.archSystemId;
     const title = (data.title || "").toLowerCase();
+    if (title.includes("applypilot") || title.includes("pilot")) return "applypilot-ai";
     if (title.includes("splithive") || title.includes("split")) return "splithive";
     if (title.includes("transcription")) return "ai-transcription";
     if (title.includes("inspector") || title.includes("net")) return "net-inspector";

@@ -6,6 +6,160 @@ import "./ArchitectureModal.css";
 
 const SYSTEMS = [
   {
+    id: "applypilot-ai",
+    name: "ApplyPilot AI — Autonomous Job Application Engine & Copilot",
+    badge: "Manifest V3 + Google Gemini API + Local-First Engine",
+    summary:
+      "A universal, privacy-first Chrome extension engine that automates complex job applications across 15+ ATS platforms in < 50ms, featuring weighted DOM heuristics, native React/Vue synthetic event dispatchers, and an asynchronous Gemini AI feedback loop.",
+    sla: {
+      fillLatency: "< 48ms (local)",
+      testCoverage: "95.98% (73/73)",
+      atsCompatibility: "15+ Platforms",
+      privacyGuarantee: "Zero Cloud Exfil",
+    },
+    nodes: [
+      {
+        id: "ap-hub",
+        title: "In-Page Floating Companion Hub",
+        sub: "Isolated Shadow DOM UI",
+        type: "client",
+        protocol: "SHADOW DOM IPC",
+        detail:
+          "Injects a zero-conflict floating companion widget and AI sparkle triggers directly onto the host ATS page, completely isolated from host CSS styling via closed Shadow Root.",
+        contractSample: `// In-Page Companion Host Interface
+interface InPageCompanionHost {
+  shadowRoot: ShadowRoot;
+  atsPlatform: "greenhouse" | "lever" | "workday" | "ashby" | "taleo" | "generic";
+  mountOverlay(): void;
+  renderSparkleBadges(fields: ScannedField[]): void;
+  emitFillEvent(profile: CandidateProfile): Promise<FillSummary>;
+}`,
+      },
+      {
+        id: "ap-scanner",
+        title: "DOM Scanner & A11y Tree Parser",
+        sub: "Multi-Signal Accessibility Engine",
+        type: "client",
+        protocol: "DOM QUERY TREE",
+        detail:
+          "Extracts field context across labels, aria-labels, placeholder attributes, nearest fieldsets, and parent DOM hierarchies. Supports custom comboboxes, headless UI selects, and shadow DOM inputs.",
+        contractSample: `// Multi-Signal Scanned Field Spec
+interface ScannedField {
+  element: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+  fieldType: "text" | "select" | "radio" | "checkbox" | "combobox" | "file";
+  signals: {
+    id: string;
+    name: string;
+    labels: string[];
+    ariaLabel: string;
+    placeholder: string;
+    surroundingContext: string;
+  };
+  inferredCategory: string | null;
+  confidence: number;
+}`,
+      },
+      {
+        id: "ap-matcher",
+        title: "Deterministic Multi-Signal Matcher",
+        sub: "Weighted Heuristics + Fuzzy Tokenizer",
+        type: "server",
+        protocol: "< 50ms LOCAL ENGINE",
+        detail:
+          "Matches scanned form fields against candidate resume memory using weighted token similarity, regex normalization, and synonym maps. Runs 100% offline in sub-50ms without blocking on LLM calls.",
+        contractSample: `// Multi-Signal Deterministic Matching Engine
+interface MatchScore {
+  fieldKey: string;
+  candidateValue: string | boolean | string[];
+  confidence: number; // 0.0 - 1.0
+  matchedSignal: "exact_id" | "label_fuzzy" | "context_alias" | "gemini_learned";
+}
+
+function matchField(field: ScannedField, profile: CandidateProfile): MatchScore | null {
+  // Evaluates token distance, synonyms, and localized phone/salary/notice conventions
+}`,
+      },
+      {
+        id: "ap-synthetic",
+        title: "Native Synthetic Event Dispatcher",
+        sub: "React / Vue / Angular Native Value Setter",
+        type: "client",
+        protocol: "PROTOTYPE OVERRIDE",
+        detail:
+          "Direct DOM value assignments are stripped by modern reactive frameworks (React, Vue, Angular). This dispatcher accesses the original prototype descriptor and dispatches bubbled 'input' and 'change' events.",
+        contractSample: `// Universal Reactive Framework State Setter
+function setNativeValue(element: HTMLInputElement, value: string): void {
+  const valueSetter = Object.getOwnPropertyDescriptor(
+    window.HTMLInputElement.prototype,
+    "value"
+  )?.set;
+  valueSetter?.call(element, value);
+  element.dispatchEvent(new Event("input", { bubbles: true, composed: true }));
+  element.dispatchEvent(new Event("change", { bubbles: true, composed: true }));
+}`,
+      },
+      {
+        id: "ap-storage",
+        title: "Local-First Storage & AuditLogger",
+        sub: "chrome.storage.local Sandbox",
+        type: "client",
+        protocol: "SECURE CHROME STORAGE",
+        detail:
+          "Stores resume data, custom Q&A knowledge banks, and fill telemetry inside the browser sandbox. Strict privacy guarantees: zero cloud servers, zero trackers, zero data exfiltration.",
+        contractSample: `// Local Sandbox Persistence Protocol
+interface LocalStoragePayload {
+  profile: CandidateProfile;
+  knowledgeBase: Record<string, { answer: string; learnedAt: number }>;
+  auditLogs: { timestamp: number; platform: string; filledCount: number }[];
+  geminiApiKeyEncrypted?: string;
+}`,
+      },
+      {
+        id: "ap-gemini",
+        title: "Asynchronous Gemini Feedback Loop",
+        sub: "MV3 Service Worker + ListModels",
+        type: "server",
+        protocol: "REST / GEMINI 1.5 & 2.0",
+        detail:
+          "Background service worker discovers the optimal Gemini model via the candidate's personal API key, answers novel open-ended questions asynchronously, and updates the local knowledge bank.",
+        contractSample: `// Asynchronous Background Gemini Loop
+interface GeminiAutofillRequest {
+  question: string;
+  fieldPromptContext: string;
+  resumeContext: string;
+  targetModel: "gemini-1.5-flash" | "gemini-2.0-flash";
+}
+
+async function queryGemini(req: GeminiAutofillRequest): Promise<{ answer: string; rationale: string }> {
+  // Dispatched via background service worker to prevent UI blocking
+}`,
+      },
+    ],
+    tradeoffs: [
+      {
+        title: "Deterministic Heuristics vs Synchronous LLM Calls",
+        decision:
+          "Execute 100% of form fills through deterministic local rules, relegating Gemini to asynchronous background self-learning.",
+        rationale:
+          "Calling an LLM synchronously for each form field induces 1.5s - 4s latency per input, hits rate limits, and degrades user experience. Deterministic heuristics run in < 50ms with 99% accuracy on standard ATS schemas.",
+      },
+      {
+        title: "Prototype Value Setter vs Standard DOM .value Assignment",
+        decision:
+          "Use Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.",
+        rationale:
+          "React 16+ intercepts property setters on input elements to track virtual DOM state. Direct assignments like input.value = 'val' are overridden by React and wiped on submit. Prototype setters guarantee synthetic state synchronization.",
+      },
+      {
+        title: "Local-First chrome.storage.local vs Cloud Backend Database",
+        decision:
+          "Zero external servers. All personal profile data, resume bullets, and logs reside exclusively in browser local storage.",
+        rationale:
+          "Job applications contain sensitive candidate data (phone, address, work history, salary expectations). Eliminating backend servers provides an ironclad privacy model and zero operating subscription overhead.",
+      },
+    ],
+  },
+  {
     id: "splithive",
     name: "SplitHive — Distributed Real-Time Expense Ledger",
     badge: "React Native + Socket.IO + MySQL Transactions",
