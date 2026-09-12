@@ -195,7 +195,7 @@ describe("Portfolio Application Smoke Tests", () => {
       />
     );
 
-    expect(screen.getByText(/ApplyPilot AI — Autonomous Job Application Engine & Copilot/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/ApplyPilot AI — Autonomous Job Application Engine & Copilot/i).length).toBeGreaterThan(0);
     expect(screen.getByText(/ZERO CLOUD EXFIL/i)).toBeInTheDocument();
     expect(screen.getByText(/In-Page Floating Companion Hub/i)).toBeInTheDocument();
     expect(screen.getByText(/DOM Scanner & A11y Tree Parser/i)).toBeInTheDocument();

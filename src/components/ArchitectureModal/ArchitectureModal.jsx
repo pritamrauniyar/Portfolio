@@ -146,7 +146,7 @@ async function queryGemini(req: GeminiAutofillRequest): Promise<{ answer: string
       {
         title: "Prototype Value Setter vs Standard DOM .value Assignment",
         decision:
-          "Use Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.",
+          "Use Object.getOwnPropertyDescriptor( HTMLInputElement.prototype, 'value' ).set to bypass reactive virtual DOM property traps.",
         rationale:
           "React 16+ intercepts property setters on input elements to track virtual DOM state. Direct assignments like input.value = 'val' are overridden by React and wiped on submit. Prototype setters guarantee synthetic state synchronization.",
       },
