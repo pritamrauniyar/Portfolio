@@ -155,7 +155,7 @@ export default function InteractiveTerminal({ isEmbedded = false, onOpenArch, on
                     role: "Software Engineer II @ Uber",
                     email: "pritamrauniyar.np@gmail.com",
                     github: "https://github.com/pritamrauniyar",
-                    linkedin: "https://www.linkedin.com/in/pritam-rauniyar/",
+                    linkedin: "https://www.linkedin.com/in/pritamrauniyar/",
                     location: "Bangalore, India",
                     status: "Available for SDE2 / Senior Software Engineer roles",
                   },

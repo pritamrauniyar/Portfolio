@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useEffect, useState, Suspense, lazy } from "react";
 import { AnimatePresence } from "framer-motion";
 import "./App.css";
@@ -23,6 +23,7 @@ const Project = lazy(() => import("./pages/Project/Project"));
 const Contact = lazy(() => import("./pages/Contact/Contact"));
 const Certificates = lazy(() => import("./pages/Certificates/Certificates"));
 const Blogs = lazy(() => import("./pages/Blogs/Blogs"));
+const NotFound = lazy(() => import("./pages/NotFound/NotFound"));
 
 function App() {
   const [isCmdOpen, setIsCmdOpen] = useState(false);
@@ -148,10 +149,14 @@ function AnimatedRoutes() {
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<PageTransition><Home /></PageTransition>} />
         <Route path="/project" element={<PageTransition><Project /></PageTransition>} />
+        <Route path="/projects" element={<Navigate to="/project" replace />} />
         <Route path="/about" element={<PageTransition><About /></PageTransition>} />
         <Route path="/contact" element={<PageTransition><Contact /></PageTransition>} />
         <Route path="/certificates" element={<PageTransition><Certificates /></PageTransition>} />
+        <Route path="/certificate" element={<Navigate to="/certificates" replace />} />
         <Route path="/blogs" element={<PageTransition><Blogs /></PageTransition>} />
+        <Route path="/blog" element={<Navigate to="/blogs" replace />} />
+        <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
     </AnimatePresence>
   );

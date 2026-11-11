@@ -209,6 +209,19 @@ describe("Portfolio Application Smoke Tests", () => {
 
     expect(screen.getByText(/InPageCompanionHost/i)).toBeInTheDocument();
   });
+
+  test("NotFound page renders 404 recovery view with Home and Projects links", () => {
+    const NotFound = require("./pages/NotFound/NotFound").default;
+    render(
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <NotFound />
+      </BrowserRouter>
+    );
+
+    expect(screen.getByText("404")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /back to home/i })).toHaveAttribute("href", "/");
+    expect(screen.getByRole("link", { name: /explore projects/i })).toHaveAttribute("href", "/project");
+  });
 });
 
 

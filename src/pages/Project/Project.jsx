@@ -428,27 +428,37 @@ const UtilityCard = ({ data, index }) => {
 const Project = () => {
   const [projects, setProjects] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [fetchError, setFetchError] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
 
-  useEffect(() => {
-    let isMounted = true;
-    const fetchData = async () => {
-      try {
-        const response = await fetch("/data/projectsData.json");
-        const responseData = await response.json();
-        if (isMounted) setProjects(responseData);
-      } catch (error) {
-        console.error("Unable to fetch projects", error);
-      } finally {
-        if (isMounted) setIsLoading(false);
+  const loadProjects = useCallback(async (signal) => {
+    setIsLoading(true);
+    setFetchError(false);
+    try {
+      const response = await fetch("/data/projectsData.json", { signal });
+      if (!response.ok) {
+        throw new Error(`Failed to fetch projects (${response.status})`);
       }
-    };
-    fetchData();
-    return () => {
-      isMounted = false;
-    };
+      const responseData = await response.json();
+      setProjects(Array.isArray(responseData) ? responseData : []);
+    } catch (error) {
+      if (error.name !== "AbortError") {
+        console.error("Unable to fetch projects", error);
+        setFetchError(true);
+      }
+    } finally {
+      if (!signal?.aborted) {
+        setIsLoading(false);
+      }
+    }
   }, []);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    loadProjects(controller.signal);
+    return () => controller.abort();
+  }, [loadProjects]);
 
   // Filtered lists
   const filteredProjects = useMemo(() => {
@@ -577,6 +587,20 @@ const Project = () => {
               </div>
             </div>
           ))}
+        </div>
+      ) : fetchError ? (
+        <div className="projects-empty" role="alert">
+          <p>Unable to load project data right now. Please try again.</p>
+          <button
+            className="projects-reset-btn"
+            onClick={() => {
+              sound.playClick();
+              loadProjects();
+            }}
+            type="button"
+          >
+            Retry
+          </button>
         </div>
       ) : filteredProjects.length === 0 ? (
         <div className="projects-empty">
